@@ -14,3 +14,26 @@
 
 ## ②Work向け配置
 リード直後に本人ボード動画と『怪物』演奏動画。本人使用機材一覧には利用可能な正式商品画像を配置し、各比較段落の直後に正規の広告カードを設置。スマホでは一覧をカード化し、動画の比率を16:9にする。権利未確認の画像をリポジトリへ保存しない。
+
+## 2026年と過去ボードを分けた調査（追加）
+
+| 区分 | 根拠URL | 確認したこと | 本人動画タイムコード・確度 |
+|---|---|---|---|
+| 2026年1月通常メイン | https://assh-official.bitfan.id/ | 本人コンテンツの存在／外部二次資料の6台の整理 | 本人動画の実物フレーム未取得。時刻未確認・型番は暫定 |
+| 2026年紹介動画 | https://www.youtube.com/watch?v=PoWF7PBGgzo | PR指摘の本人動画候補 | 取得制限のためタイムコード・機材照合未実施 |
+| 2024年11月 YOASOBI Quad Cortex | https://2n3565.tokyo/assh-effects/ | 二次情報：外部MIDI同期など | 本人一次動画の時刻未確認 |
+| 2024年6月通常ツアー | https://2n3565.tokyo/assh-effects/ | XW-1、Jan Ray、Myriad、monica Signature、Budi-G、TimeLine、BigSky | 二次情報・時刻未確認 |
+| 2021年7月 SING YOUR WORLD | https://mynewgear.cyou/yoasobi-assh | 旧稿が埋め込む本人の2021年7月7日投稿、NOIR等 | 投稿写真の拡大照合待ち |
+| 2021 KEEP OUT THEATER | https://www.youtube.com/watch?v=CTgyP5caHjU | 本人動画への一次資料リンク | 時刻未取得。商品ごとの直接検証は未完了 |
+| イケベ ZOOM実売価格 | https://www.ikebe-gakki.com/Form/Product/ProductList.aspx?bid=ec&cat=&dpcnt=20&fpfl=0&img=1&mkr=13567&pno=1&shop=0&sort=14&udns=0 | 2026-11-23、G1 FOUR新品特価11,220円／G2 FOUR17,930円／MS-70CDR+15,899円 | 公開ページ表示。セール・在庫変動 |
+| BD-2価格資料 | https://kurabe-data.com/guitar-effector/item/boss-bd-2/ | 2026-10調査の新品14,300円例 | 現時点在庫・販売価格は再チェック |
+
+### 証拠ラベルの運用
+- **本人の言及**：本人がその型番を明言している箇所（タイムコード必須）
+- **映像で目視**：外観を確認したもの。世代などが外観だけで確定しなければ「型番不確実」
+- **二次情報**：他サイトで整理された情報／自サイト旧稿。本人と同等の確証ではない
+- **編集部推定**：役割・音の方向性から提示する購入候補。本人使用は主張しない
+
+### 画像素材と価格の記録方法
+製品ページURLは**画像データの利用許諾を意味しない**。公式画像の直接転載は禁止したまま、許諾素材／WP側の正式商品カード画像を使用する。動画はYouTubeの公式埋め込みのみ。製品の試奏動画のURLは別途型番を特定して追加。ASP経由の追跡リンクをPublic GitHubへ掲載しない。
+
