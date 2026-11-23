@@ -136,6 +136,45 @@ El Capistanは音を繰り返すディレイ、FLINTは空間に響くリバー�
 
 **2026年11月23日時点の参考価格**として、販売店資料にG1 FOUR 11,220円、G2 FOUR 17,930円、MS-70CDR+ 15,899円の掲載例があります。セール・在庫は変わります。[販売店一覧](https://www.ikebe-gakki.com/Form/Product/ProductList.aspx?bid=ec&cat=&dpcnt=20&fpfl=0&img=1&mkr=13567&pno=1&shop=0&sort=14&udns=0)で購入前に再確認してください。G1 FOURの[メーカー掲載価格](https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g1-four-g1x-four/)やG2 FOURの[メーカー掲載価格](https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g2-four-g2x-four/)も比較できます。
 
+## 編集部が選ぶ、少し個性的な機材
+
+定番のBOSSやZOOMは、初めて買うときの比較基準として便利です。でも、見た目も音も少し自分らしい機材が欲しいなら、次のような候補もおすすめです。
+
+### 軽い歪みは「BD-2だけ」じゃない
+
+**Keeley Super Phat Mod**は、BD-2のモディファイ文化につながるペダル。ピッキングの強弱で歪みの表情を変えたい人に向いています。Flat／Phatの切り替えで低音の出方も選べます。モニカと同じ音ではありませんが、**軽い歪みを弾き方で操りたい**という目的で比較できます。[Keeley公式](https://robertkeeley.com/product/super-phat-mod/)
+
+**Mad Professor Sweet Honey Overdrive**は、歪みを抑えつつ弾き方で表情をつけたい人に。FOCUSつまみで歪みやすさと明るさを調整できます。単に安価な代替品ではなく、**アンプの音を活かす軽いドライブ**を好む人向け。[国内公式](https://kc-music.jp/mad-professor/sweet-honey-overdrive.html)
+
+**Source Audio L.A. Lady**は、ひとつの歪みに決めきれない人に。複数のドライブ方式を切り替え、2つの音を組み合わせることもできます。弱点はアプリを使った細かな設定が好みを分けることと、価格・国内在庫の確認が必要なこと。[Source Audio公式](https://sourceaudio.net/products/l-a-lady)
+
+**選び分け**：まず扱いやすい定番ならBD-2。タッチの違いを楽しむならKeeley／Mad Professor。幅広い音作りとプリセットの探究を楽しむならSource Audio。どれも本人使用を主張するものではありません。
+
+> 【商品カード候補】BD-2と並べてKeeley Super Phat Mod／Mad Professor Sweet Honey／Source Audio L.A. Lady。国内正規販売・在庫・価格を確定してから広告化。
+
+### 強い歪みも、方向性で選びたい
+
+**JHS Angry Charlie V3**は、英国アンプ風の迫力ある歪みを求める人向け。リードやロックらしい歯切れのよさを狙う候補です。[JHS公式](https://jhspedals.info/products/angry-charlie-v3)
+
+**Revv G3**は、低音がもたつきにくいタイトなハイゲインを求める人向け。モダンなメタルや低音弦を強く刻む演奏に強みがあり、**Eclipseの完全互換ではありません**。YOASOBIの全曲におすすめするのではなく、もっと重い方向の音が欲しい人に限定して紹介します。[Revv公式](https://revvamplification.com/products/g3)
+
+**Walrus Audio Eras**は、5つのクリッピングモードを切り替えるハイゲイン系。デザインも含めて、人と少し違う一台が欲しい人には魅力的。ただしMyriad Fuzzのようなファズの代わりではなく、ディストーションとして選ぶ商品です。[Walrus Audio公式](https://www.walrusaudio.com/products/eras-five-state-distortion)
+
+> 【商品カード候補】Suhr Eclipse／JHS Angry Charlie V3／Revv G3／Walrus Eras。ハイゲイン系を「全部同じ」と説明しない。
+
+### ギター本体にも、Fender以外の選択肢
+
+**momose（モモセ）**は、長野県のディバイザーが展開する国産ブランド。伝統的なSTタイプのギターが好きでも、ほかの人と少し違う一本を持ちたい人の候補になります。[メーカー公式](https://www.deviser.co.jp/momose)
+
+ただしmomoseは「Fenderより必ず安い初心者向け」ではありません。国産の作りや仕様を重視したい人向けで、具体的なモデルと価格を比べてから選びます。AssH本人のギターと同じ音が出ると断定しません。
+
+> 【商品カード候補】本人のカスタムST型／Fender HSS／momoseのST系現行モデル。ピックアップ配列と価格が近いモデルを比較。momoseを低価格機と誤認させない。
+
+### このサイトの「編集部おすすめ」の考え方
+
+定番は比較基準として残します。そのうえで、①欲しい音に合うか、②手持ち機材と組み合わせやすいか、③買いやすく長く使えそうか、④少し個性を出せるか、の順で選びます。珍しいだけで在庫のない機材や、出品者が不明な輸入品を主力にはしません。
+
+
 ## 予算別：この順番なら選びやすい
 
 | 予算 | 買い方の例 | 注意点 |
