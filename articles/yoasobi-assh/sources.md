@@ -66,3 +66,14 @@
 
 **留意**：URLは個別販売ページへの通常リンクであり正式アフィリエイトURLではない。中古在庫は一点物で、掲載確認時点の参考情報。画像が商品ページにあってもPublic GitHubへのコピー・WordPressへの直接転載を許可する意味ではない。正規ASP提供画像または明示許諾済み素材のみ掲載する。
 
+## 2026-11-24：画像・映像をHTML下書きに反映
+
+| 対象 | 素材URL／出典 | 権利・掲載方法 | 実装状況 |
+|---|---|---|---|
+| BOSS BD-2 実物写真 | https://commons.wikimedia.org/wiki/File:Boss_BD-2_Blues_Driver.jpg | CC BY-SA 4.0。投稿者Kuriosatempel、写真キャプションにJohan Rosén撮影との表示あり。著作者・ライセンス・原画像を明示。画像自体は無加工 | `article-draft.html`冒頭カードへimg埋め込み済 |
+| ZOOM G2 FOUR | https://www.youtube.com/watch?v=LR8d1Zd-KEA | YouTube標準埋め込み。製品参考のレッスン映像（公式製品写真ではない） | 冒頭カードへ動画埋め込み済 |
+| ZOOM MS-70CDR+ | https://www.youtube.com/watch?v=DM6iKrB9F1U | YouTube標準埋め込み。井桁学の試奏動画（公式製品写真ではない） | 冒頭カードへ動画埋め込み済 |
+| VEMURAM Myriad Fuzz | https://www.youtube.com/watch?v=409VO3yXJ3c | YouTube標準埋め込み。5Minutes Pedal Labによる製品レビュー（公式製品写真ではない） | 冒頭カードへ動画埋め込み済 |
+| VIRTUES monica | https://store.ishibashi.co.jp/view/item/000000169199?category_page_id=effects | 商品画像の再利用条件未確認。販売店ページへのリンクのみ | 冒頭カードの画像差し込みは保留 |
+
+YouTube動画のサムネイルを画像ファイルとしてコピー・再配布せず、正規埋め込みで表示する。その他のメーカー画像・販売店写真も転載許諾が取れていないため、勝手にGitHubへ保存しない。
