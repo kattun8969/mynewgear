@@ -1,7 +1,7 @@
 category,model,role,artist_used_status,usage_period,comparison_tier,source_url,image_source_url,public_product_url,affiliate_status,notes
 guitar,Aki's Guitar Shop AssH Custom ST Type,guitar,本人動画紹介,2021 KEEP OUT THEATER,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,,,仕様照合待ち
-overdrive,VIRTUES monica,crunch,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,,WP管理対象,当時の本人仕様と現行仕様を混同しない
-overdrive,BOSS BD-2,crunch,編集部推定,not applicable,低価格候補,https://www.boss.info/jp/products/bd-2/,https://www.boss.info/jp/products/bd-2/,https://www.boss.info/jp/products/bd-2/,WP管理対象,同音ではない
+overdrive,VIRTUES monica,crunch,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,https://store.ishibashi.co.jp/view/item/000000169199?category_page_id=effects,WP管理対象,当時の本人仕様と現行仕様を混同しない｜2026-11-23 イシバシ中古¥29,800の個別ページ候補。現物1点限り・新品価格と混同しない。通常版とSignatureを区別。
+overdrive,BOSS BD-2,crunch,編集部推定,not applicable,低価格候補,https://www.boss.info/jp/products/bd-2/,https://www.boss.info/jp/products/bd-2/,https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?bid=ec&pid=141972&shop=0,WP管理対象,同音ではない｜2026-11-23 イケベ新品¥14,300掲載。通常モデルBD-2、BD-2Wと区別。
 overdrive,BOSS SD-1,mid boost,編集部推定,not applicable,別方向の候補,https://www.boss.info/jp/products/sd-1/,https://www.boss.info/jp/products/sd-1/,https://www.boss.info/jp/products/sd-1/,WP管理対象,BD-2とは方向性が異なる
 overdrive,Mad Professor Sweet Honey Overdrive,crunch,旧稿候補,not applicable,比較候補,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,メーカーと現行価格未確認
 overdrive,Xotic Soul Driven,mid drive,旧稿候補,not applicable,比較候補,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,過去の本人使用主張は要一次確認
@@ -9,14 +9,14 @@ overdrive,JOYO BAATSIN R-11,8-drive modes,旧稿候補,not applicable,低価格�
 distortion,Suhr Eclipse,lead,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,,WP管理対象,2チャンネル
 distortion,Suhr Riot,lead,旧稿候補,not applicable,編集部おすすめ,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,Reloadedとの型番差注意
 distortion,JOYO R-03 UZI,lead,旧稿候補,not applicable,低価格候補,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,Eclipseのコピーではない
-fuzz,VEMURAM Myriad Fuzz,fuzz,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,,WP管理対象,本人仕様照合待ち
+fuzz,VEMURAM Myriad Fuzz,fuzz,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,https://www.chuya-online.com/products/181896/,WP管理対象,本人仕様照合待ち｜2026-11-23 chuya新品¥65,780掲載例。型番と販売状況を購入前確認。
 fuzz,MXR M296 Classic 108 Fuzz Mini,fuzz-face style,旧稿候補,not applicable,低価格候補,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,Myriadとは異なる
 booster,Xotic EP Booster,boost,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,,WP管理対象,音量と色付け
 booster,tc electronic Spark Mini Booster,boost,旧稿候補,not applicable,低価格候補,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,EPの音色とは異なる
 delay,Strymon El Capistan,tape delay,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,,WP管理対象,V1等の年式照合
 reverb,Strymon FLINT,reverb tremolo,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,,WP管理対象,年式照合
-multi,ZOOM MS-70CDR+,delay reverb chorus,編集部推定,not applicable,編集部おすすめ,https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/,https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/,https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/,WP管理対象,空間系中心
-multi,ZOOM G2 FOUR,amp modeling and effects,編集部推定,not applicable,編集部おすすめ,https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g2-four-g2x-four/,https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g2-four-g2x-four/,https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g2-four-g2x-four/,WP管理対象,一台目にも適する
+multi,ZOOM MS-70CDR+,delay reverb chorus,編集部推定,not applicable,編集部おすすめ,https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/,https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/,https://www.chuya-online.com/products/216610/,WP管理対象,空間系中心｜2026-11-23 chuya新品¥15,900掲載（商品詳細）。イケベ¥15,899は在庫なし表示例、在庫を断定しない。
+multi,ZOOM G2 FOUR,amp modeling and effects,編集部推定,not applicable,編集部おすすめ,https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g2-four-g2x-four/,https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g2-four-g2x-four/,https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?pid=745798&shop=0,WP管理対象,一台目にも適する｜2026-11-23 イケベ新品¥20,000掲載／価格変動・販売条件確認。メーカー公式は仕様資料。
 overdrive,VEMURAM Jan Ray,foundation overdrive,別公演の本人使用（要一次照合）,2021 SING YOUR WORLD,本人機材・別公演,https://2n3565.tokyo/assh-effects/,,,WP管理対象,本人動画で再確認
 power,Strymon Ojai R30,pedal power,旧稿2021年ボード記載,2021 KEEP OUT THEATER,本人機材・要動画照合,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,電流電圧と極性の照合必須
 delay,Malekko Ekko 616,analog delay,旧稿個人用ボード記載,2021,本人資料・別ボード,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,現行流通未確認
