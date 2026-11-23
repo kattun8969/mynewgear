@@ -51,3 +51,18 @@
 | momose | https://www.deviser.co.jp/momose | Deviserの国産ギターブランド | ST系モデルとHSS仕様・価格を具体的に確認 |
 
 商品画像は製品公式URLを素材候補として記録するだけで、許諾があると決めつけない。メーカー公式試奏動画や販売店の正規埋め込みを優先する。
+
+## 2026-11-24：主力比較候補の販売ページと製品デモ
+
+| 商品・対象型番 | 固有の販売候補URL | 価格・状態 | 製品デモ／正規素材の扱い |
+|---|---|---|---|
+| Suhr Eclipse（通常） | https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?bid=ec&pid=867905&shop=0 | イケベ中古個体。価格・在庫未再検証 | https://www.suhr.com/product/eclipse/ ／正規サイトのデモを参照、画像の再配布不可 |
+| Suhr Riot Reloaded | https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?bid=ec&pid=865964&shop=0 | イケベ中古個体。Riot通常版と区別 | 個別仕様は販売ページ。画像はASPカードまたは許諾素材 |
+| Keeley Super Phat Mod | https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?bid=ec&pid=510972&shop=0 | イケベ個別商品ページ。価格は未確定 | https://www.youtube.com/watch?v=DUsaFxxv05I （Keeley公式セッティングデモ、通常のYouTube埋め込み候補） |
+| Mad Professor Sweet Honey Overdrive（中古） | https://www.chuya-online.com/products/260929/ | 2026-11-24参照時22,000円、欠品ネジあり、中古1点。新品Sweet Honey OD FACとは混同しない | https://kc-music.jp/mad-professor/sweet-honey-overdrive.html（仕様参照、画像許諾未取得） |
+| Source Audio SA244 L.A. Lady | https://www.soundhouse.co.jp/products/detail/item/220628 | サウンドハウスでメーカー取寄せ表示。ミュージックランドKEYにも税込37,400円表示例 | https://sourceaudio.net/blogs/demos/l-a-lady-overdrive-official-demo （メーカー公式製品デモ、サイトリンクで紹介） |
+| JHS Angry Charlie V3 | https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?bid=ec&pid=443276&shop=0 | イケベ新品の個別候補。過去セール名称につき価格は未確定 | https://www.youtube.com/watch?v=y74JhbfT4jU （製品デモ、投稿者と公開状態の最終照合要） |
+| Suhr Eclipse Black Edition（別モデル表記） | https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?bid=ec&pid=866344&shop=0 | 通常Eclipseと販売カードを分ける | https://www.okada-web.com/suhr/eclipse-black-edition （国内取扱元ページ） |
+
+**留意**：URLは個別販売ページへの通常リンクであり正式アフィリエイトURLではない。中古在庫は一点物で、掲載確認時点の参考情報。画像が商品ページにあってもPublic GitHubへのコピー・WordPressへの直接転載を許可する意味ではない。正規ASP提供画像または明示許諾済み素材のみ掲載する。
+
