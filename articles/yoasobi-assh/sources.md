@@ -37,3 +37,17 @@
 ### 画像素材と価格の記録方法
 製品ページURLは**画像データの利用許諾を意味しない**。公式画像の直接転載は禁止したまま、許諾素材／WP側の正式商品カード画像を使用する。動画はYouTubeの公式埋め込みのみ。製品の試奏動画のURLは別途型番を特定して追加。ASP経由の追跡リンクをPublic GitHubへ掲載しない。
 
+
+
+## 編集部独自候補（2026-11-23追加調査）
+| ブランド・製品 | メーカー公式URL | 確認できた特徴 | 購入と素材の扱い |
+|---|---|---|---|
+| Keeley Super Phat Mod | https://robertkeeley.com/product/super-phat-mod/ | BD-2 modの系譜／Flat・Phat／タッチへの反応 | 正規国内販売・在庫を個別確認。写真は商品ページを画像URLとして転載しない |
+| Mad Professor Sweet Honey OD | https://kc-music.jp/mad-professor/sweet-honey-overdrive.html | FOCUSによる反応調整、国内公式ページあり | 正規流通の販売カード候補 |
+| Source Audio L.A. Lady | https://sourceaudio.net/products/l-a-lady | 複数ドライブ・直列並列・Neuro | 国内在庫と納期注意 |
+| JHS Angry Charlie V3 | https://jhspedals.info/products/angry-charlie-v3 | British系ハイゲイン | 比較商品カード候補 |
+| Revv G3 | https://revvamplification.com/products/g3 | Purple channel系タイトな歪み | ヘヴィな方向で用途限定 |
+| Walrus Audio Eras | https://www.walrusaudio.com/products/eras-five-state-distortion | 複数クリッピングモード | 現行流通・在庫確認 |
+| momose | https://www.deviser.co.jp/momose | Deviserの国産ギターブランド | ST系モデルとHSS仕様・価格を具体的に確認 |
+
+商品画像は製品公式URLを素材候補として記録するだけで、許諾があると決めつけない。メーカー公式試奏動画や販売店の正規埋め込みを優先する。
