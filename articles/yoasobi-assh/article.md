@@ -146,7 +146,7 @@ El Capistanは音を繰り返すディレイ、FLINTは空間に響くリバー�
 
 **Mad Professor Sweet Honey Overdrive**は、歪みを抑えつつ弾き方で表情をつけたい人に。FOCUSつまみで歪みやすさと明るさを調整できます。単に安価な代替品ではなく、**アンプの音を活かす軽いドライブ**を好む人向け。[国内公式](https://kc-music.jp/mad-professor/sweet-honey-overdrive.html)
 
-**Source Audio L.A. Lady**は、ひとつの歪みに決めきれない人に。複数のドライブ方式を切り替え、2つの音を組み合わせることもできます。弱点はアプリを使った細かな設定が好みを分けることと、価格・国内在庫の確認が必要なこと。[Source Audio公式](https://sourceaudio.net/products/l-a-lady)
+**Source Audio L.A. Lady**は、1台でさまざまな歪みを楽しめるオーバードライブ。複数のドライブサウンドを切り替えられるほか、2種類の歪みを組み合わせることもできます。専用アプリを使えば、さらに細かな音作りも可能。**「好みの歪みをとことん追い込みたい」「ほかの人とは少し違う音を作りたい」**というギタリストには、特におすすめの1台です。[Source Audio公式](https://sourceaudio.net/products/l-a-lady)
 
 **選び分け**：まず扱いやすい定番ならBD-2。タッチの違いを楽しむならKeeley／Mad Professor。幅広い音作りとプリセットの探究を楽しむならSource Audio。どれも本人使用を主張するものではありません。
 
