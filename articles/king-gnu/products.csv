@@ -1,0 +1,28 @@
+group,product,role,status,origin,verification_needed,wp_affiliate
+front,BOSS OC-5,octaver,editorial recommendation,modern comparison,manufacturer modes and exact model,Pochipp approved merchant
+front,Z.VEX Fuzz Factory,fuzz,editorial recommendation,legacy original,Fuzz Factory Vexter vs others,Pochipp approved merchant
+front,Xotic XW-1,wah,editorial recommendation,legacy original,manufacturer model and stock,Pochipp approved merchant
+front,Source Audio SA263 Collider,delay and reverb,editorial recommendation,legacy original,manufacturer specs and shop,Pochipp approved merchant
+front,BOSS GT-1,multi effects,editorial recommendation,legacy original,current availability and exact listing,Pochipp approved merchant
+legacy,Roland JC-120,amplifier,editorial reference,legacy original,not artist endorsement,only if relevant
+legacy,Roland JC-40,amplifier,editorial alternative,legacy original,price and availability,only if relevant
+legacy,Epiphone Wildkat,guitar,editorial alternative,legacy original,model status and listing,only if relevant
+drive,VEMURAM Jan Ray,overdrive,editorial recommendation,legacy original,avoid labeling clean booster,Pochipp after review
+drive,Ibanez TS9,mid-forward overdrive,editorial recommendation,legacy original,distinguish MINI,Pochipp after review
+drive,ammoon Mini Screamer,legacy low-cost pedal,unverified,legacy original,product spec and availability,do not publish button yet
+drive,Mad Professor Sweet Honey Overdrive,low gain drive,editorial recommendation,legacy original,regular vs FAC,Pochipp after review
+drive,Blackberry JAM Silverberry,drive,editorial comparison,legacy original,model accuracy and market availability,Pochipp after review
+drive,Shin's Music DUMBLOID B Special,drive,unverified exact model,legacy original,model spelling and variants,do not publish button yet
+fuzz,Z.VEX Fuzz Factory,fuzz,editorial recommendation,legacy original,versions and availability,Pochipp after review
+octaver,BOSS OC-3,octaver,legacy product,legacy original,old/current availability and feature comparison,only verified merchant
+octaver,T-Rex Octavius,octaver,legacy product,legacy original,availability especially used,only verified merchant
+space,Empress Effects Reverb,reverb,editorial recommendation,legacy original,exact product and stock,Pochipp after review
+space,Strymon BigSky,reverb,editorial recommendation,legacy original,generation and product,Pochipp after review
+space,tc electronic Hall of Fame 2,reverb,editorial recommendation,legacy original,exact version,Pochipp after review
+space,tc electronic Flashback 2,delay,editorial recommendation,legacy original,exact version,Pochipp after review
+wah,JOYO JF-322 Auto Wah,auto wah,editorial alternative,legacy original,not equivalent to treadle wah,Pochipp after review
+multi,BOSS MS-3,multi switcher,editorial recommendation,legacy original,manufacturer functions,Pochipp after review
+multi,tc electronic Plethora X5,multi effects,editorial recommendation,legacy original,product generation,Pochipp after review
+multi,Line 6 POD Go,multi effects,editorial recommendation,legacy original,wireless vs normal edition,Pochipp after review
+switcher,CAJ Loop and Link II,switcher,legacy product,legacy original,availability and switching capabilities,only verified merchant
+power,FIREGLOW PPS-01,power supply,legacy product,legacy original,power outlets and isolation verification,only verified merchant
