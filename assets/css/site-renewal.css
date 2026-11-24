@@ -1,0 +1,36 @@
+/* MY NEW GEAR — scoped homepage styles v1. No global SANGO resets. */
+.mng-home{--mng-ink:#142238;--mng-orange:#f47a18;--mng-soft:#f4f6f9;--mng-border:#dde3eb;--mng-muted:#536171;color:var(--mng-ink);font-size:16px;line-height:1.7}
+.mng-home *, .mng-home *::before, .mng-home *::after{box-sizing:border-box}
+.mng-home a:focus-visible{outline:3px solid var(--mng-orange);outline-offset:3px}
+.mng-home .mng-container{width:min(1180px,calc(100% - 40px));margin-inline:auto}
+.mng-home .mng-hero{background:linear-gradient(108deg,#f1f4f8,#fff);padding:64px 0 54px}
+.mng-home .mng-kicker{display:block;font-size:.79rem;letter-spacing:.13em;font-weight:800;color:#ac4e09}
+.mng-home .mng-hero h1{font-size:clamp(2rem,4.3vw,3.55rem);letter-spacing:-.035em;line-height:1.3;margin:.28em 0}
+.mng-home .mng-hero h1 em{font-style:normal;color:#d7610b}
+.mng-home .mng-lead{max-width:680px;color:#3d4c60;font-size:1.05rem}
+.mng-home .mng-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.mng-home .mng-action{display:inline-flex;justify-content:center;align-items:center;min-height:46px;padding:10px 20px;border-radius:8px;background:var(--mng-ink);color:white!important;font-weight:750;text-decoration:none!important}
+.mng-home .mng-action--light{background:white;color:var(--mng-ink)!important;border:1px solid #9eaaba}
+.mng-home .mng-section{padding:55px 0}.mng-home .mng-section--muted{background:var(--mng-soft)}
+.mng-home .mng-section h2{font-size:clamp(1.5rem,2.7vw,2rem);line-height:1.35;margin:0 0 12px;padding-left:14px;border-left:6px solid var(--mng-orange)}
+.mng-home .mng-section-intro{margin:0 0 22px;color:var(--mng-muted)}
+.mng-home .mng-navigation{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.mng-home .mng-nav-card{border:1px solid var(--mng-border);background:#fff;border-radius:12px;padding:24px 22px;text-decoration:none!important;display:block;color:var(--mng-ink)!important;min-width:0;box-shadow:0 3px 9px rgba(15,35,55,.04)}
+.mng-home .mng-nav-card strong{display:block;font-size:1.2rem;line-height:1.4;margin-bottom:8px}
+.mng-home .mng-nav-card span{display:block;color:var(--mng-muted);font-size:.9rem}
+.mng-home .mng-nav-card:hover,.mng-home .mng-product-card:hover{border-color:#f2ac70;box-shadow:0 8px 24px rgba(25,40,60,.1)}
+.mng-home .mng-artist-list,.mng-home .mng-product-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.mng-home .mng-artist-card,.mng-home .mng-product-card{min-width:0;border-radius:12px;border:1px solid var(--mng-border);background:white;padding:20px}
+.mng-home .mng-artist-card a{font-weight:800;color:var(--mng-ink)}
+.mng-home .mng-artist-card p,.mng-home .mng-product-card p{color:var(--mng-muted);font-size:.9rem;margin:8px 0}
+.mng-home .mng-label{display:inline-block;font-size:.76rem;font-weight:800;color:#a74e13;background:#fff2e8;border-radius:6px;padding:3px 8px}
+.mng-home .mng-product-title{font-weight:800;margin:12px 0 5px;font-size:1.03rem}
+.mng-home .mng-product-visual{display:flex;align-items:center;justify-content:center;aspect-ratio:4/3;background:#f5f6f8;border:1px solid #e3e7ee;border-radius:9px;padding:16px;text-align:center;font-size:.83rem;color:#5c6674}
+.mng-home .mng-product-visual img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.mng-home .mng-product-cta{display:block;border:1px solid var(--mng-orange);border-radius:7px;padding:10px;text-align:center;font-weight:800;color:#c75308!important;text-decoration:none!important;margin-top:12px}
+.mng-home .mng-product-cta:hover{background:#fff5ec}
+.mng-home .mng-note{font-size:.88rem;color:#5d6571;margin:20px 0 0}
+.mng-home .mng-tags{display:flex;gap:10px;flex-wrap:wrap}
+.mng-home .mng-tags a{border-radius:40px;border:1px solid var(--mng-border);background:white;padding:9px 16px;min-height:44px;color:var(--mng-ink);text-decoration:none!important;font-weight:700}
+@media(max-width:850px){.mng-home .mng-navigation,.mng-home .mng-product-list{grid-template-columns:repeat(2,minmax(0,1fr))}.mng-home .mng-artist-list{grid-template-columns:repeat(2,minmax(0,1fr))}.mng-home .mng-hero{padding:48px 0}}
+@media(max-width:600px){.mng-home .mng-container{width:calc(100% - 32px)}.mng-home .mng-navigation,.mng-home .mng-product-list,.mng-home .mng-artist-list{grid-template-columns:1fr}.mng-home .mng-hero{padding:38px 0}.mng-home .mng-section{padding:36px 0}.mng-home .mng-actions>*{width:100%}.mng-home .mng-hero h1{font-size:2.05rem}}
