@@ -1,1 +1,42 @@
 category,model,role,artist_used_status,usage_period,comparison_tier,source_url,image_source_url,public_product_url,affiliate_status,notes
+guitar,Aki's Guitar Shop AssH Custom ST Type,guitar,本人動画紹介,2021 KEEP OUT THEATER,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,,,仕様照合待ち
+overdrive,VIRTUES monica,crunch,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,https://store.ishibashi.co.jp/view/item/000000169199?category_page_id=effects,WP管理対象,当時の本人仕様と現行仕様を混同しない｜2026-11-23 イシバシ中古¥29,800の個別ページ候補。現物1点限り・新品価格と混同しない。通常版とSignatureを区別。
+overdrive,BOSS BD-2,crunch,編集部推定,not applicable,低価格候補,https://www.boss.info/jp/products/bd-2/,https://www.boss.info/jp/products/bd-2/,https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?bid=ec&pid=141972&shop=0,WP管理対象,同音ではない｜2026-11-23 イケベ新品¥14,300掲載。通常モデルBD-2、BD-2Wと区別。
+overdrive,BOSS SD-1,mid boost,編集部推定,not applicable,別方向の候補,https://www.boss.info/jp/products/sd-1/,https://www.boss.info/jp/products/sd-1/,https://www.boss.info/jp/products/sd-1/,WP管理対象,BD-2とは方向性が異なる
+overdrive,Mad Professor Sweet Honey Overdrive,crunch,旧稿候補,not applicable,比較候補,https://mynewgear.cyou/yoasobi-assh,,https://www.chuya-online.com/products/260929/,WP管理対象,メーカーと現行価格未確認｜中古Sweet Honey Overdrive個別販売ページ、2026-11-24確認時掲載価格22000円・本体のみ・ネジ2本欠品・在庫1表示。新品Sweet Honey OD FACとは別製品／仕様。個別画像は転載不可
+overdrive,Xotic Soul Driven,mid drive,旧稿候補,not applicable,比較候補,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,過去の本人使用主張は要一次確認
+overdrive,JOYO BAATSIN R-11,8-drive modes,旧稿候補,not applicable,低価格候補,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,複数ODの切替
+distortion,Suhr Eclipse,lead,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?bid=ec&pid=867905&shop=0,WP管理対象,2チャンネル｜個別販売候補:イケベ中古Eclipse・現物一点物・価格/在庫再確認。Black Editionとは別掲載。画像は正式ASPカード又は許諾確認後
+distortion,Suhr Riot,lead,旧稿候補,not applicable,編集部おすすめ,https://mynewgear.cyou/yoasobi-assh,,https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?bid=ec&pid=865964&shop=0,WP管理対象,Reloadedとの型番差注意｜個別販売候補はRiot Reloadedの中古。元行のRiotとは別型番なので商品カードは必ずRiot Reloadedと表示。画像は正式ASPカード又は許諾確認後
+distortion,JOYO R-03 UZI,lead,旧稿候補,not applicable,低価格候補,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,Eclipseのコピーではない
+fuzz,VEMURAM Myriad Fuzz,fuzz,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,https://www.chuya-online.com/products/181896/,WP管理対象,本人仕様照合待ち｜2026-11-23 chuya新品¥65,780掲載例。型番と販売状況を購入前確認。
+fuzz,MXR M296 Classic 108 Fuzz Mini,fuzz-face style,旧稿候補,not applicable,低価格候補,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,Myriadとは異なる
+booster,Xotic EP Booster,boost,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,,WP管理対象,音量と色付け
+booster,tc electronic Spark Mini Booster,boost,旧稿候補,not applicable,低価格候補,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,EPの音色とは異なる
+delay,Strymon El Capistan,tape delay,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,,WP管理対象,V1等の年式照合
+reverb,Strymon FLINT,reverb tremolo,本人動画紹介,2021 YOASOBI,本人機材,https://www.youtube.com/watch?v=CTgyP5caHjU,,,WP管理対象,年式照合
+multi,ZOOM MS-70CDR+,delay reverb chorus,編集部推定,not applicable,編集部おすすめ,https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/,https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/,https://www.chuya-online.com/products/216610/,WP管理対象,空間系中心｜2026-11-23 chuya新品¥15,900掲載（商品詳細）。イケベ¥15,899は在庫なし表示例、在庫を断定しない。
+multi,ZOOM G2 FOUR,amp modeling and effects,編集部推定,not applicable,編集部おすすめ,https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g2-four-g2x-four/,https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g2-four-g2x-four/,https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?pid=745798&shop=0,WP管理対象,一台目にも適する｜2026-11-23 イケベ新品¥20,000掲載／価格変動・販売条件確認。メーカー公式は仕様資料。
+overdrive,VEMURAM Jan Ray,foundation overdrive,別公演の本人使用（要一次照合）,2021 SING YOUR WORLD,本人機材・別公演,https://2n3565.tokyo/assh-effects/,,,WP管理対象,本人動画で再確認
+power,Strymon Ojai R30,pedal power,旧稿2021年ボード記載,2021 KEEP OUT THEATER,本人機材・要動画照合,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,電流電圧と極性の照合必須
+delay,Malekko Ekko 616,analog delay,旧稿個人用ボード記載,2021,本人資料・別ボード,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,現行流通未確認
+tuner,tc electronic PolyTune 3 NOIR,tuner,旧稿サポート用ボード記載,2021 SING YOUR WORLD,本人機材・投稿照合待ち,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,Miniと区別
+guitar,Fender HSS style Stratocaster,guitar,旧稿比較対象,not applicable,ギター候補,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,特定の本人モデルと混同しない
+amp,Fender Tone Master Deluxe Reverb,amplifier,旧稿比較対象,not applicable,アンプ候補,https://mynewgear.cyou/yoasobi-assh,,,WP管理対象,本人のDeluxe Reverb実機と混同しない
+multi,Neural DSP Quad Cortex,amp modeller,二次資料で2024年YOASOBIシステムを確認,2024 November YOASOBI,本人機材・一次照合待ち,https://neuraldsp.com/quad-cortex,,,WP管理対象,2026ツアー継続使用は未確定
+octave,ARION MOC-1,octaver,二次資料で2026年メインに掲載,2026 January main,本人機材・一次照合待ち,https://2n3565.tokyo/assh-effects/,,,WP管理対象,動画時間未確認
+filter,MXR M82 Bass Envelope Filter,envelope filter,二次資料で2026年メインに掲載,2026 January main,本人機材・一次照合待ち,https://2n3565.tokyo/assh-effects/,,,WP管理対象,ベース用機種
+overdrive,VIRTUES monica AssH Signature,low gain,二次資料で2026年メインに掲載,2026 January main,本人機材・一次照合待ち,https://2n3565.tokyo/assh-effects/,,,WP管理対象,通常版と異なる
+delay,Catalinbread Belle Epoch,tape echo,二次資料で2026年メインに掲載,2026 January main,本人機材・一次照合待ち,https://catalinbread.com/products/belle-epoch,,,WP管理対象,El Capistanと区別
+wah,Xotic XW-1,wah,二次資料で2024年通常ツアー,2024 June main,本人機材・一次照合待ち,https://2n3565.tokyo/assh-effects/,,,WP管理対象,2026セットとは別
+booster,VEMURAM Budi-G,boost,二次資料で2024年通常ツアー,2024 June main,本人機材・一次照合待ち,https://2n3565.tokyo/assh-effects/,,,WP管理対象,2026セットとは別
+delay,Strymon TimeLine,delay,二次資料で2024年通常ツアー,2024 June main,本人機材・一次照合待ち,https://2n3565.tokyo/assh-effects/,,,WP管理対象,2021 El Capistanとは別
+reverb,Strymon BigSky,reverb,二次資料で2024年通常ツアー,2024 June main,本人機材・一次照合待ち,https://2n3565.tokyo/assh-effects/,,,WP管理対象,2021 FLINTとは別
+multi,ZOOM G1 FOUR,entry multi,編集部推定,not applicable,低価格おすすめ,https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g1-four-g1x-four/,https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g1-four-g1x-four/,https://www.ikebe-gakki.com/Form/Product/ProductList.aspx?bid=ec&cat=&dpcnt=20&fpfl=0&img=1&mkr=13567&pno=1&shop=0&sort=14&udns=0,WP管理対象,2026-11-23新品セール11220円・変更あり
+overdrive,Keeley Super Phat Mod,dynamic low gain,編集部推定,not applicable,編集部おすすめ,https://robertkeeley.com/product/super-phat-mod/,https://robertkeeley.com/product/super-phat-mod/,https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?bid=ec&pid=510972&shop=0,WP管理対象,BD-2系Modの系譜／Flat-Phat切替／国内販売・在庫要確認｜イケベ商品個別ページ（旧キャンペーン表記が含まれる可能性）。販売価格在庫は確定せず。正式ASP画像はWP側
+overdrive,Mad Professor Sweet Honey Overdrive,touch sensitive low gain,編集部推定,not applicable,編集部おすすめ,https://kc-music.jp/mad-professor/sweet-honey-overdrive.html,https://kc-music.jp/mad-professor/sweet-honey-overdrive.html,https://www.chuya-online.com/products/260929/,WP管理対象,国内公式あり／FOCUSによる調整／現行実売価格確認｜中古Sweet Honey Overdrive個別販売ページ、2026-11-24確認時掲載価格22000円・本体のみ・ネジ2本欠品・在庫1表示。新品Sweet Honey OD FACとは別製品／仕様。個別画像は転載不可
+overdrive,Source Audio L.A. Lady,multiple drive engines,編集部推定,not applicable,編集部おすすめ,https://sourceaudio.net/products/l-a-lady,https://sourceaudio.net/products/l-a-lady,https://www.soundhouse.co.jp/products/detail/item/220628,WP管理対象,複数ドライブ／国内取り寄せ状況確認｜SA244個別販売ページ・サウンドハウス取寄せ表示2026-11-24。ミュージックランドKEY個別価格掲載37400円（在庫未検証）。正規画像はWP ASPカードから
+distortion,JHS Angry Charlie V3,British amp distortion,編集部推定,not applicable,編集部おすすめ,https://jhspedals.info/products/angry-charlie-v3,https://jhspedals.info/products/angry-charlie-v3,https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?bid=ec&pid=443276&shop=0,WP管理対象,リード用／Eclipseとは異なる設計｜イケベ新品Angry Charlie V3個別販売候補（旧セール名表記あり）。価格在庫は未確定。正式ASPカードの画像優先
+distortion,Revv G3,tight modern high gain,編集部推定,not applicable,補助候補,https://revvamplification.com/products/g3,https://revvamplification.com/products/g3,,WP管理対象,重いリフ方向／YOASOBI全曲用として過度に推奨しない
+distortion,Walrus Audio Eras,five state high gain,編集部推定,not applicable,補助候補,https://www.walrusaudio.com/products/eras-five-state-distortion,https://www.walrusaudio.com/products/eras-five-state-distortion,,WP管理対象,5モードの歪み／Myriad Fuzzとは別用途
+guitar,momose ST-style model,Japanese ST style guitar,編集部推定,not applicable,編集部おすすめ,https://www.deviser.co.jp/momose,https://www.deviser.co.jp/momose,,WP管理対象,Deviser国産／具体的な現行ST型番とピックアップ・価格は未選定
