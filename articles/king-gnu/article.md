@@ -19,7 +19,7 @@
 | 「飛行艇」のような厚みのあるリフを試したい | 歪み＋オクターブ／ファズの組み合わせ | BOSS OC-5、Z.VEX Fuzz Factory など |
 | 「白日」のように強弱や余韻を使い分けたい | 軽い歪み＋ディレイ／リバーブ | Mad Professor Sweet Honey、Source Audio Collider など |
 | 「Vinyl」のような音色の切り替えを楽しみたい | ワウなどのフィルターと音色切り替え | Xotic XW-1、マルチエフェクター |
-| まだ1台もエフェクターを持っていない | 複数の効果を試せるマルチ | BOSS GT-1、Line 6 POD Go など |
+| まだ1台もエフェクターを持っていない | 複数の効果を試せるマルチ | BOSS GX-1、Line 6 POD Go など |
 | 歪みはあるけれど音が平坦 | 響きや変化を足す | tc electronic Flashback 2／Hall of Fame 2 など |
 
 **注意：** 曲と上記の製品との対応は、音色を再現するための編集部提案です。特定曲で本人がその製品を使ったという主張ではありません。曲別音色の細部は演奏環境と録音によっても変わります。
@@ -35,25 +35,35 @@
 
 <!-- WP Pochipp: BOSS OC-5 / photo + approved shop links -->
 
+[メーカー公式仕様](https://www.boss.info/jp/products/oc-5/) ／ [サウンドハウスの商品ページ](https://www.soundhouse.co.jp/products/detail/item/282806/)（通常URL。公開前にfroglink等の正式成果リンクへの変換を確認）
+
 ### Z.VEX Fuzz Factory：普通の歪みとは違う荒れた音
 ファズは音を大きく歪ませるだけでなく、音の崩れ方自体を演出できます。Fuzz Factoryは幅広く音を変えられる一方、設定による変化が大きいため、初めての一台なら試奏動画で好みに合うか確認したいペダルです。
 
 <!-- WP Pochipp: Z.VEX Fuzz Factory / correct Vexter or hand-painted variant -->
+
+[メーカー公式：Vexter版](https://www.zvex.com/guitar-pedals/fuzz-factory-vexter-guitar-effects-pedal-2020) ／ [サウンドハウス：Vexter版](https://www.soundhouse.co.jp/products/detail/item/86625/)（版を混同しない。通常URL）
 
 ### Xotic XW-1：ワウを足元で操作する
 ワウは足でフィルターを動かし、音が「ワウワウ」と変化する効果。曲中のアクセントを自分のタイミングで付けたい人向けです。**JOYO JF-322のオートワウは操作方法が異なり、同じ代用品とは断定できません。**
 
 <!-- WP Pochipp: Xotic XW-1 / distinguish model -->
 
+[メーカー公式仕様](https://www.xotic.jp/effects/xotic-wah/) ／ [サウンドハウスの商品ページ](https://www.soundhouse.co.jp/products/detail/item/199546/)（通常URL）
+
 ### Source Audio Collider：ディレイとリバーブをまとめたい
 ディレイは反響する音、リバーブは空間に残る響きを作ります。Colliderなら両方の系統を1台で組み合わせられます。すでに歪みを持っていて、曲ごとに響きを切り替えたい人向け。旧記事の独自レビューも参考になります。
 
 <!-- WP Pochipp: Source Audio Collider -->
 
-### BOSS GT-1：複数の音を1台で試す
+[メーカー公式仕様](https://sourceaudio.net/products/collider/SA263) ／ [サウンドハウス：SA263](https://www.soundhouse.co.jp/products/detail/item/275724/)（通常URL）
+
+### BOSS GX-1：複数の音を1台で試す
 最初の段階ではコンパクトエフェクターを何台も買う必要はありません。マルチエフェクターで「ファズが欲しい」「ワウを多用したい」「響きが足りない」と確かめてから、気に入った部分だけ単体ペダルを買い足す方法もあります。
 
-<!-- WP Pochipp: BOSS GT-1 / exact listing -->
+<!-- WP Pochipp: BOSS GX-1 / exact listing -->
+
+[メーカー公式仕様](https://www.boss.info/jp/products/gx-1/) ／ [サウンドハウスの商品ページ](https://www.soundhouse.co.jp/products/detail/item/382525/)（通常URL）
 
 ## まずはギターとアンプを買い替えるべき？
 
@@ -119,7 +129,7 @@
 
 ## 予算を抑えるならマルチ・スイッチャー
 
-- **BOSS GT-1**：ギター用の基本的な効果をまとめて試したい人。機能・現行販売状況を再確認。
+- **BOSS GX-1**：現行のギター用マルチを探している人向け。2026年1月24日発売。**BOSS GT-1はメーカー表示で販売完了**のため、旧記事の比較対象としてのみ残します。GX-1の最新情報：https://www.boss.info/jp/products/gx-1/ 。
 - **Line 6 POD Go**：アンプモデルやエフェクトを含めて音を作りたい人。型番と製品世代を確認。
 - **BOSS MS-3**：すでに単体歪みを持ち、複数の音やスイッチングを整理したい人向け。
 - **tc electronic Plethora X5**：複数のエフェクトをまとめて操作する候補。
@@ -143,7 +153,7 @@
 
 | 手持ちの状況 | まず選ぶもの | 買い足すタイミング |
 |---|---|---|
-| エフェクターがない | GT-1などのマルチ | 好きな効果が決まったとき |
+| エフェクターがない | GX-1などのマルチ | 好きな効果が決まったとき |
 | 好きな歪みはある | ワウ／オクターバー／ディレイのうち不足するもの | 曲に必要な変化が明確になったとき |
 | 単体ペダルが複数ある | Colliderなど複合空間系、必要ならスイッチャー | 切り替えや配線が不便になったとき |
 
@@ -169,7 +179,7 @@ King Gnuのギターサウンドに近づくために、いきなり高価なボ
 ## 編集・実装メモ（公開本文には表示しない）
 
 - 編集対象URLを維持：`https://mynewgear.cyou/soundmake-king-gnu`
-- 旧稿は2020年執筆。本文の全価格は旧価格として除外。新たな価格と国内在庫確認が必要。
+- 旧稿は2020年執筆。2026年11月25日にメーカー公式でBOSS GT-1の「販売完了」を確認し、冒頭マルチ購入候補を2026年発売GX-1に修正。本文の全価格は旧価格として除外。新たな価格と国内在庫確認が必要。
 - 旧稿中に既存アフィリエイト（もしも／アクセストレード、Amazon iframe）が見つかるため、**WordPressのバックアップ・旧カードの保護が必要**。
 - 本人使用の断定、曲別収録機材の断定は原典の確認が取れるまで行わない。
 - 旧稿固有の重要候補はすべて保全対象。チェックリストは`migration-audit.md`へ。
