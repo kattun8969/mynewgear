@@ -242,8 +242,11 @@ add_shortcode('mng_weekly_gear', function ($atts) {
     }));
     usort($editor_candidates,function($a,$b){$v=$b['score']<=>$a['score'];return $v!==0?$v:($a['id']<=>$b['id']);});
     $editor=mng_pick_diverse($editor_candidates,$per_group,$used);
-    // No eligible item => no broken section. Keep old TOP until candidates are ready.
-    if (!$best && !$editor) return '';
+    // Two full rows are the publication contract. Never display a half-empty
+    // "TOP3" or silently replace the old TOP with fewer than six products.
+    // WP editors MUST keep a visible legacy/backup section that can take over
+    // whenever the weekly section returns empty (e.g., stock checks expire).
+    if (count($best) !== $per_group || count($editor) !== $per_group) return '';
     $out='<section class="mng-week" aria-label="今週の注目機材">';
     $out.='<div class="mng-week-head"><div><p class="mng-week-kicker">WEEKLY GEAR PICKS</p><h2>今週の注目機材</h2></div><span class="mng-week-period">'.esc_html($now->format('Y').'年 第'.$now->format('W').'週').'</span></div>';
     $out.='<p class="mng-week-desc">購入できる機材から、売れ筋と編集部の独自チョイスをそれぞれ3件ずつ紹介。価格や在庫は購入時に再確認してください。</p>';
