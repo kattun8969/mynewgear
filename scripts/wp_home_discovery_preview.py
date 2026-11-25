@@ -80,14 +80,17 @@ def main():
   second=wp.call("GET",f"/pages/{page_ids[0]}",params={"context":"edit"})
   require(second.get("modified_gmt")==modified, "Homepage changed while preparing preview")
   draft_slug="mng-preview-home-discovery-tags"
-  matches=wp.call("GET","/pages",params={"slug":draft_slug,"status":"any","context":"edit","per_page":50})
-  require(len(matches)<=1,"Ambiguous preview page")
   data={"title":"[確認用] TOP 音色・予算リンク改善","slug":draft_slug,"status":"draft","content":updated}
-  if matches:result=wp.call("POST",f"/pages/{matches[0]['id']}",data)
-  else:result=wp.call("POST","/pages",data)
+  # Creating WordPress pages is often restricted for an API user who can edit posts.
+  # A private POST draft is sufficient for visual QA; it can never become the homepage.
+  matches=wp.call("GET","/posts",params={"slug":draft_slug,"status":"any","context":"edit","per_page":50})
+  require(len(matches)<=1,"Ambiguous review draft")
+  if matches:result=wp.call("POST",f"/posts/{matches[0]['id']}",data)
+  else:result=wp.call("POST","/posts",data)
   print(json.dumps({
-    "status":"private_draft_created","draft_id":result["id"],"draft_edit_link":f"https://mynewgear.cyou/wp-admin/post.php?post={result['id']}&action=edit",
-    "original_page_id":page_ids[0],"original_modified_gmt":modified,"original_sha256":hashlib.sha256(raw.encode()).hexdigest(),
+    "status":"private_post_draft_created","draft_id":result["id"],"draft_edit_link":f"https://mynewgear.cyou/wp-admin/post.php?post={result['id']}&action=edit",
+    "review_type":"post (not a homepage page)","original_page_id":page_ids[0],
+    "original_modified_gmt":modified,"original_sha256":hashlib.sha256(raw.encode()).hexdigest(),
     "changed_links":changed,"published_homepage_unchanged":True
   },ensure_ascii=False,indent=2))
 
