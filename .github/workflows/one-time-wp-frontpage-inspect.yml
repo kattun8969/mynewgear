@@ -24,7 +24,8 @@ jobs:
         run: |
           python3 scripts/wp_frontpage_inspect.py > /tmp/mng-page-structure.json
           cat /tmp/mng-page-structure.json
-      - name: Record sanitized findings in GitHub Issue
+      - name: Record sanitized findings in tracking Issue #28
+        if: success()
         uses: actions/github-script@v7
         with:
           script: |
@@ -33,8 +34,14 @@ jobs:
             const body = 'Read-only WordPress frontpage structure report. No WP post was changed.\n\n' +
               'Run: https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId +
               '\n\n' + '```json\n' + details + '\n```';
-            await github.rest.issues.create({
+            await github.rest.issues.createComment({owner: context.repo.owner, repo: context.repo.repo, issue_number: 28, body});
+      - name: Record failed inspection without secrets
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
               owner: context.repo.owner, repo: context.repo.repo,
-              title: '[WP-CHECK] TOP音色・予算リンクのREST構造確認',
-              body
+              issue_number: 28,
+              body: 'Read-only TOP inspection failed. Check workflow logs (no WordPress content modified): https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId
             });
