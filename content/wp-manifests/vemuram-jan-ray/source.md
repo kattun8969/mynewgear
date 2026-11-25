@@ -1,7 +1,5 @@
 # VEMURAM Jan Rayは高くても買う価値がある？音の特徴とBD-2／Sweet Honeyとの選び方
 
-> 編集部による購入ガイド。本人の所有・実機試奏を装わない。通常のJan Rayを対象とする。アーティストの使用実績は個別出典がある場合だけ掲載。
-
 「歪みペダルはもう持っている。でも、もう少し気持ちよくコードを鳴らしたい」
 
 そんな人に紹介したいのが**VEMURAM Jan Ray**。大きく音を変えるというより、ギターとアンプの持ち味を残しながら、少し押し出したり、軽く歪ませたりする方向のペダルです。
@@ -29,11 +27,14 @@ Saturationトリマーもありますが、工場出荷設定から大きく変�
 
 ## BD-2・Mad Professor Sweet Honeyとはどう違う？
 
-| 製品 | 選ぶ理由 | こんな人に |
-|---|---|---|
-| Jan Ray | アンプの音を活かす軽い歪み、Bass/Trebleの追い込み | クリーン〜クランチを磨きたい |
-| BOSS BD-2 | 歪み量の変化や荒さも楽しみやすい | 一台でいろいろ弾きたい |
-| Mad Professor Sweet Honey | 弾き方への反応とFOCUSの調整が魅力 | 自分のタッチに合わせて弾きたい |
+<div id="mng-gear-comparison" role="region" aria-label="機材比較表" tabindex="0" style="max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="mng-gear-comparison" style="width:100%;min-width:600px;table-layout:fixed;border-collapse:collapse;font-size:14px"><thead><tr><th scope="col" style="width:20%;background:#173451;color:#fff;padding:10px">比較項目</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">Jan Ray</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">BOSS BD-2</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">Mad Professor Sweet Honey</th></tr></thead><tbody>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">製品写真・仕様</th><td style="padding:10px;text-align:center"><a href="https://vemuram.com/product.html?No=8" target="_blank" rel="noopener">Jan Rayの公式写真を見る</a></td><td style="padding:10px;text-align:center"><a href="https://www.boss.info/jp/products/bd-2/" target="_blank" rel="noopener">BOSS BD-2の公式写真を見る</a></td><td style="padding:10px;text-align:center"><a href="https://www.mpamp.com/products/sweet-honey-overdrive/" target="_blank" rel="noopener">Mad Professor Sweet Honeyの公式写真を見る</a></td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">選ぶ理由</th><td style="padding:10px;vertical-align:top">アンプの音を活かす軽い歪み、Bass/Trebleの追い込み</td><td style="padding:10px;vertical-align:top">歪み量の変化や荒さも楽しみやすい</td><td style="padding:10px;vertical-align:top">弾き方への反応とFOCUSの調整が魅力</td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">こんな人に</th><td style="padding:10px;vertical-align:top">クリーン〜クランチを磨きたい</td><td style="padding:10px;vertical-align:top">一台でいろいろ弾きたい</td><td style="padding:10px;vertical-align:top">自分のタッチに合わせて弾きたい</td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">詳細・購入検討</th><td style="padding:8px"><a href="https://vemuram.com/product.html?No=8" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td><td style="padding:8px"><a href="https://www.boss.info/jp/products/bd-2/" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td><td style="padding:8px"><a href="https://www.mpamp.com/products/sweet-honey-overdrive/" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td></tr>
+</tbody></table></div>
+
+スマートフォンでは表を横にスクロールできます。比較は編集部による用途別の整理です。
 
 この3台を単純に「安い・普通・高級」の順には並べません。**好きな音の方向性が違う**からです。
 
@@ -60,6 +61,7 @@ Jan Rayは通販サイトで取り寄せや売り切れの表示が出ること�
 Jan Rayの購入を迷っている人に、必要以上に安い機材をすすめるつもりはありません。**手持ちのアンプがすでに良い音で鳴っていて、その感触を伸ばしたい人ならJan Rayを選ぶ理由があります。** 逆に、まず歪みの種類を試したい人は別候補から始めた方が好みに近づきやすいでしょう。
 
 ### サイト内の関連記事
+- [BOSS BD-2の音作りと購入ガイド](https://mynewgear.cyou/boss-bd-2-guide)
 - [King Gnuの音作り：Jan Rayも登場する機材選び](https://mynewgear.cyou/soundmake-king-gnu)
 - [Vivie CALLIONレビュー](https://mynewgear.cyou/vivie-callion)
 - [高額ペダルの代替候補を探す方法](https://mynewgear.cyou/beginner-ef-drive-1)
