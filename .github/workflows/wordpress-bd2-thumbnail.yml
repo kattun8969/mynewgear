@@ -39,6 +39,12 @@ jobs:
         run: |
           python3 scripts/wp_bd2_thumbnail.py > /tmp/mng-bd2-thumbnail-result.json
           cat /tmp/mng-bd2-thumbnail-result.json
+      - name: Read-only final HTML/thumbnail QA
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: python3 scripts/wp_bd2_full_audit.py > /tmp/mng-bd2-html-audit.json
       - name: Record safe result in tracking issue #13
         if: success()
         uses: actions/github-script@v7
@@ -46,9 +52,10 @@ jobs:
           script: |
             const fs=require('fs');
             const result=fs.readFileSync('/tmp/mng-bd2-thumbnail-result.json','utf8');
+            const audit=fs.readFileSync('/tmp/mng-bd2-html-audit.json','utf8');
             await github.rest.issues.createComment({
               owner:context.repo.owner,repo:context.repo.repo,issue_number:13,
-              body:'BD-2 original illustration / WordPress isolated draft image result:\n\n```json\n'+result+'\n```'
+              body:'BD-2 original illustration and draft image result:\n\n```json\n'+result+'\n```\nHTML QA:\n```json\n'+audit+'\n```'
             });
 
   report-failure:
