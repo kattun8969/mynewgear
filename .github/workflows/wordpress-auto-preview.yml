@@ -1,0 +1,77 @@
+name: Auto-preview approved GitHub article drafts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "content/wp-manifests/**/*.json"
+      - "content/wp-manifests/**/*.html"
+      - "content/wp-manifests/**/*.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: mng-auto-preview
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    outputs:
+      manifests: ${{ steps.enumerate.outputs.manifests }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: enumerate
+        name: Select valid post manifests only (never publish)
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json,glob
+          paths=[]
+          for path in glob.glob('content/wp-manifests/**/*.json',recursive=True):
+              try:
+                  if json.load(open(path,encoding='utf-8')).get('kind')=='post' and '/samples/' not in path:
+                      paths.append(path)
+              except (OSError,ValueError):
+                  pass
+          print("manifests="+json.dumps(paths[:30],ensure_ascii=False))
+          PY
+
+  preview:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.manifests != '[]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        manifest: ${{ fromJSON(needs.prepare.outputs.manifests) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate and write a private review draft only
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+          MANIFEST: ${{ matrix.manifest }}
+        run: |
+          python3 scripts/wp_sync.py --mode check --manifest "$MANIFEST"
+          python3 scripts/wp_sync.py --mode preview --manifest "$MANIFEST"
+
+  report_failure:
+    needs: [prepare, preview]
+    if: ${{ always() && (needs.prepare.result == 'failure' || needs.preview.result == 'failure') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner, repo: context.repo.repo,
+              title: '[WP-AUTO-PREVIEW] Failed run ' + context.runId,
+              body: 'Automatic private draft preview failed. No production posts were changed by this workflow.\nRun: https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId
+            });
