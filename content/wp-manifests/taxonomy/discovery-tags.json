@@ -1,0 +1,64 @@
+{
+  "kind": "taxonomy",
+  "tags": [
+    {
+      "name": "軽い歪み",
+      "slug": "sound-light-drive"
+    },
+    {
+      "name": "迫力のある歪み",
+      "slug": "sound-heavy-drive"
+    },
+    {
+      "name": "ファズ",
+      "slug": "sound-fuzz"
+    },
+    {
+      "name": "ディレイ・残響",
+      "slug": "sound-delay-reverb"
+    },
+    {
+      "name": "マルチエフェクター",
+      "slug": "sound-multi-effects"
+    },
+    {
+      "name": "1万円前後",
+      "slug": "budget-around-10000"
+    },
+    {
+      "name": "3万円前後",
+      "slug": "budget-around-30000"
+    },
+    {
+      "name": "5万円前後",
+      "slug": "budget-around-50000"
+    }
+  ],
+  "assignments": [
+    {
+      "post_slug": "friedman-be-od",
+      "tags": [
+        "sound-heavy-drive"
+      ]
+    },
+    {
+      "post_slug": "ovaltone-34xtoreme",
+      "tags": [
+        "sound-heavy-drive"
+      ]
+    },
+    {
+      "post_slug": "vivie-callion",
+      "tags": [
+        "sound-light-drive"
+      ]
+    },
+    {
+      "post_slug": "tcelectronic-plethorax5",
+      "tags": [
+        "sound-delay-reverb",
+        "sound-multi-effects"
+      ]
+    }
+  ]
+}
