@@ -7,7 +7,7 @@
 **選び方の結論：弾く強さで歪みをコントロールしたいならBD-2、バンドで中域を前に出したいならSD-1、太く伸びるドライブを求めるならOD-3**です。
 
 <div class="mng-related-shop-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:22px 0">
-<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS BD-2</strong><p>強弱で音の表情を変えたい人へ</p>[pochipp id="1293"]</div>
+<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS BD-2</strong><p>強弱で音の表情を変えたい人へ</p><a href="#bd2-product-card">BD-2の画像・購入先を見る</a></div>
 <div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS SD-1</strong><p>中域を前に出したい人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20817/" target="_blank" rel="noopener sponsored">SD-1の販売ページを見る</a></div>
 <div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS OD-3</strong><p>太さ・サステインを求める人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20800/" target="_blank" rel="noopener sponsored">OD-3の販売ページを見る</a></div>
 </div>
@@ -38,7 +38,7 @@ BOSS公式は、BD-2についてアンプのような多段クリッピング回
 
 ## 初めてでも試しやすい音作り3パターン
 
-[embed]https://www.youtube.com/watch?v=fLW7QDSf0hE[/embed]
+<div class="mng-youtube" style="aspect-ratio:16/9;width:100%;position:relative;overflow:hidden"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/fLW7QDSf0hE" title="BD-2の演奏動画" allowfullscreen style="border:0;width:100%;height:100%"></iframe></div>
 
 **演奏例：** ChrisPedalDemosによるBD-2のデモです。演奏・アンプ等の条件が異なるため、音の傾向をつかむ参考としてご覧ください。
 
@@ -61,7 +61,7 @@ BOSS公式は、BD-2についてアンプのような多段クリッピング回
 ### 3機種を商品ページから見比べる
 
 <div class="mng-related-shop-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:22px 0">
-<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS BD-2</strong><p>強弱で音の表情を変えたい人へ</p>[pochipp id="1293"]</div>
+<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS BD-2</strong><p>強弱で音の表情を変えたい人へ</p><a href="#bd2-product-card">BD-2の画像・購入先を見る</a></div>
 <div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS SD-1</strong><p>中域を前に出したい人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20817/" target="_blank" rel="noopener sponsored">SD-1の販売ページを見る</a></div>
 <div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS OD-3</strong><p>太さ・サステインを求める人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20800/" target="_blank" rel="noopener sponsored">OD-3の販売ページを見る</a></div>
 </div>
@@ -83,6 +83,8 @@ Keeley Super Phat Modも、BD-2系の音作りを深く調べたい人には興�
 Vivie CALLIONは、タッチに対する反応を重視する人に向けた比較候補です。現行の販売状況が確認できない場合は、新品購入可能と断言せず、[当サイトのCALLION記事](https://mynewgear.cyou/vivie-callion)を参考にしてください。
 
 ## 商品を探す：BD-2は型番を確認して選ぼう
+
+<span id="bd2-product-card"></span>
 
 まず**BOSS BD-2（通常版）**を対象に、販売店の写真や商品タイトルを照合してください。BD-2W、BD-2-B50Aなどの別バージョンと間違えないことが重要です。
 
@@ -125,7 +127,7 @@ BD-2の魅力は、歪みをオン・オフするだけでなく、指先やギ�
 ### BD-2・SD-1・OD-3の購入先を比較する
 
 <div class="mng-related-shop-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:22px 0">
-<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS BD-2</strong><p>強弱で音の表情を変えたい人へ</p>[pochipp id="1293"]</div>
+<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS BD-2</strong><p>強弱で音の表情を変えたい人へ</p><a href="#bd2-product-card">BD-2の画像・購入先を見る</a></div>
 <div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS SD-1</strong><p>中域を前に出したい人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20817/" target="_blank" rel="noopener sponsored">SD-1の販売ページを見る</a></div>
 <div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS OD-3</strong><p>太さ・サステインを求める人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20800/" target="_blank" rel="noopener sponsored">OD-3の販売ページを見る</a></div>
 </div>
