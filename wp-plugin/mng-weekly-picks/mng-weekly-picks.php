@@ -2,13 +2,13 @@
 /**
  * Plugin Name: MyNewGear Weekly Picks
  * Description: Editorially curated weekly gear picks. Revenue attribution stays in Pochipp.
- * Version: 0.4.2
+ * Version: 0.5.0
  * Requires PHP: 7.4
  */
 defined('ABSPATH') || exit;
 
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('mng-weekly-picks', plugins_url('style.css', __FILE__), array(), '0.4.2');
+    wp_enqueue_style('mng-weekly-picks', plugins_url('style.css', __FILE__), array(), '0.5.0');
 });
 
 add_action('init', function () {
@@ -28,7 +28,7 @@ add_action('add_meta_boxes_mng_gear', function () {
 });
 function mng_gear_fields() {
     return array(
-        'article_id' => '深掘り記事の投稿ID（公開済みの投稿のみ）',
+        'article_id' => '解説記事の投稿ID（任意・未公開なら準備中表示）',
         'pochipp_id' => 'Pochippの商品管理ID（正式成果リンクを確認済みの場合のみ）',
         'newness' => '新製品・ニュースの鮮度 0–100',
         'trend' => 'SNS・検索需要の注目度 0–100',
@@ -42,14 +42,14 @@ function mng_gear_fields() {
         'rank_source' => '売れ筋順位の出典ページURL（https）',
         'rank_date' => '売れ筋順位の確認日 YYYY-MM-DD（14日以内）',
         'rank_position' => '外部ランキングの順位（1〜100）。実測順位を確認した場合のみ',
-        'verified' => '報酬リンク検証済み 1＝はい / 0＝いいえ',
-        'ready' => '掲載準備完了 1＝はい / 0＝いいえ',
+        'verified' => '広告リンクの遷移とASP設定確認済み 1＝はい / 0＝いいえ',
+        'ready' => '商品名・型番・広告検索リンク確認済み 1＝はい / 0＝いいえ',
         'release_note' => '発売情報・時期（発売済みの事実のみ）',
         'release_date' => '発売日 YYYY-MM-DD（正確な日付が判明している場合）',
         'legacy_released' => '発売30日以上経過の旧機種で正確な発売日不明 1＝根拠を確認済み',
         'release_source' => '発売日・旧機種であることの根拠URL（https）',
-        'stock_checked' => '在庫の最終確認日 YYYY-MM-DD（7日以内のみ有効）',
-        'stock_shops' => '異なる販売店で在庫確認できた数 0～10（2以上必要）',
+        'stock_checked' => '在庫確認日（任意・参考情報）',
+        'stock_shops' => '在庫確認店舗数（任意・掲載判定には使用しない）',
         'stock_url1' => '在庫確認した販売店の個別商品URL①（https）',
         'stock_url2' => '在庫確認した別販売店の個別商品URL②（https）',
         'reason' => '今週注目する理由（短く、出典を確認）',
@@ -63,7 +63,7 @@ function mng_gear_meta_box($post) {
         echo '<p><label for="mng_' . esc_attr($key) . '"><strong>' . esc_html($label) . '</strong></label>';
         echo '<input style="display:block;width:100%" id="mng_' . esc_attr($key) . '" name="mng_' . esc_attr($key) . '" value="' . esc_attr($v) . '"></p>';
     }
-    echo '<p><strong>公開条件：</strong>発売後30日以上／2つ以上の異なる販売店の在庫・直接商品URL／最終確認7日以内／公開済み記事／写真／Pochipp成果リンク検証済み。編集部で点数を入力します。</p>';
+    echo '<p><strong>公開条件：</strong>発売済みの製品・型番一致・Pochippの有効な広告検索リンクとASP設定の確認。記事は未作成でも「記事準備中」として掲載可能。店舗在庫や商品個別URLは掲載停止条件にしません。</p>';
 }
 add_action('save_post_mng_gear', function ($post_id) {
     if (!isset($_POST['mng_gear_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['mng_gear_nonce'])), 'mng_gear_save')) return;
@@ -87,48 +87,28 @@ add_action('save_post_mng_gear', function ($post_id) {
     }
 });
 /**
- * Hard business gates: never feature products that cannot currently be bought.
- * Deliberately conservative: missing evidence means excluded, not "assume available".
+ * Revenue-first gates: published product + working Pochipp merchant-search links.
+ * No article / per-shop stock / product photo required. Pre-release products remain blocked.
+ * verified=1 is set only after checking model-specific search terms and ASP tracking.
  */
 function mng_pick_is_sellable($id, $now) {
     if ((int) get_post_meta($id, '_mng_ready', true) !== 1) return false;
     if ((int) get_post_meta($id, '_mng_verified', true) !== 1) return false;
     if (!shortcode_exists('pochipp')) return false;
     if (!absint(get_post_meta($id, '_mng_pochipp_id', true))) return false;
-    if (!has_post_thumbnail($id)) return false;
 
-    $article_id = absint(get_post_meta($id, '_mng_article_id', true));
-    if (!$article_id || get_post_type($article_id) !== 'post' || get_post_status($article_id) !== 'publish') return false;
-
-    $tz = wp_timezone();
-    $release = get_post_meta($id, '_mng_release_date', true);
-    $checked = get_post_meta($id, '_mng_stock_checked', true);
-    $release_date = $release ? DateTimeImmutable::createFromFormat('!Y-m-d', $release, $tz) : false;
-    $checked_date = $checked ? DateTimeImmutable::createFromFormat('!Y-m-d', $checked, $tz) : false;
-    if (!$checked_date || $checked_date->format('Y-m-d') !== $checked) return false;
-
-    $today = DateTimeImmutable::createFromFormat('!Y-m-d', $now->format('Y-m-d'), $tz);
-    $release_confirmed = false;
-    if ($release_date && $release_date->format('Y-m-d') === $release) {
-        $age = (int) $release_date->diff($today)->format('%r%a');
-        $release_confirmed = $age >= 30;
-    } elseif (!$release) {
-        // A documented legacy product may predate modern retail records.
-        // Do not invent a fake YYYY-MM-DD to bypass the age gate.
+    $tz=wp_timezone();
+    $release=get_post_meta($id, '_mng_release_date', true);
+    $today=DateTimeImmutable::createFromFormat('!Y-m-d', $now->format('Y-m-d'), $tz);
+    if ($release) {
+        $date=DateTimeImmutable::createFromFormat('!Y-m-d', $release, $tz);
+        if (!$date || $date->format('Y-m-d') !== $release) return false;
+        if ((int)$date->diff($today)->format('%r%a') < 30) return false;
+    } else {
         $source=get_post_meta($id,'_mng_release_source',true);
-        $release_confirmed = (int)get_post_meta($id,'_mng_legacy_released',true) === 1
-            && $source && wp_http_validate_url($source);
+        if ((int)get_post_meta($id,'_mng_legacy_released',true) !== 1
+            || !$source || !wp_http_validate_url($source)) return false;
     }
-    $days_since_check = (int) $checked_date->diff($today)->format('%r%a');
-    if (!$release_confirmed || $days_since_check < 0 || $days_since_check > 7) return false;
-
-    if ((int) get_post_meta($id, '_mng_stock_shops', true) < 2) return false;
-    $url1 = get_post_meta($id, '_mng_stock_url1', true);
-    $url2 = get_post_meta($id, '_mng_stock_url2', true);
-    if (!$url1 || !$url2 || !wp_http_validate_url($url1) || !wp_http_validate_url($url2)) return false;
-    $host1 = preg_replace('/^www\\./', '', strtolower((string) wp_parse_url($url1, PHP_URL_HOST)));
-    $host2 = preg_replace('/^www\\./', '', strtolower((string) wp_parse_url($url2, PHP_URL_HOST)));
-    if ($host1 === '' || $host2 === '' || $host1 === $host2) return false;
     return true;
 }
 // Non-invasive admin reminder: week-by-week manual evidence verification.
@@ -143,7 +123,7 @@ add_action('admin_notices', function () {
     foreach($ids as $id) if (mng_pick_is_sellable($id,$now)) $active++;
     if ($active>=6) return;
     echo '<div class="notice notice-warning"><p><strong>MyNewGear 今週の注目機材：</strong> 条件を満たす商品が '
-        .esc_html((string)$active).' / 6 件です。発売30日・複数ショップの現物在庫・7日以内の確認・成果リンク・写真・公開済み記事を確認してください。'
+        .esc_html((string)$active).' / 6 件です。発売済みの型番と検索結果への広告リンク、ASP設定を確認してください。記事がなければ「記事準備中」と表示できます。'
         .'条件外の商品は表示しません。</p></div>';
 });
 function mng_pick_score($id, $week) {
@@ -169,7 +149,7 @@ function mng_pick_has_ranking($id, $now) {
     if (!$dt || $dt->format('Y-m-d')!==$date) return false;
     $today=DateTimeImmutable::createFromFormat('!Y-m-d', $now->format('Y-m-d'), wp_timezone());
     $age=(int) $dt->diff($today)->format('%r%a');
-    return $age >= 0 && $age <= 14;
+    return $age >= 0; // Show the source date even when the underlying ranking is older; editors should refresh weekly.
 }
 function mng_pick_diverse($entries, $count, $excluded=array()) {
     $out=array(); $seen=array(); $used=$excluded;
@@ -190,16 +170,21 @@ function mng_pick_diverse($entries, $count, $excluded=array()) {
 }
 function mng_pick_card_html($entry, $is_bestseller) {
     $id=$entry['id']; $article=$entry['article_id'];
-    $name=get_the_title($id); $url=get_permalink($article);
+    $name=get_the_title($id);
+    $article_ready = $article && get_post_type($article)==='post' && get_post_status($article)==='publish';
+    $url = $article_ready ? get_permalink($article) : '';
     $note=get_post_meta($id,'_mng_reason',true);
     $release=get_post_meta($id,'_mng_release_note',true);
     $pid=absint(get_post_meta($id,'_mng_pochipp_id',true));
     $photo=get_the_post_thumbnail($id,'medium_large',array('loading'=>'lazy','alt'=>$name));
-    $out='<article class="mng-week-card"><a class="mng-week-product" href="'.esc_url($url).'"><div class="mng-week-photo">'.($photo ? $photo : '<span class="mng-week-noimage">MY NEW GEAR</span>').'</div><div class="mng-week-copy">';
+    $out='<article class="mng-week-card">';
+    if ($article_ready) $out.='<a class="mng-week-product" href="'.esc_url($url).'">';
+    else $out.='<div class="mng-week-product">';
+    $out.='<div class="mng-week-photo">'.($photo ? $photo : '<span class="mng-week-noimage">MY NEW GEAR</span>').'</div><div class="mng-week-copy">';
     if ($release) $out.='<span class="mng-week-label">'.esc_html($release).'</span>';
     $out.='<h3>'.esc_html($name).'</h3>';
     if ($note) $out.='<p>'.esc_html($note).'</p>';
-    $out.='<strong class="mng-week-link">詳しい比較・解説を見る</strong></div></a>';
+    $out.=$article_ready ? '<strong class="mng-week-link">詳しい比較・解説を見る</strong></div></a>' : '<span class="mng-week-link">記事準備中</span></div></div>';
     if ($pid && shortcode_exists('pochipp')) {
         $out.='<div class="mng-week-affiliate">'.do_shortcode('[pochipp id="'.$pid.'"]').'</div>';
     }
@@ -255,14 +240,12 @@ add_shortcode('mng_weekly_gear', function ($atts) {
     }));
     usort($editor_candidates,function($a,$b){$v=$b['score']<=>$a['score'];return $v!==0?$v:($a['id']<=>$b['id']);});
     $editor=mng_pick_diverse($editor_candidates,$per_group,$used);
-    // Two full rows are the publication contract. Never display a half-empty
-    // "TOP3" or silently replace the old TOP with fewer than six products.
-    // WP editors MUST keep a visible legacy/backup section that can take over
-    // whenever the weekly section returns empty (e.g., stock checks expire).
-    if (count($best) !== $per_group || count($editor) !== $per_group) return mng_pick_fallback($atts['fallback_block']);
+    // At least one verified item is sufficient to go live; never show fake products.
+    // If nothing is ready, keep the saved prior TOP as fallback.
+    if (!$best && !$editor) return mng_pick_fallback($atts['fallback_block']);
     $out='<section class="mng-week" aria-label="今週の注目機材">';
     $out.='<div class="mng-week-head"><div><p class="mng-week-kicker">WEEKLY GEAR PICKS</p><h2>今週の注目機材</h2></div><span class="mng-week-period">'.esc_html($now->format('Y').'年 第'.$now->format('W').'週').'</span></div>';
-    $out.='<p class="mng-week-desc">購入できる機材から、売れ筋と編集部の独自チョイスをそれぞれ3件ずつ紹介。価格や在庫は購入時に再確認してください。</p>';
+    $out.='<p class="mng-week-desc">売れ筋と編集部の独自チョイスを紹介。購入先は各ショップの検索結果から選べます。価格と在庫は購入時にご確認ください。</p>';
     $groups=array(
         array('items'=>$best,'title'=>'売れ筋TOP3','desc'=>'複数の公開ランキング掲載商品から編集部が選定。各順位の出典・確認日を表示します。','bestseller'=>true),
         array('items'=>$editor,'title'=>'編集部おすすめTOP3','desc'=>'音作りの個性・購入意欲・定番性と最近の注目度から独自に選定。','bestseller'=>false)
@@ -274,5 +257,5 @@ add_shortcode('mng_weekly_gear', function ($atts) {
         foreach($group['items'] as $entry) $out.=mng_pick_card_html($entry,$group['bestseller']);
         $out.='</div></div>';
     }
-    return $out.'<p class="mng-week-disclosure">PR：商品紹介には広告が含まれます。複数店舗の在庫と成果リンク確認後に掲載。売上個数の総合ランキングではありません。</p></section>';
+    return $out.'<p class="mng-week-disclosure">PR：商品紹介には広告が含まれます。広告検索リンクの遷移を確認して掲載。売上個数の総合ランキングではありません。</p></section>';
 });
