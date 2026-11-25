@@ -6,6 +6,12 @@
 
 **選び方の結論：弾く強さで歪みをコントロールしたいならBD-2、バンドで中域を前に出したいならSD-1、太く伸びるドライブを求めるならOD-3**です。
 
+<div class="mng-related-shop-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:22px 0">
+<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS BD-2</strong><p>強弱で音の表情を変えたい人へ</p>[pochipp id="1293"]</div>
+<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS SD-1</strong><p>中域を前に出したい人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20817/" target="_blank" rel="noopener sponsored">SD-1の販売ページを見る</a></div>
+<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS OD-3</strong><p>太さ・サステインを求める人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20800/" target="_blank" rel="noopener sponsored">OD-3の販売ページを見る</a></div>
+</div>
+
 ## BD-2をおすすめできる人・別の機材が向いている人
 
 | 目的・好み | まず比べたい機材 | 理由 |
@@ -32,6 +38,10 @@ BOSS公式は、BD-2についてアンプのような多段クリッピング回
 
 ## 初めてでも試しやすい音作り3パターン
 
+[embed]https://www.youtube.com/watch?v=fLW7QDSf0hE[/embed]
+
+**演奏例：** ChrisPedalDemosによるBD-2のデモです。演奏・アンプ等の条件が異なるため、音の傾向をつかむ参考としてご覧ください。
+
 **1. 軽いクランチ：** GAINを低め、LEVELはバイパス時と大きな音量差が出ない位置から。TONEを中央付近から調整し、コードを弱く・強く弾き分けます。
 
 **2. ロックのリフ：** GAINを少し上げ、TONEで輪郭を整えます。歪み量を上げすぎるとコードがぼやけることがあるため、他の楽器と合わせたときの聞こえ方を優先します。
@@ -47,6 +57,14 @@ BOSS公式は、BD-2についてアンプのような多段クリッピング回
 | **BOSS BD-2** | ピッキングの表情が出やすく、軽い歪みから荒めのドライブまで | 一台で幅広い弾き方を楽しみたい |
 | **BOSS SD-1** | 中域を生かしたマイルドな歪み。アンプや別の歪みを押す用途も | リフやリードを前に出したい |
 | **BOSS OD-3** | 太い低域とサステインを伴うドライブ | 単体でコードもリードも厚く鳴らしたい |
+
+### 3機種を商品ページから見比べる
+
+<div class="mng-related-shop-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:22px 0">
+<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS BD-2</strong><p>強弱で音の表情を変えたい人へ</p>[pochipp id="1293"]</div>
+<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS SD-1</strong><p>中域を前に出したい人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20817/" target="_blank" rel="noopener sponsored">SD-1の販売ページを見る</a></div>
+<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS OD-3</strong><p>太さ・サステインを求める人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20800/" target="_blank" rel="noopener sponsored">OD-3の販売ページを見る</a></div>
+</div>
 
 SD-1は単に「BD-2の安い版」ではありません。音の重心が異なります。OD-3もBD-2の上位互換ではなく、得意な歪み方が違うペダルです。
 
@@ -104,9 +122,13 @@ BD-2の魅力は、歪みをオン・オフするだけでなく、指先やギ�
 
 ただし音の太さならOD-3、中域ならSD-1、空間系が欲しいならMS-70CDR+と、選ぶべき機材は目的次第です。購入前に現在の機材で不足していることを一つ絞ると、納得して選びやすくなります。
 
-### 購入候補をもう一度比較する
+### BD-2・SD-1・OD-3の購入先を比較する
 
-[pochipp id="1293"]
+<div class="mng-related-shop-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:22px 0">
+<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS BD-2</strong><p>強弱で音の表情を変えたい人へ</p>[pochipp id="1293"]</div>
+<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS SD-1</strong><p>中域を前に出したい人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20817/" target="_blank" rel="noopener sponsored">SD-1の販売ページを見る</a></div>
+<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS OD-3</strong><p>太さ・サステインを求める人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20800/" target="_blank" rel="noopener sponsored">OD-3の販売ページを見る</a></div>
+</div>
 
 ### メーカー公式の製品情報
 
