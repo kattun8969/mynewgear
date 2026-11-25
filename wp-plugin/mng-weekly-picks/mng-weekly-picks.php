@@ -2,13 +2,13 @@
 /**
  * Plugin Name: MyNewGear Weekly Picks
  * Description: Editorially curated weekly gear picks. Revenue attribution stays in Pochipp.
- * Version: 0.4.1
+ * Version: 0.4.2
  * Requires PHP: 7.4
  */
 defined('ABSPATH') || exit;
 
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('mng-weekly-picks', plugins_url('style.css', __FILE__), array(), '0.4.1');
+    wp_enqueue_style('mng-weekly-picks', plugins_url('style.css', __FILE__), array(), '0.4.2');
 });
 
 add_action('init', function () {
@@ -131,6 +131,21 @@ function mng_pick_is_sellable($id, $now) {
     if ($host1 === '' || $host2 === '' || $host1 === $host2) return false;
     return true;
 }
+// Non-invasive admin reminder: week-by-week manual evidence verification.
+// No automated claims about current stock or affiliate conversions.
+add_action('admin_notices', function () {
+    if (!current_user_can('manage_options') || !function_exists('get_current_screen')) return;
+    $screen=get_current_screen();
+    if (!$screen || !in_array($screen->id,array('dashboard','edit-mng_gear'),true)) return;
+    $ids=get_posts(array('post_type'=>'mng_gear','post_status'=>'publish','numberposts'=>200,'fields'=>'ids'));
+    if (!$ids) return;
+    $now=current_datetime();$active=0;
+    foreach($ids as $id) if (mng_pick_is_sellable($id,$now)) $active++;
+    if ($active>=6) return;
+    echo '<div class="notice notice-warning"><p><strong>MyNewGear 今週の注目機材：</strong> 条件を満たす商品が '
+        .esc_html((string)$active).' / 6 件です。発売30日・複数ショップの現物在庫・7日以内の確認・成果リンク・写真・公開済み記事を確認してください。'
+        .'条件外の商品は表示しません。</p></div>';
+});
 function mng_pick_score($id, $week) {
     $w = array('newness'=>15,'trend'=>20,'demand'=>25,'revenue'=>25,'editor'=>15);
     $score = 0;
