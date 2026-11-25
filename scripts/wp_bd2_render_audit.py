@@ -27,3 +27,5 @@ print(json.dumps({
  "rendered_image_count":parser.images,"rendered_anchor_count":parser.links,
  "known_store_hosts_only":parser.hosts,"public_post_changed":False
 },ensure_ascii=False,indent=2))
+
+# first BD2 rendered product-card audit
