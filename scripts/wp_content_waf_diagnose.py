@@ -31,3 +31,5 @@ if __name__=="__main__":
  except Exception as exc:
   print(json.dumps({"setup_error":str(exc)[:140]},ensure_ascii=False))
   sys.exit(1)
+
+# one-time safe run 2026-11-25
