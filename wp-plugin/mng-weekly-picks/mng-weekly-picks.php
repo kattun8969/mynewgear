@@ -40,7 +40,7 @@ function mng_gear_fields() {
         'bestseller' => '売れ筋枠に選考：1=はい／0=いいえ（外部順位の出典必須）',
         'editor_pick' => '編集部おすすめ枠に選考：1=はい／0=いいえ',
         'rank_source' => '売れ筋順位の出典ページURL（https）',
-        'rank_date' => '売れ筋順位の確認日 YYYY-MM-DD（14日以内）',
+        'rank_date' => '売れ筋順位の確認日 YYYY-MM-DD（古いデータは注記・更新推奨）',
         'rank_position' => '外部ランキングの順位（1〜100）。実測順位を確認した場合のみ',
         'verified' => '広告リンクの遷移とASP設定確認済み 1＝はい / 0＝いいえ',
         'ready' => '商品名・型番・広告検索リンク確認済み 1＝はい / 0＝いいえ',
@@ -198,7 +198,7 @@ function mng_pick_card_html($entry, $is_bestseller) {
 }
 /**
  * Render the original TOP cards saved as a WordPress synced pattern (wp_block).
- * This avoids a blank homepage when six offers cease to meet stock checks.
+ * This avoids a blank homepage when no verified affiliate offers are ready.
  */
 function mng_pick_fallback($block_id) {
     $block_id=absint($block_id);
@@ -252,8 +252,9 @@ add_shortcode('mng_weekly_gear', function ($atts) {
     );
     foreach($groups as $group) {
         if (!$group['items']) continue;
-        $out.='<div class="mng-week-group"><div class="mng-week-group-head"><h3>'.esc_html($group['title']).'</h3><p>'.esc_html($group['desc']).'</p></div>';
-        $out.='<div class="mng-week-grid" role="region" aria-label="'.esc_attr($group['title']).'：横スクロールできます" tabindex="0">';
+        $section_title = count($group['items']) < $per_group ? str_replace('TOP3', 'ピックアップ', $group['title']) : $group['title'];
+        $out.='<div class="mng-week-group"><div class="mng-week-group-head"><h3>'.esc_html($section_title).'</h3><p>'.esc_html($group['desc']).'</p></div>';
+        $out.='<div class="mng-week-grid" role="region" aria-label="'.esc_attr($section_title).'：横スクロールできます" tabindex="0">';
         foreach($group['items'] as $entry) $out.=mng_pick_card_html($entry,$group['bestseller']);
         $out.='</div></div>';
     }
