@@ -1,7 +1,5 @@
 # BOSS GX-1を選ぶ理由｜初めてのマルチでも音作りを楽しめる？G2 FOURとも比較
 
-> 編集部による購入ガイド。実機試奏・所有経験を主張しない。2026年11月25日時点のメーカー公開情報。販売店の在庫・価格・ASPカードは②Workが最終確認。
-
 「マルチエフェクターって便利そう。でも、メニューが複雑で使いこなせるか不安」
 
 そんな人に注目してほしいのが**BOSS GX-1**。アンプの音色とエフェクトをまとめて扱えるだけでなく、音作りを始めやすくする**Gear Suite**も備えたコンパクトなマルチです。
@@ -25,15 +23,17 @@ BOSSのGXシリーズで使われる**AIRD**テクノロジーを搭載し、ア
 
 アンプやペダルを何台も買わなくても、どんな方向の音が好きか試せるのは大きな魅力。**「あとで単体ペダルにこだわりたい」人にも、音の好みを探す一台**として価値があります。
 
-> 【動画】BOSS公式「GX-1」紹介動画（公式製品ページの正規埋め込みを採用）：https://www.boss.info/jp/products/gx-1/
-
+**メーカー公式の製品紹介・動画：** [公式ページを見る](https://www.boss.info/jp/products/gx-1/)
 ## ZOOM G2 FOURやMS-50G+と比較すると？
 
-| 製品 | 得意なこと | おすすめ |
-|---|---|---|
-| BOSS GX-1 | アンプ音から複数エフェクト、ライブ用の切替までまとめる | 練習もライブも一台に寄せたい |
-| ZOOM G2 FOUR | アンプ系と複数の効果を比較的シンプルに試す | 最初のマルチを探したい |
-| ZOOM MS-50G+ | 小型ペダルに複数の効果をまとめる | すでにボードがあり、追加したい |
+<div id="mng-gear-comparison" role="region" aria-label="機材比較表" tabindex="0" style="max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="mng-gear-comparison" style="width:100%;min-width:600px;table-layout:fixed;border-collapse:collapse;font-size:14px"><thead><tr><th scope="col" style="width:20%;background:#173451;color:#fff;padding:10px">比較項目</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">BOSS GX-1</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">ZOOM G2 FOUR</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">ZOOM MS-50G+</th></tr></thead><tbody>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">製品写真・仕様</th><td style="padding:10px;text-align:center"><a href="https://www.boss.info/jp/products/gx-1/" target="_blank" rel="noopener">BOSS GX-1の公式写真を見る</a></td><td style="padding:10px;text-align:center"><a href="https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g2-four-g2x-four/" target="_blank" rel="noopener">ZOOM G2 FOURの公式写真を見る</a></td><td style="padding:10px;text-align:center"><a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-50gplus/" target="_blank" rel="noopener">ZOOM MS-50G+の公式写真を見る</a></td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">得意なこと</th><td style="padding:10px;vertical-align:top">アンプ音から複数エフェクト、ライブ用の切替までまとめる</td><td style="padding:10px;vertical-align:top">アンプ系と複数の効果を比較的シンプルに試す</td><td style="padding:10px;vertical-align:top">小型ペダルに複数の効果をまとめる</td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">おすすめ</th><td style="padding:10px;vertical-align:top">練習もライブも一台に寄せたい</td><td style="padding:10px;vertical-align:top">最初のマルチを探したい</td><td style="padding:10px;vertical-align:top">すでにボードがあり、追加したい</td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">詳細・購入検討</th><td style="padding:8px"><a href="https://www.boss.info/jp/products/gx-1/" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td><td style="padding:8px"><a href="https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g2-four-g2x-four/" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td><td style="padding:8px"><a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-50gplus/" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td></tr>
+</tbody></table></div>
+
+スマートフォンでは表を横にスクロールできます。比較は編集部による用途別の整理です。
 
 **GX-1が全員に一番よいわけではありません。** 選ぶポイントは、音質の序列よりも、足元での切り替え方や練習・ライブのどちらに使うかです。
 
@@ -54,6 +54,7 @@ BOSSのGXシリーズで使われる**AIRD**テクノロジーを搭載し、ア
 **アンプらしい音をペダルで作りたい人には、NUX MG-300の既存記事**も参考になります。価格や機能をそのまま比較するのではなく、どこでアンプの音を作るかという考え方が分かります。
 
 ### サイト内の関連記事
+- [BOSS BD-2の音作りと購入ガイド](https://mynewgear.cyou/boss-bd-2-guide)
 - [AMT M-2：アンプらしい音をペダルで作る](https://mynewgear.cyou/amt-electronics-m-2) — プリアンプとマルチの役割を考える
 - [エフェクターは本当に必要？初心者向け解説](https://mynewgear.cyou/https-mynewgear-link-beginner-4-efx1) — はじめて機材を足す前に読みたい
 
