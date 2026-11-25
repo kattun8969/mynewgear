@@ -1,0 +1,28 @@
+name: WordPress sync static checks
+
+on:
+  pull_request:
+    paths:
+      - "scripts/wp_sync.py"
+      - "content/wp-manifests/**"
+      - ".github/workflows/wordpress-*.yml"
+  push:
+    paths:
+      - "scripts/wp_sync.py"
+      - "content/wp-manifests/**"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python syntax
+        run: python3 -m py_compile scripts/wp_sync.py
+      - name: Validate taxonomy manifests offline
+        run: python3 scripts/wp_sync.py --mode check --manifest content/wp-manifests/taxonomy/discovery-tags.json
+      - name: Validate example draft offline
+        run: python3 scripts/wp_sync.py --mode check --manifest content/wp-manifests/samples/post-example.json

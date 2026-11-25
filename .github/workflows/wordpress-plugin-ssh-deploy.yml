@@ -1,0 +1,82 @@
+name: MyNewGear plugin deploy via SSH
+
+on:
+  workflow_dispatch:
+    inputs:
+      plugin:
+        description: "Select the single reviewed plugin to upload"
+        type: choice
+        options: [discovery, weekly-picks]
+        required: true
+      action:
+        description: "dry-run first; upload only after reviewing logs"
+        type: choice
+        options: [dry-run, upload]
+        default: dry-run
+        required: true
+      confirmation:
+        description: "To upload type DEPLOY. Otherwise leave empty."
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mng-wordpress-ssh-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ github.ref == 'refs/heads/main' && (inputs.action == 'dry-run' || (inputs.action == 'upload' && inputs.confirmation == 'DEPLOY')) }}
+    runs-on: ubuntu-latest
+    environment: wp-production
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set reviewed source directory
+        shell: bash
+        env:
+          PLUGIN: ${{ inputs.plugin }}
+        run: |
+          set -euo pipefail
+          case "$PLUGIN" in
+            discovery) echo "SOURCE=wp-plugin/mng-discovery-tags/" >> "$GITHUB_ENV" ; echo "DEST=mng-discovery-tags" >> "$GITHUB_ENV" ;;
+            weekly-picks) echo "SOURCE=wp-plugin/mng-weekly-picks/" >> "$GITHUB_ENV" ; echo "DEST=mng-weekly-picks" >> "$GITHUB_ENV" ;;
+            *) exit 1 ;;
+          esac
+
+      - name: Configure pinned SSH host key and private key
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.MNG_WP_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.MNG_WP_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          test -n "$SSH_PRIVATE_KEY" && test -n "$SSH_KNOWN_HOSTS"
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/mng_deploy
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/mng_deploy ~/.ssh/known_hosts
+
+      - name: SSH path preflight and file upload
+        shell: bash
+        env:
+          HOST: ${{ secrets.MNG_WP_SSH_HOST }}
+          USER: ${{ secrets.MNG_WP_SSH_USER }}
+          PLUGIN_DIR: ${{ secrets.MNG_WP_REMOTE_PLUGINS_PATH }}
+          ACTION: ${{ inputs.action }}
+        run: |
+          set -euo pipefail
+          [[ "$HOST" =~ ^[A-Za-z0-9.-]+$ ]] && [[ "$USER" =~ ^[A-Za-z0-9_-]+$ ]]
+          # Never allow a path outside wp-content/plugins.
+          [[ "$PLUGIN_DIR" == /*/wp-content/plugins ]]
+          REMOTE="$PLUGIN_DIR/$DEST/"
+          SSH_OPTS=(-i ~/.ssh/mng_deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o BatchMode=yes)
+          ssh "${SSH_OPTS[@]}" "$USER@$HOST" "test -d '$PLUGIN_DIR' && test -d '$PLUGIN_DIR/..'"
+          ARGS=(-az --itemize-changes --no-owner --no-group --no-perms --exclude='.git' --exclude='seed-weekly-gear.php')
+          if [[ "$ACTION" == 'dry-run' ]]; then ARGS+=(--dry-run); fi
+          rsync "${ARGS[@]}" -e "ssh -i ~/.ssh/mng_deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o BatchMode=yes" "$SOURCE" "$USER@$HOST:$REMOTE"
+          echo "Completed $ACTION for $DEST (deployment is not equivalent to WordPress plugin activation)."
