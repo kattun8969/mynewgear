@@ -1,0 +1,71 @@
+name: MyNewGear WordPress REST sync
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check (offline), preview (draft copy), taxonomy (tags), publish (explicit live update)"
+        type: choice
+        options: [check, preview, taxonomy, publish]
+        required: true
+        default: check
+      manifest:
+        description: "Manifest under content/wp-manifests/, e.g. content/wp-manifests/taxonomy/discovery-tags.json"
+        type: string
+        required: true
+        default: content/wp-manifests/taxonomy/discovery-tags.json
+      confirm_publish:
+        description: "For publish mode type PUBLISH (uppercase); never type it for check/preview"
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mng-wordpress-rest-sync
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Local manifest validation (no network, no secrets)
+        run: python3 scripts/wp_sync.py --mode check --manifest "$MANIFEST"
+        env:
+          MANIFEST: ${{ inputs.manifest }}
+
+  preview_and_taxonomy:
+    needs: validate
+    if: ${{ inputs.mode == 'preview' || inputs.mode == 'taxonomy' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Authenticate with revocable WordPress Application Password
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+          MODE: ${{ inputs.mode }}
+          MANIFEST: ${{ inputs.manifest }}
+        run: python3 scripts/wp_sync.py --mode "$MODE" --manifest "$MANIFEST"
+
+  publish:
+    needs: validate
+    if: ${{ inputs.mode == 'publish' && inputs.confirm_publish == 'PUBLISH' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment: wp-production
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish only approved manifest content on main
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+          MANIFEST: ${{ inputs.manifest }}
+        run: python3 scripts/wp_sync.py --mode publish --manifest "$MANIFEST"
