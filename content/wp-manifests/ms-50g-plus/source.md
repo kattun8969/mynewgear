@@ -1,7 +1,5 @@
 # ZOOM MS-50G+は使える？「小さなマルチ」を買う理由とMS-70CDR+との違い
 
-> 編集部による購入ガイド。実機試奏したと装わない。MS-50G（旧版）とMS-50G+を区別。仕様は2026年11月25日時点のメーカー公式ページ・マニュアルを参照。
-
 「ペダルボードにあと一台しか入らない。でも、まだいろいろな音を試したい」
 
 そんなギタリストに合いそうなのが**ZOOM MS-50G+**。コンパクトペダルに近いサイズで、歪み、コンプレッサー、フィルター、空間系などをまとめて使えるマルチストンプです。
@@ -34,11 +32,14 @@
 
 ## MS-70CDR+・G2 FOURとの違い
 
-| 製品 | 得意なこと | 向いている人 |
-|---|---|---|
-| MS-50G+ | 歪みを含む多彩な効果を小型ボディに | ボードの中の何でも屋が欲しい |
-| MS-70CDR+ | コーラス・ディレイ・リバーブを中心に広げる | 歪みはすでに決まっている |
-| G2 FOUR | アンプモデルを含む音作りを一台で試す | 初めてマルチを買う |
+<div id="mng-gear-comparison" role="region" aria-label="機材比較表" tabindex="0" style="max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="mng-gear-comparison" style="width:100%;min-width:600px;table-layout:fixed;border-collapse:collapse;font-size:14px"><thead><tr><th scope="col" style="width:20%;background:#173451;color:#fff;padding:10px">比較項目</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">MS-50G+</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">MS-70CDR+</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">G2 FOUR</th></tr></thead><tbody>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">製品写真・仕様</th><td style="padding:10px;text-align:center"><a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-50gplus/" target="_blank" rel="noopener">MS-50G+の公式写真を見る</a></td><td style="padding:10px;text-align:center"><a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/" target="_blank" rel="noopener">MS-70CDR+の公式写真を見る</a></td><td style="padding:10px;text-align:center"><a href="https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g2-four-g2x-four/" target="_blank" rel="noopener">G2 FOURの公式写真を見る</a></td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">得意なこと</th><td style="padding:10px;vertical-align:top">歪みを含む多彩な効果を小型ボディに</td><td style="padding:10px;vertical-align:top">コーラス・ディレイ・リバーブを中心に広げる</td><td style="padding:10px;vertical-align:top">アンプモデルを含む音作りを一台で試す</td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">向いている人</th><td style="padding:10px;vertical-align:top">ボードの中の何でも屋が欲しい</td><td style="padding:10px;vertical-align:top">歪みはすでに決まっている</td><td style="padding:10px;vertical-align:top">初めてマルチを買う</td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">詳細・購入検討</th><td style="padding:8px"><a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-50gplus/" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td><td style="padding:8px"><a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td><td style="padding:8px"><a href="https://zoomcorp.com/ja/jp/multi-effects/guitar-effects/g2-four-g2x-four/" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td></tr>
+</tbody></table></div>
+
+スマートフォンでは表を横にスクロールできます。比較は編集部による用途別の整理です。
 
 **似た見た目でも目的は違います。** たとえばお気に入りのBD-2や海外ブランドの歪みを持っている人なら、MS-70CDR+の方が用途に合うこともあります。
 
@@ -67,6 +68,7 @@ MS-50G+は、対応するiOS用「Handy Guitar Lab」を使うことで、エフ
 **すでに好きな歪みペダルを持っているなら、その一台を残す選び方もおすすめ。** 単体ペダルの音や操作が気に入っているのに、すべてをマルチへ置き換える必要はありません。
 
 ### サイト内の関連記事
+- [BOSS BD-2の音作りと購入ガイド](https://mynewgear.cyou/boss-bd-2-guide)
 - [空間系を2種類以上使えるペダルの比較](https://mynewgear.cyou/ef-2in1)
 - [Source Audio Colliderレビュー](https://mynewgear.cyou/source-audio-sa263-collider)
 - [NUXとは違う、アンプを作り込むAMT M-2のレビュー](https://mynewgear.cyou/amt-electronics-m-2)
