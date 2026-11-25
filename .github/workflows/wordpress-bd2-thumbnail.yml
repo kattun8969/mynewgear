@@ -6,6 +6,7 @@ on:
     paths:
       - "scripts/wp_bd2_thumbnail.py"
       - "scripts/render_bd2_cover.py"
+      - "scripts/wp_bd2_full_audit.py"
       - ".github/workflows/wordpress-bd2-thumbnail.yml"
   workflow_dispatch:
 
