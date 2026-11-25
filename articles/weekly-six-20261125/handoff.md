@@ -36,3 +36,23 @@ GitHub PR #12 v0.4.2／Issue #13の正式な6候補に対し、各商品につ�
 - [ ] メリット・固有の弱点・向く人／向かない人がある
 - [ ] 商品画像・動画・購入カードの配置箇所が明記されている
 - [ ] WordPress公開前に実際の在庫とASPリンクを確認した
+
+## 2026-11-25 追加依頼：代替機材・サイト内回遊導線
+全6記事に**「ほかの選択肢」節**を追加済み。1つの商品だけを押し売りせず、欲しい音や予算・所有機材に応じて買い分けられるようにした。
+
+| 主記事 | 代替・比較 | 既存公開記事への内部リンク |
+|---|---|---|
+| MS-70CDR+ | Source Audio Collider／MS-50G+／単体空間系 | https://mynewgear.cyou/ef-2in1 、https://mynewgear.cyou/source-audio-sa263-collider |
+| GX-1 | ZOOM G2 FOUR／上位GX／MS-50G+／MS-70CDR+ | https://mynewgear.cyou/amt-electronics-m-2 、https://mynewgear.cyou/https-mynewgear-link-beginner-4-efx1 |
+| BD-2 | BOSS SD-1／OD-3／Keeley Super Phat Mod／Vivie CALLION | https://mynewgear.cyou/vivie-callion 、https://mynewgear.cyou/yoasobi-assh 、https://mynewgear.cyou/beginner-ef-drive-1 |
+| Jan Ray | Mad Professor Sweet Honey／BD-2／Vivie CALLION | https://mynewgear.cyou/soundmake-king-gnu 、https://mynewgear.cyou/vivie-callion 、https://mynewgear.cyou/beginner-ef-drive-1 |
+| PolyTune 3 | Noir／BOSS TU-3／クリップ型 | https://mynewgear.cyou/https-mynewgear-link-beginner-4-efx1 |
+| MS-50G+ | MS-70CDR+／G2 FOUR／GX-1／Source Audio Collider | https://mynewgear.cyou/ef-2in1 、https://mynewgear.cyou/source-audio-sa263-collider 、https://mynewgear.cyou/amt-electronics-m-2 |
+
+**公開済みを確認できない新規記事へのURLは仮造しない。** ②Workが6記事を公開した後、相互リンクを実際の公開URLで接続する。旧記事内の古い価格や在庫はそのまま転載せず、記事の考え方を参照するリンクとして使う。
+
+### ②Work追加チェック
+- [ ] 既存URLリンクのHTTP 200／公開ページ表示確認（公開直前）
+- [ ] 新規6記事の確定したパーマリンク間で相互リンク設置
+- [ ] サイト内リンクが商品カードより目立ちすぎないよう、節末に短く配置
+- [ ] 代替候補にも該当商品の画像や正式ASP商品カードを設置する場合、別型番への誤リンクを防ぐ
