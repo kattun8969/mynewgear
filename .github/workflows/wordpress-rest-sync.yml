@@ -22,6 +22,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 concurrency:
   group: mng-wordpress-rest-sync
@@ -69,3 +70,33 @@ jobs:
           WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
           MANIFEST: ${{ inputs.manifest }}
         run: python3 scripts/wp_sync.py --mode publish --manifest "$MANIFEST"
+
+  report_failure:
+    needs: [validate, preview_and_taxonomy, publish]
+    if: ${{ always() && (needs.validate.result == 'failure' || needs.preview_and_taxonomy.result == 'failure' || needs.publish.result == 'failure') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Open a single failure issue with a run link (no secrets)
+        uses: actions/github-script@v7
+        env:
+          MODE: ${{ inputs.mode }}
+          MANIFEST: ${{ inputs.manifest }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const marker = `[WP-SYNC-FAIL] run ${context.runId}`;
+            const title = marker + ' ' + process.env.MODE;
+            const body = [
+              'WordPress GitHub Actions failed. No credentials are included.',
+              '',
+              '- Run: https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId,
+              '- Mode: ' + process.env.MODE,
+              '- Manifest: ' + process.env.MANIFEST,
+              '- Validate: ${{ needs.validate.result }}',
+              '- Draft/Taxonomy: ${{ needs.preview_and_taxonomy.result }}',
+              '- Publish: ${{ needs.publish.result }}',
+              '',
+              'Check the failed step before retrying. Do not paste secrets into comments.'
+            ].join('\n');
+            await github.rest.issues.create({owner: context.repo.owner, repo: context.repo.repo, title, body});
