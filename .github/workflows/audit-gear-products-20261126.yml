@@ -1,0 +1,43 @@
+name: Read-only product and draft readiness audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/audit-gear-products-20261126.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Match exact product names and verify private article layout
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: |
+          PYTHONPATH=scripts python3 - <<'PY' > /tmp/gear-audit.json
+          import json,re,html
+          from wp_sync import WP
+          w=WP()
+          models=["MS-70CDR+","MS-50G+","GX-1","G2 FOUR","PolyTune 3","PolyTune 3 Noir","Jan Ray","Sweet Honey","BD-2","SD-1","OD-3"]
+          result={"products":{},"drafts":[]}
+          for model in models:
+              candidates=w.call("GET","/pochipps",params={"search":model,"per_page":30,"context":"edit"})
+              result["products"][model]=[{"id":x.get("id"),"title":html.unescape(re.sub(r"<[^>]+>","",x.get("title",{}).get("rendered",""))),"status":x.get("status")} for x in candidates]
+          for ident in [1317,1319,1320,1321,1323]:
+              p=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+              raw=p.get("content",{}).get("raw","")
+              rendered=p.get("content",{}).get("rendered","")
+              result["drafts"].append({"id":ident,"slug":p.get("slug"),"status":p.get("status"),"comparison_table":"mng-gear-comparison" in raw,"image_count":len(re.findall(r"<img\b",rendered,re.I)),"featured_media":p.get("featured_media"),"pochipp_ids":re.findall(r'\[pochipp\s+id="(\d+)"',raw)})
+          print(json.dumps(result,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const data=require('fs').readFileSync('/tmp/gear-audit.json','utf8');
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:13,body:'Read-only product readiness audit (no tracking URLs or private content):\n\n```json\n'+data+'\n```'});
