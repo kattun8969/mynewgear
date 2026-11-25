@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Inspect the WordPress front page without modifying anything.
 
-Prints only page ID, type, editable-status and public link targets; no content or secrets.
+Prints only page ID, type, editable-status and public link targets; never prints credentials or full content.
 """
 import json
 import re
