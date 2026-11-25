@@ -202,11 +202,11 @@ add_shortcode('mng_weekly_gear', function ($atts) {
         );
     }
     $best_candidates=array_values(array_filter($ranked,function($e) use ($now){return mng_pick_has_ranking($e['id'],$now);}));
+    // Compare different retailer rankings by editorial score, not raw rank.
+    // A #1 at one shop is not comparable to a #1 at another.
     usort($best_candidates,function($a,$b){
-        // Ranking position first, but only valid within a single source. A
-        // position is not an across-source sales total.
-        $v=$a['rank']<=>$b['rank'];
-        return $v!==0?$v:($b['score']<=>$a['score']);
+        $v=$b['score']<=>$a['score'];
+        return $v!==0?$v:($a['id']<=>$b['id']);
     });
     $best=mng_pick_diverse($best_candidates,$per_group);
     $used=array_column($best,'id');
@@ -221,7 +221,7 @@ add_shortcode('mng_weekly_gear', function ($atts) {
     $out.='<div class="mng-week-head"><div><p class="mng-week-kicker">WEEKLY GEAR PICKS</p><h2>今週の注目機材</h2></div><span class="mng-week-period">'.esc_html($now->format('Y').'年 第'.$now->format('W').'週').'</span></div>';
     $out.='<p class="mng-week-desc">購入できる機材から、売れ筋と編集部の独自チョイスをそれぞれ3件ずつ紹介。価格や在庫は購入時に再確認してください。</p>';
     $groups=array(
-        array('items'=>$best,'title'=>'売れ筋TOP3','desc'=>'ショップ／価格比較サイトの公開ランキングを参考に選定。順位は各出典内のものです。','bestseller'=>true),
+        array('items'=>$best,'title'=>'売れ筋TOP3','desc'=>'複数の公開ランキング掲載商品から編集部が選定。各順位の出典・確認日を表示します。','bestseller'=>true),
         array('items'=>$editor,'title'=>'編集部おすすめTOP3','desc'=>'音作りの個性・購入意欲・定番性と最近の注目度から独自に選定。','bestseller'=>false)
     );
     foreach($groups as $group) {
