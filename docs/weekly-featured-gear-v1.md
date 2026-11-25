@@ -17,7 +17,7 @@ TOPの固定BD-2／monica／Myriad Fuzzの3件を、**毎週・データ優先�
 ## WordPress導入方法（②Work：バックアップ後）
 1. `wp-plugin/mng-weekly-picks/mng-weekly-picks.php` と `style.css`を、同名フォルダのプラグインとして配置。
 2. プラグインを有効化。**functions.phpに丸ごと貼り付けない**。
-3. 子テーマCSSか追加CSSに同梱`style.css`を追加。現状PHPは自動CSS読み込みせず、意図的に分離している。
+3. スタイルシートはプラグインが自動読み込みするため、子テーマへのCSS手動貼り付けは不要。
 4. 「注目機材」より、商品タイトル・アイキャッチ・公開済み解説記事の投稿ID・0〜100評価・掲載準備完了＝1・商品の発売情報・推薦理由を登録。
 5. Pochippで正式ASPリンク・型番・画像・遷移を検証したら管理IDを登録、「報酬リンク検証済み＝1」にする。Pochippのショートコード公式構文：https://pochipp.com/240/
 6. TOP既存固定3カードを複製ページで非公開テストし、`[mng_weekly_gear count="3"]`へ差し替える。
