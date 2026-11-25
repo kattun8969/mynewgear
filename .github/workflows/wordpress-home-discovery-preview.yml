@@ -1,0 +1,55 @@
+name: Preview homepage discovery links safely
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/wp_home_discovery_preview.py
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: mng-home-discovery-preview
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create isolated review draft or stop safely
+        id: run
+        continue-on-error: true
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: |
+          python3 -m py_compile scripts/wp_home_discovery_preview.py
+          python3 scripts/wp_home_discovery_preview.py > /tmp/mng-home-preview-result.json 2>/tmp/mng-home-preview-error.txt
+          cat /tmp/mng-home-preview-result.json || true
+          if test -s /tmp/mng-home-preview-error.txt; then cat /tmp/mng-home-preview-error.txt; fi
+      - name: Report result into the existing UI tracking issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('fs');
+            const ok='${{ steps.run.outcome }}'==='success';
+            const filepath=ok?'/tmp/mng-home-preview-result.json':'/tmp/mng-home-preview-error.txt';
+            const details=fs.existsSync(filepath)?fs.readFileSync(filepath,'utf8').slice(0,7500):'No details; inspect run logs';
+            const body=[
+              'TOP navigation safe draft result: '+(ok?'SUCCESS':'STOPPED (live homepage unchanged)'),
+              'Run: https://github.com/'+context.repo.owner+'/'+context.repo.repo+'/actions/runs/'+context.runId,
+              '',
+              '```',
+              details,
+              '```'
+            ].join('\n');
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:28,body});
+      - name: Fail job when preview failed
+        if: ${{ steps.run.outcome == 'failure' }}
+        run: exit 1
