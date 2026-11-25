@@ -15,12 +15,15 @@ def run():
   endpoints=list(dict.fromkeys(["/pochipps"]+["/"+str(v.get("rest_base") or k) for k,v in names]))
   for endpoint in endpoints:
     try:
-      posts=wp.call("GET",endpoint,params={"context":"edit","search":"BD-2","per_page":50,"status":"any"})
+      posts=[]
+      for query in ("BD-2","SD-1","OD-3","BD-2W"):
+        posts.extend(wp.call("GET",endpoint,params={"context":"edit","search":query,"per_page":50,"status":"any"}))
       for post in posts:
         name=post.get("title",{})
         if isinstance(name,dict):name=name.get("raw") or name.get("rendered") or ""
         # Only report title and WP internal ID, never links, meta, or ASP credentials.
-        out["candidates"].append({"endpoint":endpoint,"id":post.get("id"),"title":str(name)[:110],"status":post.get("status")})
+        if not any(x["id"]==post.get("id") for x in out["candidates"]):
+          out["candidates"].append({"endpoint":endpoint,"id":post.get("id"),"title":str(name)[:110],"status":post.get("status")})
     except Exception as e:
       out.setdefault("endpoint_results",[]).append({"endpoint":endpoint,"error":str(e)[:110]})
   print(json.dumps(out,ensure_ascii=False,indent=2))
