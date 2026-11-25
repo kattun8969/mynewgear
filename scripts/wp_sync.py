@@ -166,13 +166,19 @@ def post_sync(wp, manifest, mode):
 
 
 def taxonomy_sync(wp, manifest):
-    for tag in manifest["tags"]:
-        ident = wp.term_id("tags", tag["slug"], create=True, name=tag["name"])
-        print(f"TAG {tag['slug']} id={ident}")
+    # Validate all referenced posts and tags before making the first write.
+    planned = []
+    declared = {tag["slug"] for tag in manifest["tags"]}
     for assignment in manifest.get("assignments", []):
         post = wp.find_post(assignment["post_slug"])
         require(post is not None, f"Missing post for tag assignment: {assignment['post_slug']}")
         require(post.get("status") == "publish", "Tag only published posts in this manifest")
+        require(all(slug in declared for slug in assignment["tags"]), "Assignment references an undefined tag")
+        planned.append((assignment, post))
+    for tag in manifest["tags"]:
+        ident = wp.term_id("tags", tag["slug"], create=True, name=tag["name"])
+        print(f"TAG {tag['slug']} id={ident}")
+    for assignment, post in planned:
         existing = set(post.get("tags", []))
         additions = {wp.term_id("tags", slug) for slug in assignment["tags"]}
         merged = sorted(existing | additions)
