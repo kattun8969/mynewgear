@@ -2,13 +2,13 @@
 /**
  * Plugin Name: MyNewGear Weekly Picks
  * Description: Editorially curated weekly gear picks. Revenue attribution stays in Pochipp.
- * Version: 0.2.0
+ * Version: 0.3.0
  * Requires PHP: 7.4
  */
 defined('ABSPATH') || exit;
 
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('mng-weekly-picks', plugins_url('style.css', __FILE__), array(), '0.2.0');
+    wp_enqueue_style('mng-weekly-picks', plugins_url('style.css', __FILE__), array(), '0.3.0');
 });
 
 add_action('init', function () {
@@ -35,6 +35,8 @@ function mng_gear_fields() {
         'demand' => '読者の購入意欲・検索意図 0–100',
         'revenue' => 'ASP成果の評価 0–100（実績不明なら0）',
         'editor' => '編集部おすすめ度 0–100',
+        'lane' => '機材タイプ（drive=歪み、multi=マルチ、space=空間系、utility=チューナー等、boutique=高額個性派）',
+        'editor_source' => 'スコア判断に使ったランキング・記事URL等（任意）',
         'verified' => '報酬リンク検証済み 1＝はい / 0＝いいえ',
         'ready' => '掲載準備完了 1＝はい / 0＝いいえ',
         'release_note' => '発売情報・時期（発売済みの事実のみ）',
@@ -135,7 +137,26 @@ add_shortcode('mng_weekly_gear', function ($atts) {
         $ranked[]=array('id'=>$id,'article_id'=>$article_id,'score'=>mng_pick_score($id,$week));
     }
     usort($ranked, function($a,$b){$v=$b['score']<=>$a['score'];return $v!==0?$v:($a['id']<=>$b['id']);});
-    $ranked=array_slice($ranked,0,$count);
+    // Prefer different buying intents. A high-priced specialist should not crowd out all essentials.
+    $diverse=array(); $seen=array();
+    foreach($ranked as $entry) {
+        $lane = sanitize_key((string) get_post_meta($entry['id'], '_mng_lane', true));
+        if (!$lane) $lane='general';
+        if (isset($seen[$lane])) continue;
+        $seen[$lane]=true;
+        $diverse[]=$entry;
+        if (count($diverse)>=$count) break;
+    }
+    // Fill with remaining best-scoring items if there are fewer distinct lanes than slots.
+    if (count($diverse)<$count) {
+        $picked_ids=array_column($diverse,'id');
+        foreach($ranked as $entry) {
+            if (in_array($entry['id'],$picked_ids,true)) continue;
+            $diverse[]=$entry;
+            if(count($diverse)>=$count) break;
+        }
+    }
+    $ranked=$diverse;
     if (!$ranked) return ''; // Keep existing TOP fallback until at least one truly purchasable card is ready.
     $out='<section class="mng-week" aria-labelledby="mng-week-title"><div class="mng-week-head"><div><p class="mng-week-kicker">WEEKLY GEAR PICKS</p><h2 id="mng-week-title">今週の注目機材</h2></div><span class="mng-week-period">'.esc_html($now->format('Y').'年 第'.$now->format('W').'週').'</span></div>';
     $out.='<p class="mng-week-desc">購入できる在庫を確認した機材から、読者のニーズ・トレンド・収益実績・編集部評価で選んでいます。売上ランキングではありません。</p><div class="mng-week-grid">';
