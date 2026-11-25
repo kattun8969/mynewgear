@@ -211,9 +211,22 @@ function mng_pick_card_html($entry, $is_bestseller) {
     }
     return $out.'</article>';
 }
+/**
+ * Render the original TOP cards saved as a WordPress synced pattern (wp_block).
+ * This avoids a blank homepage when six offers cease to meet stock checks.
+ */
+function mng_pick_fallback($block_id) {
+    $block_id=absint($block_id);
+    if (!$block_id) return '';
+    $block=get_post($block_id);
+    if (!$block || $block->post_type !== 'wp_block' || $block->post_status !== 'publish') return '';
+    // A saved pattern must not embed this widget, otherwise it could recurse.
+    if (strpos($block->post_content, '[mng_weekly_gear') !== false) return '';
+    return do_shortcode(do_blocks($block->post_content));
+}
 add_shortcode('mng_weekly_gear', function ($atts) {
     // Retain legacy count=3 as a per-section count. Two rows by default.
-    $atts=shortcode_atts(array('count'=>3),$atts,'mng_weekly_gear');
+    $atts=shortcode_atts(array('count'=>3,'fallback_block'=>0),$atts,'mng_weekly_gear');
     $per_group=max(1,min(3,absint($atts['count'])));
     $now=current_datetime(); $week=$now->format('o-W');
     $items=get_posts(array('post_type'=>'mng_gear','post_status'=>'publish','numberposts'=>200,'orderby'=>'ID','order'=>'DESC'));
@@ -246,7 +259,7 @@ add_shortcode('mng_weekly_gear', function ($atts) {
     // "TOP3" or silently replace the old TOP with fewer than six products.
     // WP editors MUST keep a visible legacy/backup section that can take over
     // whenever the weekly section returns empty (e.g., stock checks expire).
-    if (count($best) !== $per_group || count($editor) !== $per_group) return '';
+    if (count($best) !== $per_group || count($editor) !== $per_group) return mng_pick_fallback($atts['fallback_block']);
     $out='<section class="mng-week" aria-label="今週の注目機材">';
     $out.='<div class="mng-week-head"><div><p class="mng-week-kicker">WEEKLY GEAR PICKS</p><h2>今週の注目機材</h2></div><span class="mng-week-period">'.esc_html($now->format('Y').'年 第'.$now->format('W').'週').'</span></div>';
     $out.='<p class="mng-week-desc">購入できる機材から、売れ筋と編集部の独自チョイスをそれぞれ3件ずつ紹介。価格や在庫は購入時に再確認してください。</p>';
