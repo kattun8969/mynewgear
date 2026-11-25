@@ -26,19 +26,33 @@ jobs:
       manifests: ${{ steps.enumerate.outputs.manifests }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - id: enumerate
-        name: Select valid post manifests only (never publish)
+        name: Select changed post manifests only (never publish)
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
         run: |
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
-          import json,glob
-          paths=[]
+          import json,glob,os,subprocess
+          all_manifests=[]
           for path in glob.glob('content/wp-manifests/**/*.json',recursive=True):
               try:
-                  if json.load(open(path,encoding='utf-8')).get('kind')=='post' and '/samples/' not in path:
-                      paths.append(path)
+                  with open(path,encoding='utf-8') as fh:
+                      data=json.load(fh)
+                  if data.get('kind')=='post' and '/samples/' not in path:
+                      all_manifests.append(path)
               except (OSError,ValueError):
-                  pass
-          print("manifests="+json.dumps(paths[:30],ensure_ascii=False))
+                  continue
+          if os.environ.get('GITHUB_EVENT_NAME')=='workflow_dispatch':
+              chosen=all_manifests
+          else:
+              # A single squashed PR may include multiple articles; avoid
+              # needlessly rewriting every pre-existing review draft.
+              changed=subprocess.check_output(['git','diff','--name-only','HEAD^','HEAD'],text=True).splitlines()
+              dirs={p.rsplit('/',1)[0] for p in changed if p.startswith('content/wp-manifests/') and '/' in p}
+              chosen=[p for p in all_manifests if p.rsplit('/',1)[0] in dirs]
+          print("manifests="+json.dumps(sorted(chosen)[:30],ensure_ascii=False))
           PY
 
   preview:
@@ -78,4 +92,28 @@ jobs:
               owner: context.repo.owner, repo: context.repo.repo,
               title: '[WP-AUTO-PREVIEW] Failed run ' + context.runId,
               body: 'Automatic private draft preview failed. No production posts were changed by this workflow.\nRun: https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId
+            });
+
+  report_success:
+    needs: [prepare, preview]
+    if: ${{ needs.preview.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify WordPress drafts are non-public
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: python3 scripts/wp_draft_reconcile.py > /tmp/mng-preview-reconciliation.json
+      - name: Record successful review drafts in GitHub
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('fs');
+            const data=fs.readFileSync('/tmp/mng-preview-reconciliation.json','utf8').slice(0,8000);
+            await github.rest.issues.createComment({
+              owner:context.repo.owner,repo:context.repo.repo,issue_number:30,
+              body:'Auto-preview completed. WordPress draft reconciliation (no public posts changed):\n\n```json\n'+data+'\n```'
             });
