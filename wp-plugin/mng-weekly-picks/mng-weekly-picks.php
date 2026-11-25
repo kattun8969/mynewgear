@@ -2,13 +2,13 @@
 /**
  * Plugin Name: MyNewGear Weekly Picks
  * Description: Editorially curated weekly gear picks. Revenue attribution stays in Pochipp.
- * Version: 0.3.0
+ * Version: 0.4.0
  * Requires PHP: 7.4
  */
 defined('ABSPATH') || exit;
 
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('mng-weekly-picks', plugins_url('style.css', __FILE__), array(), '0.3.0');
+    wp_enqueue_style('mng-weekly-picks', plugins_url('style.css', __FILE__), array(), '0.4.0');
 });
 
 add_action('init', function () {
@@ -36,7 +36,12 @@ function mng_gear_fields() {
         'revenue' => 'ASP成果の評価 0–100（実績不明なら0）',
         'editor' => '編集部おすすめ度 0–100',
         'lane' => '機材タイプ（drive=歪み、multi=マルチ、space=空間系、utility=チューナー等、boutique=高額個性派）',
-        'editor_source' => 'スコア判断に使ったランキング・記事URL等（任意）',
+        'editor_source' => '編集部選定の根拠URL（https）',
+        'bestseller' => '売れ筋枠に選考：1=はい／0=いいえ（外部順位の出典必須）',
+        'editor_pick' => '編集部おすすめ枠に選考：1=はい／0=いいえ',
+        'rank_source' => '売れ筋順位の出典ページURL（https）',
+        'rank_date' => '売れ筋順位の確認日 YYYY-MM-DD（14日以内）',
+        'rank_position' => '外部ランキングの順位（1〜100）。実測順位を確認した場合のみ',
         'verified' => '報酬リンク検証済み 1＝はい / 0＝いいえ',
         'ready' => '掲載準備完了 1＝はい / 0＝いいえ',
         'release_note' => '発売情報・時期（発売済みの事実のみ）',
@@ -65,14 +70,15 @@ add_action('save_post_mng_gear', function ($post_id) {
     foreach (array_keys(mng_gear_fields()) as $key) {
         if (!isset($_POST['mng_' . $key])) continue;
         $raw = wp_unslash($_POST['mng_' . $key]);
-        if (in_array($key, array('article_id','pochipp_id','newness','trend','demand','revenue','editor','verified','ready','stock_shops'), true)) {
+        if (in_array($key, array('article_id','pochipp_id','newness','trend','demand','revenue','editor','verified','ready','stock_shops','bestseller','editor_pick','rank_position'), true)) {
             $value = absint($raw);
             if (in_array($key, array('newness','trend','demand','revenue','editor'), true)) $value = min(100,$value);
-            if (in_array($key, array('verified','ready'), true)) $value = min(1,$value);
+            if (in_array($key, array('verified','ready','bestseller','editor_pick'), true)) $value = min(1,$value);
             if ($key === 'stock_shops') $value = min(10,$value);
-        } elseif (in_array($key,array('stock_checked','release_date'),true)) {
+            if ($key === 'rank_position') $value = min(100,$value);
+        } elseif (in_array($key,array('stock_checked','release_date','rank_date'),true)) {
             $value = preg_match('/^\\d{4}-\\d{2}-\\d{2}$/', $raw) ? $raw : '';
-        } elseif (in_array($key,array('official_url','stock_url1','stock_url2'),true)) {
+        } elseif (in_array($key,array('official_url','stock_url1','stock_url2','editor_source','rank_source'),true)) {
             $value = esc_url_raw($raw, array('https'));
         } else $value = sanitize_text_field($raw);
         update_post_meta($post_id, '_mng_' . $key, $value);
@@ -121,64 +127,109 @@ function mng_pick_score($id, $week) {
     $hash = hexdec(substr(md5($week . ':' . $id),0,4)) / 65535;
     return $score + $hash * 3;
 }
-add_shortcode('mng_weekly_gear', function ($atts) {
-    $atts = shortcode_atts(array('count'=>3), $atts, 'mng_weekly_gear');
-    $count = max(1,min(6,absint($atts['count'])));
-    // WP timezone rather than server timezone, Japanese ISO week. Can rotate without daily jobs.
-    $now = current_datetime();
-    $week = $now->format('o-W');
-    $items = get_posts(array('post_type'=>'mng_gear','post_status'=>'publish','numberposts'=>200,'orderby'=>'ID','order'=>'DESC'));
-    $ranked = array();
-    foreach ($items as $item) {
-        $id=$item->ID;
-        if (!mng_pick_is_sellable($id, $now)) continue;
-        $article_id=absint(get_post_meta($id,'_mng_article_id',true));
-        if (!$article_id || get_post_status($article_id)!=='publish' || get_post_type($article_id)!=='post') continue;
-        $ranked[]=array('id'=>$id,'article_id'=>$article_id,'score'=>mng_pick_score($id,$week));
-    }
-    usort($ranked, function($a,$b){$v=$b['score']<=>$a['score'];return $v!==0?$v:($a['id']<=>$b['id']);});
-    // Prefer different buying intents. A high-priced specialist should not crowd out all essentials.
-    $diverse=array(); $seen=array();
-    foreach($ranked as $entry) {
-        $lane = sanitize_key((string) get_post_meta($entry['id'], '_mng_lane', true));
+/**
+ * Only label an item "売れ筋" when the ranking is fresh and its original URL
+ * and position have been recorded. Ranking positions are per source, so never
+ * imply these are aggregated sales totals.
+ */
+function mng_pick_has_ranking($id, $now) {
+    if ((int) get_post_meta($id, '_mng_bestseller', true) !== 1) return false;
+    $position=absint(get_post_meta($id, '_mng_rank_position', true));
+    $url=get_post_meta($id, '_mng_rank_source', true);
+    $date=get_post_meta($id, '_mng_rank_date', true);
+    if ($position < 1 || $position > 100 || !$url || !wp_http_validate_url($url)) return false;
+    $dt=DateTimeImmutable::createFromFormat('!Y-m-d', $date, wp_timezone());
+    if (!$dt || $dt->format('Y-m-d')!==$date) return false;
+    $today=DateTimeImmutable::createFromFormat('!Y-m-d', $now->format('Y-m-d'), wp_timezone());
+    $age=(int) $dt->diff($today)->format('%r%a');
+    return $age >= 0 && $age <= 14;
+}
+function mng_pick_diverse($entries, $count, $excluded=array()) {
+    $out=array(); $seen=array(); $used=$excluded;
+    foreach ($entries as $entry) {
+        if (in_array($entry['id'], $used, true)) continue;
+        $lane=sanitize_key((string)get_post_meta($entry['id'],'_mng_lane',true));
         if (!$lane) $lane='general';
         if (isset($seen[$lane])) continue;
-        $seen[$lane]=true;
-        $diverse[]=$entry;
-        if (count($diverse)>=$count) break;
+        $out[]=$entry; $seen[$lane]=true; $used[]=$entry['id'];
+        if (count($out)>=$count) return $out;
     }
-    // Fill with remaining best-scoring items if there are fewer distinct lanes than slots.
-    if (count($diverse)<$count) {
-        $picked_ids=array_column($diverse,'id');
-        foreach($ranked as $entry) {
-            if (in_array($entry['id'],$picked_ids,true)) continue;
-            $diverse[]=$entry;
-            if(count($diverse)>=$count) break;
-        }
+    foreach ($entries as $entry) {
+        if (in_array($entry['id'], $used, true)) continue;
+        $out[]=$entry; $used[]=$entry['id'];
+        if (count($out)>=$count) break;
     }
-    $ranked=$diverse;
-    if (!$ranked) return ''; // Keep existing TOP fallback until at least one truly purchasable card is ready.
-    $out='<section class="mng-week" aria-labelledby="mng-week-title"><div class="mng-week-head"><div><p class="mng-week-kicker">WEEKLY GEAR PICKS</p><h2 id="mng-week-title">今週の注目機材</h2></div><span class="mng-week-period">'.esc_html($now->format('Y').'年 第'.$now->format('W').'週').'</span></div>';
-    $out.='<p class="mng-week-desc">購入できる在庫を確認した機材から、読者のニーズ・トレンド・収益実績・編集部評価で選んでいます。売上ランキングではありません。</p><div class="mng-week-grid">';
-    foreach($ranked as $row) {
-        $id=$row['id'];$article=$row['article_id'];
-        $name=get_the_title($id);$url=get_permalink($article);
-        $note=get_post_meta($id,'_mng_reason',true);
-        $release=get_post_meta($id,'_mng_release_note',true);
-        $pid=absint(get_post_meta($id,'_mng_pochipp_id',true));
-        $verified=(int)get_post_meta($id,'_mng_verified',true)===1;
-        $photo=get_the_post_thumbnail($id,'medium_large',array('loading'=>'lazy','alt'=>$name));
-        $out.='<article class="mng-week-card"><a class="mng-week-product" href="'.esc_url($url).'"><div class="mng-week-photo">'.($photo ? $photo : '<span class="mng-week-noimage">MY NEW GEAR</span>').'</div><div class="mng-week-copy">';
-        if ($release) $out.='<span class="mng-week-label">'.esc_html($release).'</span>';
-        $out.='<h3>'.esc_html($name).'</h3>';
-        if ($note) $out.='<p>'.esc_html($note).'</p>';
-        $out.='<strong class="mng-week-link">詳しい比較・解説を見る</strong></div></a>';
-        // Render a real Pochipp card only after a human has verified the merchant links.
-        if ($verified && $pid && shortcode_exists('pochipp')) {
-            $shortcode='[pochipp id="'.$pid.'"]';
-            $out.='<div class="mng-week-affiliate">'.do_shortcode($shortcode).'</div>';
-        }
-        $out.='</article>';
+    return $out;
+}
+function mng_pick_card_html($entry, $is_bestseller) {
+    $id=$entry['id']; $article=$entry['article_id'];
+    $name=get_the_title($id); $url=get_permalink($article);
+    $note=get_post_meta($id,'_mng_reason',true);
+    $release=get_post_meta($id,'_mng_release_note',true);
+    $pid=absint(get_post_meta($id,'_mng_pochipp_id',true));
+    $photo=get_the_post_thumbnail($id,'medium_large',array('loading'=>'lazy','alt'=>$name));
+    $out='<article class="mng-week-card"><a class="mng-week-product" href="'.esc_url($url).'"><div class="mng-week-photo">'.($photo ? $photo : '<span class="mng-week-noimage">MY NEW GEAR</span>').'</div><div class="mng-week-copy">';
+    if ($release) $out.='<span class="mng-week-label">'.esc_html($release).'</span>';
+    $out.='<h3>'.esc_html($name).'</h3>';
+    if ($note) $out.='<p>'.esc_html($note).'</p>';
+    $out.='<strong class="mng-week-link">詳しい比較・解説を見る</strong></div></a>';
+    if ($pid && shortcode_exists('pochipp')) {
+        $out.='<div class="mng-week-affiliate">'.do_shortcode('[pochipp id="'.$pid.'"]').'</div>';
     }
-    return $out.'</div><p class="mng-week-disclosure">PR：一部の商品紹介には広告が含まれます。掲載順は売上額の順位ではありません。</p></section>';
+    if ($is_bestseller) {
+        $rank_url=get_post_meta($id,'_mng_rank_source',true);
+        $rank_date=get_post_meta($id,'_mng_rank_date',true);
+        $rank_pos=absint(get_post_meta($id,'_mng_rank_position',true));
+        $out.='<p class="mng-week-source"><a href="'.esc_url($rank_url).'" target="_blank" rel="noopener noreferrer">売れ筋の出典（'.esc_html($rank_date).'・掲載順位'.esc_html($rank_pos).'位）</a></p>';
+    }
+    return $out.'</article>';
+}
+add_shortcode('mng_weekly_gear', function ($atts) {
+    // Retain legacy count=3 as a per-section count. Two rows by default.
+    $atts=shortcode_atts(array('count'=>3),$atts,'mng_weekly_gear');
+    $per_group=max(1,min(3,absint($atts['count'])));
+    $now=current_datetime(); $week=$now->format('o-W');
+    $items=get_posts(array('post_type'=>'mng_gear','post_status'=>'publish','numberposts'=>200,'orderby'=>'ID','order'=>'DESC'));
+    $ranked=array();
+    foreach($items as $item) {
+        $id=$item->ID;
+        if (!mng_pick_is_sellable($id,$now)) continue;
+        $article_id=absint(get_post_meta($id,'_mng_article_id',true));
+        $ranked[]=array(
+            'id'=>$id,'article_id'=>$article_id,
+            'score'=>mng_pick_score($id,$week),
+            'rank'=>absint(get_post_meta($id,'_mng_rank_position',true))
+        );
+    }
+    $best_candidates=array_values(array_filter($ranked,function($e) use ($now){return mng_pick_has_ranking($e['id'],$now);}));
+    usort($best_candidates,function($a,$b){
+        // Ranking position first, but only valid within a single source. A
+        // position is not an across-source sales total.
+        $v=$a['rank']<=>$b['rank'];
+        return $v!==0?$v:($b['score']<=>$a['score']);
+    });
+    $best=mng_pick_diverse($best_candidates,$per_group);
+    $used=array_column($best,'id');
+    $editor_candidates=array_values(array_filter($ranked,function($e){
+        return (int)get_post_meta($e['id'],'_mng_editor_pick',true)===1;
+    }));
+    usort($editor_candidates,function($a,$b){$v=$b['score']<=>$a['score'];return $v!==0?$v:($a['id']<=>$b['id']);});
+    $editor=mng_pick_diverse($editor_candidates,$per_group,$used);
+    // No eligible item => no broken section. Keep old TOP until candidates are ready.
+    if (!$best && !$editor) return '';
+    $out='<section class="mng-week" aria-label="今週の注目機材">';
+    $out.='<div class="mng-week-head"><div><p class="mng-week-kicker">WEEKLY GEAR PICKS</p><h2>今週の注目機材</h2></div><span class="mng-week-period">'.esc_html($now->format('Y').'年 第'.$now->format('W').'週').'</span></div>';
+    $out.='<p class="mng-week-desc">購入できる機材から、売れ筋と編集部の独自チョイスをそれぞれ3件ずつ紹介。価格や在庫は購入時に再確認してください。</p>';
+    $groups=array(
+        array('items'=>$best,'title'=>'売れ筋TOP3','desc'=>'ショップ／価格比較サイトの公開ランキングを参考に選定。順位は各出典内のものです。','bestseller'=>true),
+        array('items'=>$editor,'title'=>'編集部おすすめTOP3','desc'=>'音作りの個性・購入意欲・定番性と最近の注目度から独自に選定。','bestseller'=>false)
+    );
+    foreach($groups as $group) {
+        if (!$group['items']) continue;
+        $out.='<div class="mng-week-group"><div class="mng-week-group-head"><h3>'.esc_html($group['title']).'</h3><p>'.esc_html($group['desc']).'</p></div>';
+        $out.='<div class="mng-week-grid" role="region" aria-label="'.esc_attr($group['title']).'：横スクロールできます" tabindex="0">';
+        foreach($group['items'] as $entry) $out.=mng_pick_card_html($entry,$group['bestseller']);
+        $out.='</div></div>';
+    }
+    return $out.'<p class="mng-week-disclosure">PR：商品紹介には広告が含まれます。複数店舗の在庫と成果リンク確認後に掲載。売上個数の総合ランキングではありません。</p></section>';
 });
