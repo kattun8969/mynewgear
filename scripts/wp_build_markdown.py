@@ -27,9 +27,21 @@ def compile_article(manifest_path):
         if re.match(r"^\s*<!--",line):
             continue
         lines.append(line)
+    # WP template renders the post title, so omit the first Markdown H1.
+    for index, item in enumerate(lines):
+        if item.startswith("# "):
+            lines.pop(index)
+            break
     raw="\n".join(lines)
     raw=re.sub(r"(?m)^>\s*【[^】]+】.*\n?","",raw)
     html=markdown.markdown(raw,extensions=["tables","fenced_code","sane_lists"],output_format="html")
+    # Keep wide comparison tables inside a horizontal scroll area on small phones.
+    html = re.sub(
+        r"(<table\b[^>]*>[\s\S]*?</table>)",
+        r'<div class="mng-buyers-table-scroll" style="max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch">\1</div>',
+        html,
+        flags=re.I,
+    )
     if len(html)<500 or "TODO" in html or "【画像" in html or "【商品カード" in html:
         raise ValueError("Unresolved placeholder or too-short article")
     intro='<p class="mng-pr-disclosure">PR：本記事にはアフィリエイト広告が含まれる場合があります。</p>\n'
