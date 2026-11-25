@@ -2,13 +2,13 @@
 /**
  * Plugin Name: MyNewGear Weekly Picks
  * Description: Editorially curated weekly gear picks. Revenue attribution stays in Pochipp.
- * Version: 0.4.0
+ * Version: 0.4.1
  * Requires PHP: 7.4
  */
 defined('ABSPATH') || exit;
 
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('mng-weekly-picks', plugins_url('style.css', __FILE__), array(), '0.4.0');
+    wp_enqueue_style('mng-weekly-picks', plugins_url('style.css', __FILE__), array(), '0.4.1');
 });
 
 add_action('init', function () {
@@ -45,7 +45,9 @@ function mng_gear_fields() {
         'verified' => '報酬リンク検証済み 1＝はい / 0＝いいえ',
         'ready' => '掲載準備完了 1＝はい / 0＝いいえ',
         'release_note' => '発売情報・時期（発売済みの事実のみ）',
-        'release_date' => '発売日 YYYY-MM-DD（発売後30日経過までTOP選出対象外）',
+        'release_date' => '発売日 YYYY-MM-DD（正確な日付が判明している場合）',
+        'legacy_released' => '発売30日以上経過の旧機種で正確な発売日不明 1＝根拠を確認済み',
+        'release_source' => '発売日・旧機種であることの根拠URL（https）',
         'stock_checked' => '在庫の最終確認日 YYYY-MM-DD（7日以内のみ有効）',
         'stock_shops' => '異なる販売店で在庫確認できた数 0～10（2以上必要）',
         'stock_url1' => '在庫確認した販売店の個別商品URL①（https）',
@@ -70,15 +72,15 @@ add_action('save_post_mng_gear', function ($post_id) {
     foreach (array_keys(mng_gear_fields()) as $key) {
         if (!isset($_POST['mng_' . $key])) continue;
         $raw = wp_unslash($_POST['mng_' . $key]);
-        if (in_array($key, array('article_id','pochipp_id','newness','trend','demand','revenue','editor','verified','ready','stock_shops','bestseller','editor_pick','rank_position'), true)) {
+        if (in_array($key, array('article_id','pochipp_id','newness','trend','demand','revenue','editor','verified','ready','stock_shops','bestseller','editor_pick','rank_position','legacy_released'), true)) {
             $value = absint($raw);
             if (in_array($key, array('newness','trend','demand','revenue','editor'), true)) $value = min(100,$value);
-            if (in_array($key, array('verified','ready','bestseller','editor_pick'), true)) $value = min(1,$value);
+            if (in_array($key, array('verified','ready','bestseller','editor_pick','legacy_released'), true)) $value = min(1,$value);
             if ($key === 'stock_shops') $value = min(10,$value);
             if ($key === 'rank_position') $value = min(100,$value);
         } elseif (in_array($key,array('stock_checked','release_date','rank_date'),true)) {
             $value = preg_match('/^\\d{4}-\\d{2}-\\d{2}$/', $raw) ? $raw : '';
-        } elseif (in_array($key,array('official_url','stock_url1','stock_url2','editor_source','rank_source'),true)) {
+        } elseif (in_array($key,array('official_url','stock_url1','stock_url2','editor_source','rank_source','release_source'),true)) {
             $value = esc_url_raw($raw, array('https'));
         } else $value = sanitize_text_field($raw);
         update_post_meta($post_id, '_mng_' . $key, $value);
@@ -101,14 +103,24 @@ function mng_pick_is_sellable($id, $now) {
     $tz = wp_timezone();
     $release = get_post_meta($id, '_mng_release_date', true);
     $checked = get_post_meta($id, '_mng_stock_checked', true);
-    $release_date = DateTimeImmutable::createFromFormat('!Y-m-d', $release, $tz);
-    $checked_date = DateTimeImmutable::createFromFormat('!Y-m-d', $checked, $tz);
-    if (!$release_date || !$checked_date || $release_date->format('Y-m-d') !== $release || $checked_date->format('Y-m-d') !== $checked) return false;
+    $release_date = $release ? DateTimeImmutable::createFromFormat('!Y-m-d', $release, $tz) : false;
+    $checked_date = $checked ? DateTimeImmutable::createFromFormat('!Y-m-d', $checked, $tz) : false;
+    if (!$checked_date || $checked_date->format('Y-m-d') !== $checked) return false;
 
     $today = DateTimeImmutable::createFromFormat('!Y-m-d', $now->format('Y-m-d'), $tz);
-    $age = (int) $release_date->diff($today)->format('%r%a');
+    $release_confirmed = false;
+    if ($release_date && $release_date->format('Y-m-d') === $release) {
+        $age = (int) $release_date->diff($today)->format('%r%a');
+        $release_confirmed = $age >= 30;
+    } elseif (!$release) {
+        // A documented legacy product may predate modern retail records.
+        // Do not invent a fake YYYY-MM-DD to bypass the age gate.
+        $source=get_post_meta($id,'_mng_release_source',true);
+        $release_confirmed = (int)get_post_meta($id,'_mng_legacy_released',true) === 1
+            && $source && wp_http_validate_url($source);
+    }
     $days_since_check = (int) $checked_date->diff($today)->format('%r%a');
-    if ($age < 30 || $days_since_check < 0 || $days_since_check > 7) return false;
+    if (!$release_confirmed || $days_since_check < 0 || $days_since_check > 7) return false;
 
     if ((int) get_post_meta($id, '_mng_stock_shops', true) < 2) return false;
     $url1 = get_post_meta($id, '_mng_stock_url1', true);
