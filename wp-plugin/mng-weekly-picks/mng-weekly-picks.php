@@ -7,6 +7,10 @@
  */
 defined('ABSPATH') || exit;
 
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_style('mng-weekly-picks', plugins_url('style.css', __FILE__), array(), '0.1.0');
+});
+
 add_action('init', function () {
     register_post_type('mng_gear', array(
         'labels' => array('name' => '注目機材', 'singular_name' => '機材', 'add_new_item' => '機材を追加'),
