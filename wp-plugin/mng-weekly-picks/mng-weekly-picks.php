@@ -106,8 +106,8 @@ function mng_pick_is_sellable($id, $now) {
     $url1 = get_post_meta($id, '_mng_stock_url1', true);
     $url2 = get_post_meta($id, '_mng_stock_url2', true);
     if (!$url1 || !$url2 || !wp_http_validate_url($url1) || !wp_http_validate_url($url2)) return false;
-    $host1 = strtolower((string) wp_parse_url($url1, PHP_URL_HOST));
-    $host2 = strtolower((string) wp_parse_url($url2, PHP_URL_HOST));
+    $host1 = preg_replace('/^www\\./', '', strtolower((string) wp_parse_url($url1, PHP_URL_HOST)));
+    $host2 = preg_replace('/^www\\./', '', strtolower((string) wp_parse_url($url2, PHP_URL_HOST)));
     if ($host1 === '' || $host2 === '' || $host1 === $host2) return false;
     return true;
 }
