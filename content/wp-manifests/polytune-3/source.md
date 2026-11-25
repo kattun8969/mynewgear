@@ -1,7 +1,5 @@
 # TC Electronic PolyTune 3は買い？Noirとの違い・チューナー選びをやさしく解説
 
-> 既存のPolyTune 3／Noir比較初稿をもとに購入者向けに再構成。実機を使ったレビューではありません。対象は通常版PolyTune 3（Noirは比較対象のみ）。
-
 「チューナーなら、今使っているクリップ式で十分じゃない？」
 
 自宅で弾くなら、それで困らない人も多いはずです。けれど、スタジオやライブでエフェクターボードを組み始めると、**足元で音を止めてチューニングできること**の便利さが見えてきます。
@@ -29,11 +27,15 @@ PolyTune 3には、ギター信号を扱う**BONAFIDE BUFFER**が組み込まれ
 
 ## 通常版とPolyTune 3 Noir、どちらがいい？
 
-| 比較 | PolyTune 3通常版 | PolyTune 3 Noir |
-|---|---|---|
-| 本体 | 一般的なコンパクトペダルに近い大きさ | より小さく、ボードの場所を節約 |
-| こんな人に | ライブで踏みやすさを重視したい | ペダルを1台でも多く並べたい |
-| 選ぶときの注意 | ほかのペダルとの隙間 | 画面とスイッチの大きさ・配置 |
+<div id="mng-gear-comparison" role="region" aria-label="機材比較表" tabindex="0" style="max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="mng-gear-comparison" style="width:100%;min-width:460px;table-layout:fixed;border-collapse:collapse;font-size:14px"><thead><tr><th scope="col" style="width:20%;background:#173451;color:#fff;padding:10px">比較項目</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">PolyTune 3通常版</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">PolyTune 3 Noir</th></tr></thead><tbody>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">製品写真・仕様</th><td style="padding:10px;text-align:center"><a href="https://www.tcelectronic.com/ja/products/0713-AAJ" target="_blank" rel="noopener">PolyTune 3通常版の公式写真を見る</a></td><td style="padding:10px;text-align:center"><a href="https://www.tcelectronic.com/ja/products/0713-AAN" target="_blank" rel="noopener">PolyTune 3 Noirの公式写真を見る</a></td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">本体</th><td style="padding:10px;vertical-align:top">一般的なコンパクトペダルに近い大きさ</td><td style="padding:10px;vertical-align:top">より小さく、ボードの場所を節約</td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">こんな人に</th><td style="padding:10px;vertical-align:top">ライブで踏みやすさを重視したい</td><td style="padding:10px;vertical-align:top">ペダルを1台でも多く並べたい</td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">選ぶときの注意</th><td style="padding:10px;vertical-align:top">ほかのペダルとの隙間</td><td style="padding:10px;vertical-align:top">画面とスイッチの大きさ・配置</td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">詳細・購入検討</th><td style="padding:8px"><a href="https://www.tcelectronic.com/ja/products/0713-AAJ" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td><td style="padding:8px"><a href="https://www.tcelectronic.com/ja/products/0713-AAN" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td></tr>
+</tbody></table></div>
+
+スマートフォンでは表を横にスクロールできます。比較は編集部による用途別の整理です。
 
 Noirは「上位モデル」ではなく**小型の別モデル**。小さいほうが必ず便利とは限りません。大きめの靴で踏む人や、隣のスイッチとの距離を確保したい人は通常版の方が扱いやすいこともあります。
 
@@ -63,6 +65,7 @@ Noirは「上位モデル」ではなく**小型の別モデル**。小さいほ
 **ボードをまだ組んでいないなら、クリップ式チューナーでもOK。** 足元でミュートする必要がなければ、先に歪みペダルやアンプへの予算を回す方法もあります。ペダル型は必須の買い替えではありません。
 
 ### サイト内の関連記事
+- [BOSS BD-2の音作りと購入ガイド](https://mynewgear.cyou/boss-bd-2-guide)
 - [エフェクターは必要？初心者向けの選び方](https://mynewgear.cyou/https-mynewgear-link-beginner-4-efx1)
 
 > 【②編集：公開後リンク】BD-2／MS-50G+の単体記事へ、最初のエフェクターボードの揃え方としてリンク追加。
