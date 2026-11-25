@@ -6,6 +6,7 @@ on:
     paths:
       - "scripts/wp_bd2_thumbnail.py"
       - "scripts/render_bd2_cover.py"
+      - "scripts/render_bd2_drive_comparison.py"
       - "scripts/wp_bd2_full_audit.py"
       - ".github/workflows/wordpress-bd2-thumbnail.yml"
   workflow_dispatch:
@@ -36,6 +37,7 @@ jobs:
         run: |
           mkdir -p build
           python3 scripts/render_bd2_cover.py build/bd2-cover.png
+          python3 scripts/render_bd2_drive_comparison.py build/bd2-drive-comparison.png
       - name: Set featured image on isolated BD-2 review draft
         env:
           WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}

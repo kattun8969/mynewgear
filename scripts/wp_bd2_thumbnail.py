@@ -65,8 +65,40 @@ def run():
     print(json.dumps({"status":"draft_updated","post_id":PREVIEW_ID,"featured_media_id":image_id,
                       "media_reused":bool(exact),"image_dimensions":[1600,900],
                       "public_post_unchanged":True},ensure_ascii=False))
+
+def comparison_diagram():
+    """Register original three-model comparison art in WP media, without editing posts."""
+    wp=WP()
+    slug="mng-bd2-sd1-od3-visual"
+    path=Path("build/bd2-drive-comparison.png")
+    require(path.exists() and path.stat().st_size>10000,"Comparison illustration absent")
+    rows=wp.call("GET","/media",params={"search":slug,"context":"edit","per_page":50})
+    matches=[r for r in rows if r.get("slug")==slug]
+    require(len(matches)<=1,"Ambiguous comparison media")
+    if matches:
+        item=matches[0]
+    else:
+        req=urllib.request.Request(wp.base+"/media",data=path.read_bytes(),method="POST",headers={
+            "Authorization":wp.auth,"Content-Type":"image/png",
+            "Content-Disposition":'attachment; filename="mng-bd2-sd1-od3-visual.png"'})
+        try:
+            with urllib.request.urlopen(req,timeout=45) as response:
+                item=json.loads(response.read())
+        except urllib.error.HTTPError as err:
+            raise RuntimeError("WordPress media HTTP "+str(err.code)) from None
+        item=wp.call("POST",f"/media/{item['id']}",{
+            "slug":slug,"title":"BD-2・SD-1・OD-3の比較イラスト",
+            "alt_text":"BD-2のタッチ、SD-1の中域、OD-3の太さを比較した編集部作成の模式図",
+            "caption":"実際の商品写真ではなく編集部による比較図です。"})
+    url=item.get("source_url","")
+    require(url.startswith("https://mynewgear.cyou/"),"Unexpected image URL")
+    print(json.dumps({"comparison_media_id":item["id"],"comparison_url":url,
+                      "published_posts_changed":False},ensure_ascii=False))
+
 if __name__=="__main__":
-    try:run()
+    try:
+        run()
+        comparison_diagram()
     except Exception as exc:
         print("MEDIA_QA_ERROR: "+str(exc)[:220],file=sys.stderr)
         sys.exit(1)
