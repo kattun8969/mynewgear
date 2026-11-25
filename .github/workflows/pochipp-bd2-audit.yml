@@ -1,0 +1,32 @@
+name: Read-only Pochipp BD-2 product ID audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/wp_pochipp_bd2_audit.py
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read only Pochipp WP registry (no links or secrets)
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: python3 scripts/wp_pochipp_bd2_audit.py > /tmp/mng-pochipp-audit.json
+      - name: Record candidate IDs only in issue 13
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('fs');
+            const content=fs.existsSync('/tmp/mng-pochipp-audit.json')?fs.readFileSync('/tmp/mng-pochipp-audit.json','utf8').slice(0,5000):'Read-only audit failed; inspect workflow logs';
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:13,body:'Pochipp BD-2 registered ID discovery. No ASP URLs or credentials included.\n\n```json\n'+content+'\n```'});
