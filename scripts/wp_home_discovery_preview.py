@@ -96,3 +96,5 @@ if __name__=="__main__":
   except Exception as e:
     print("SAFE_PREVIEW_STOP: "+str(e)[:350],file=sys.stderr)
     sys.exit(1)
+
+# One-time audit request: 2026-11-25. Safe preview only.
