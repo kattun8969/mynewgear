@@ -1,0 +1,64 @@
+name: Publish owner-approved BD-2 draft (one-time)
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-approved-bd2-20261126.yml"
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: mng-bd2-approved-publication
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Promote only the exact owner-approved private draft
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: |
+          PYTHONPATH=scripts python3 - <<'PY' > /tmp/mng-bd2-publication.json
+          import json
+          from wp_sync import WP, require
+          w=WP()
+          ident=1322
+          target="boss-bd-2-guide"
+          draft="mng-preview-boss-bd-2-guide"
+          p=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+          if p.get("status")=="publish" and p.get("slug")==target:
+              print(json.dumps({"status":"already_published","id":ident,"url":p.get("link")}))
+          else:
+              require(p.get("status")=="draft" and p.get("slug")==draft,"Unexpected post identity/status")
+              require(w.find_post(target) is None,"Target slug already exists; no overwrite")
+              raw=p.get("content",{}).get("raw","")
+              require('mng-drive-comparison' in raw and '[pochipp id="1293"]' in raw,"Approved comparison or affiliate card missing")
+              title=p.get("title",{}).get("raw","")
+              require(title.startswith("[確認用] ") and "BD-2" in title,"Unexpected title")
+              # Keep the approved body, media, excerpt, tags and existing links untouched.
+              latest=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+              require(latest.get("status")=="draft" and latest.get("slug")==draft and latest.get("modified_gmt")==p.get("modified_gmt") and latest.get("content",{}).get("raw")==raw,"Draft changed; refusing publication")
+              result=w.call("POST",f"/posts/{ident}",{"status":"publish","slug":target,"title":title[len("[確認用] "):]})
+              require(result.get("id")==ident and result.get("status")=="publish" and result.get("slug")==target,"Publication response mismatch")
+              check=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+              require(check.get("status")=="publish" and check.get("slug")==target and check.get("content",{}).get("raw")==raw,"Published content verification failed")
+              print(json.dumps({"status":"published_verified","id":ident,"url":check.get("link"),"featured_media":check.get("featured_media")}))
+          PY
+          cat /tmp/mng-bd2-publication.json
+      - name: Report verified publication
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const data=require('fs').readFileSync('/tmp/mng-bd2-publication.json','utf8');
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:13,body:'Owner-approved BD-2 publication result: '+data+'\nRun: https://github.com/'+context.repo.owner+'/'+context.repo.repo+'/actions/runs/'+context.runId});
+      - name: Report failure without disclosing secrets
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:13,body:'BD-2 publication verification did not complete; inspect actual status before retrying. Run: https://github.com/'+context.repo.owner+'/'+context.repo.repo+'/actions/runs/'+context.runId});
