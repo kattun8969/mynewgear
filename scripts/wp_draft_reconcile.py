@@ -20,3 +20,5 @@ if __name__=="__main__":
   print("ERROR:",str(e)[:150],file=sys.stderr);sys.exit(1)
 
 # Trigger read-only reconciliation.
+
+# Reconcile after batch preview jobs.
