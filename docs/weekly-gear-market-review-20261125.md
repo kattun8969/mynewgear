@@ -45,7 +45,7 @@ https://www.soundhouse.co.jp/bestseller/middle/142/
 | BOSS BD-2 | drive | 0 | 85 | 96 | 0 | 92 | 54.8 | 在庫2店・画像・Pochipp要確認 |
 | ZOOM MS-70CDR+ | space | 25 | 85 | 90 | 0 | 92 | 57.1 | 在庫2店・画像・Pochipp要確認 |
 | TC Electronic PolyTune 3 | utility | 10 | 84 | 92 | 0 | 90 | 54.8 | **深掘り記事未公開**、在庫2店要確認 |
-| BOSS GX-1 | multi | 70 | 95 | 92 | 0 | 90 | 65.0 | 在庫2店・記事・ASP要確認 |
+| BOSS GX-1 | multi | 70 | 95 | 92 | 0 | 90 | 66.0 | 在庫2店・記事・ASP要確認 |
 | BOSS OD-3 | drive | 5 | 88 | 90 | 0 | 90 | 54.4 | 深掘り比較記事未公開 |
 | Ibanez Tube Screamer Mini | drive | 5 | 70 | 87 | 0 | 90 | 50.0 | 比較記事未公開 |
 | VEMURAM Jan Ray | boutique | 5 | 82 | 58 | 0 | 92 | 45.5 | 購入単価高・商品別の実在庫を確認 |
