@@ -25,3 +25,5 @@ def run():
       out.setdefault("endpoint_results",[]).append({"endpoint":endpoint,"error":str(e)[:110]})
   print(json.dumps(out,ensure_ascii=False,indent=2))
 if __name__=="__main__":run()
+
+# Execute first read-only audit on merge, 2026-11-26.
