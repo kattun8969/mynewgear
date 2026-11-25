@@ -1,7 +1,5 @@
 # ZOOM MS-70CDR+は買い？空間系を1台にまとめたい人へ｜MS-50G+との違いも解説
 
-> 編集部による購入ガイド。実機試奏したと装わない。2026年11月25日時点の製品情報。商品画像・ASPカード・販売価格は②WorkがWordPress上で確認して設置。
-
 「ディレイが気になるけど、リバーブも欲しい。両方買うとボードがいっぱいになる」
 
 そんな人におすすめしたいのが**ZOOM MS-70CDR+**です。普通のコンパクトエフェクターに近いサイズで、コーラス、ディレイ、リバーブをまとめて使える一台。すでにお気に入りの歪みペダルがある人ほど、良さが分かりやすい機材です。
@@ -19,8 +17,7 @@
 
 ただし**149種類を全部使う必要はありません。** 最初は「コーラス」「ディレイ」「リバーブ」の3つから、気に入った音を選べば十分楽しめます。
 
-> 【動画】ZOOM公式のMS-70CDR+製品紹介・サウンドデモを正規埋め込み。製品ページ：https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/
-
+**メーカー公式の製品紹介・動画：** [公式ページを見る](https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/)
 ## 編集部おすすめの使い方：お気に入りの歪みを残す
 
 たとえばBOSS BD-2やKeeley、Mad Professorなど、すでに好きな歪みを持っている人。歪みをマルチへ置き換える必要はありません。
@@ -31,11 +28,15 @@
 
 ## MS-50G+とどちらを買う？
 
-| 比較 | MS-70CDR+ | MS-50G+ |
-|---|---|---|
-| 得意なこと | コーラス・ディレイ・リバーブなどの空間系 | 歪み、コンプ、空間系など幅広いエフェクト |
-| おすすめの人 | すでに歪みやアンプの音が決まっている | 一台でいろいろな音を作りたい |
-| 編集部の選び方 | 空間系を深く楽しみたいならこちら | 最初の一台ならこちらも比較 |
+<div id="mng-gear-comparison" role="region" aria-label="機材比較表" tabindex="0" style="max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="mng-gear-comparison" style="width:100%;min-width:460px;table-layout:fixed;border-collapse:collapse;font-size:14px"><thead><tr><th scope="col" style="width:20%;background:#173451;color:#fff;padding:10px">比較項目</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">MS-70CDR+</th><th scope="col" style="background:#173451;color:#fff;padding:10px;overflow-wrap:normal">MS-50G+</th></tr></thead><tbody>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">製品写真・仕様</th><td style="padding:10px;text-align:center"><a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/" target="_blank" rel="noopener">MS-70CDR+の公式写真を見る</a></td><td style="padding:10px;text-align:center"><a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-50gplus/" target="_blank" rel="noopener">MS-50G+の公式写真を見る</a></td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">得意なこと</th><td style="padding:10px;vertical-align:top">コーラス・ディレイ・リバーブなどの空間系</td><td style="padding:10px;vertical-align:top">歪み、コンプ、空間系など幅広いエフェクト</td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">おすすめの人</th><td style="padding:10px;vertical-align:top">すでに歪みやアンプの音が決まっている</td><td style="padding:10px;vertical-align:top">一台でいろいろな音を作りたい</td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">編集部の選び方</th><td style="padding:10px;vertical-align:top">空間系を深く楽しみたいならこちら</td><td style="padding:10px;vertical-align:top">最初の一台ならこちらも比較</td></tr>
+<tr><th scope="row" style="background:#f2f5f9;padding:10px;text-align:left">詳細・購入検討</th><td style="padding:8px"><a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-70cdr-plus/" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td><td style="padding:8px"><a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-50gplus/" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">公式情報を見る</a></td></tr>
+</tbody></table></div>
+
+スマートフォンでは表を横にスクロールできます。比較は編集部による用途別の整理です。
 
 MS-70CDR+は歪みの全面代替ではありません。**用途の違う2台**なので、「数字が多いから上位モデル」と考えないのがコツです。
 
@@ -63,6 +64,7 @@ MS-70CDR+は歪みの全面代替ではありません。**用途の違う2台**
 **ディレイとリバーブを別々に操作したいなら単体ペダル2台**も選択肢。ステージで曲中に素早く踏み分けたい人に向きます。ただしボードのスペースと電源が増えます。
 
 ### サイト内の関連記事
+- [BOSS BD-2の音作りと購入ガイド](https://mynewgear.cyou/boss-bd-2-guide)
 - [空間系を2つ以上重ねられるペダルの比較](https://mynewgear.cyou/ef-2in1) — 一台で複数の空間系を使うメリットを深掘り
 - [Source Audio Colliderレビュー](https://mynewgear.cyou/source-audio-sa263-collider) — 空間系をもっとこだわって選びたい人に
 
