@@ -2,7 +2,7 @@
 """Read-only WP draft reconciliation; no customer content or credentials in logs."""
 import json,sys
 from wp_sync import WP
-SLUGS=["mng-preview-jcm800verocity","mng-preview-home-discovery-tags","mng-preview-mng-overdrive-guide-sample","mng-rest-content-diagnostic"]
+SLUGS=["mng-preview-jcm800verocity","mng-preview-home-discovery-tags","mng-preview-boss-bd-2-guide","mng-preview-boss-gx-1-guide","mng-preview-zoom-ms-50g-plus-guide","mng-preview-zoom-ms-70cdr-plus-guide","mng-preview-tc-electronic-polytune-3-guide","mng-preview-vemuram-jan-ray-guide"]
 def main():
  w=WP()
  res=[]
