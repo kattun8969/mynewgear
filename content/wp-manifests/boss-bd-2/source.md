@@ -6,11 +6,7 @@
 
 **選び方の結論：弾く強さで歪みをコントロールしたいならBD-2、バンドで中域を前に出したいならSD-1、太く伸びるドライブを求めるならOD-3**です。
 
-<div class="mng-related-shop-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:22px 0">
-<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS BD-2</strong><p>強弱で音の表情を変えたい人へ</p><a href="#bd2-product-card">BD-2の画像・購入先を見る</a></div>
-<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS SD-1</strong><p>中域を前に出したい人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20817/" target="_blank" rel="noopener sponsored">SD-1の販売ページを見る</a></div>
-<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS OD-3</strong><p>太さ・サステインを求める人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20800/" target="_blank" rel="noopener sponsored">OD-3の販売ページを見る</a></div>
-</div>
+<p><a href="#mng-drive-comparison">BD-2・SD-1・OD-3の比較表・購入先を見る</a></p>
 
 ## BD-2をおすすめできる人・別の機材が向いている人
 
@@ -52,19 +48,20 @@ BOSS公式は、BD-2についてアンプのような多段クリッピング回
 
 ## BD-2・SD-1・OD-3の比較
 
-| 機種 | 音の方向性 | こんな人に |
-| --- | --- | --- |
-| **BOSS BD-2** | ピッキングの表情が出やすく、軽い歪みから荒めのドライブまで | 一台で幅広い弾き方を楽しみたい |
-| **BOSS SD-1** | 中域を生かしたマイルドな歪み。アンプや別の歪みを押す用途も | リフやリードを前に出したい |
-| **BOSS OD-3** | 太い低域とサステインを伴うドライブ | 単体でコードもリードも厚く鳴らしたい |
-
-### 3機種を商品ページから見比べる
-
-<div class="mng-related-shop-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:22px 0">
-<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS BD-2</strong><p>強弱で音の表情を変えたい人へ</p><a href="#bd2-product-card">BD-2の画像・購入先を見る</a></div>
-<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS SD-1</strong><p>中域を前に出したい人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20817/" target="_blank" rel="noopener sponsored">SD-1の販売ページを見る</a></div>
-<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS OD-3</strong><p>太さ・サステインを求める人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20800/" target="_blank" rel="noopener sponsored">OD-3の販売ページを見る</a></div>
+<div id="mng-drive-comparison" class="mng-drive-comparison" role="region" aria-label="BD-2・SD-1・OD-3比較表" tabindex="0" style="max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch">
+<table style="width:100%;min-width:600px;table-layout:fixed;border-collapse:collapse;font-size:14px">
+<thead><tr><th scope="col" style="width:19%">比較項目</th><th scope="col" style="white-space:nowrap">BOSS BD-2</th><th scope="col" style="white-space:nowrap">BOSS SD-1</th><th scope="col" style="white-space:nowrap">BOSS OD-3</th></tr></thead>
+<tbody>
+<tr><th scope="row">商品画像</th><td style="text-align:center"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Boss_BD-2_Blues_Driver.jpg/250px-Boss_BD-2_Blues_Driver.jpg" alt="BOSS BD-2 実物写真" loading="lazy" width="250" height="333" style="display:block;width:100%;max-width:120px;height:144px;object-fit:contain;margin:0 auto"><small style="display:block;font-size:10px;line-height:1.4"><a href="https://commons.wikimedia.org/wiki/File:Boss_BD-2_Blues_Driver.jpg" target="_blank" rel="noopener">Johan Rosén / Kuriosatempel</a>・<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></small></td><td style="text-align:center"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Boss_SD-1_Super_Overdrive.jpg/250px-Boss_SD-1_Super_Overdrive.jpg" alt="BOSS SD-1 実物写真" loading="lazy" width="250" height="333" style="display:block;width:100%;max-width:120px;height:144px;object-fit:contain;margin:0 auto"><small style="display:block;font-size:10px;line-height:1.4"><a href="https://commons.wikimedia.org/wiki/File:Boss_SD-1_Super_Overdrive.jpg" target="_blank" rel="noopener">Johan Rosén / Kuriosatempel</a>・<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></small></td><td style="text-align:center"><a href="https://www.boss.info/jp/products/od-3/" target="_blank" rel="noopener" style="display:block;min-height:48px;padding:8px 2px">公式商品写真を見る（画像準備中）</a></td></tr>
+<tr><th scope="row">音の特徴</th><td>ピッキングの表情が出やすい</td><td>中域を生かしたマイルドな歪み</td><td>太い低域とサステイン</td></tr>
+<tr><th scope="row">歪みの傾向</th><td>軽いクランチから荒めのドライブ</td><td>控えめな歪み・中域の押し出し</td><td>厚みのあるドライブ</td></tr>
+<tr><th scope="row">得意な用途</th><td>幅広い音作り</td><td>リフ・リード・ブースト</td><td>コード・リードを太く鳴らす</td></tr>
+<tr><th scope="row">おすすめの人</th><td>弾き方で音を変えたい</td><td>バンドで音を前に出したい</td><td>音の太さを重視したい</td></tr>
+<tr><th scope="row">購入先</th><td><a href="#bd2-product-card" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">価格・購入先</a></td><td><a href="https://www.soundhouse.co.jp/products/detail/item/20817/" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">販売店を見る</a></td><td><a href="https://www.soundhouse.co.jp/products/detail/item/20800/" target="_blank" rel="noopener" style="display:block;padding:10px 4px;text-align:center;background:#173451;color:#fff;border-radius:6px;text-decoration:none">販売店を見る</a></td></tr>
+</tbody></table>
 </div>
+
+スマートフォンでは表を横にスクロールできます。音の傾向は編集部による定性的な比較です。SD-1・OD-3の販売店リンクは通常リンクです。
 
 SD-1は単に「BD-2の安い版」ではありません。音の重心が異なります。OD-3もBD-2の上位互換ではなく、得意な歪み方が違うペダルです。
 
@@ -126,11 +123,7 @@ BD-2の魅力は、歪みをオン・オフするだけでなく、指先やギ�
 
 ### BD-2・SD-1・OD-3の購入先を比較する
 
-<div class="mng-related-shop-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:22px 0">
-<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS BD-2</strong><p>強弱で音の表情を変えたい人へ</p><a href="#bd2-product-card">BD-2の画像・購入先を見る</a></div>
-<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS SD-1</strong><p>中域を前に出したい人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20817/" target="_blank" rel="noopener sponsored">SD-1の販売ページを見る</a></div>
-<div style="padding:16px;border:1px solid #dce4ef;border-radius:12px"><strong>BOSS OD-3</strong><p>太さ・サステインを求める人へ</p><a href="https://www.soundhouse.co.jp/products/detail/item/20800/" target="_blank" rel="noopener sponsored">OD-3の販売ページを見る</a></div>
-</div>
+<p><a href="#mng-drive-comparison">BD-2・SD-1・OD-3の比較表・購入先を見る</a></p>
 
 ### メーカー公式の製品情報
 
