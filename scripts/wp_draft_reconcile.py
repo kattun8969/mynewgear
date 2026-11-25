@@ -18,3 +18,5 @@ if __name__=="__main__":
  try:main()
  except Exception as e:
   print("ERROR:",str(e)[:150],file=sys.stderr);sys.exit(1)
+
+# Trigger read-only reconciliation.
