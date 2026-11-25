@@ -1,0 +1,30 @@
+name: One-time WordPress taxonomy sync (tags only)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "ops/wordpress-taxonomy.request"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mng-wordpress-rest-sync
+  cancel-in-progress: false
+
+jobs:
+  taxonomy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate tag manifest offline
+        run: python3 scripts/wp_sync.py --mode check --manifest content/wp-manifests/taxonomy/discovery-tags.json
+      - name: Create tags and append tags to matching posts only
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: python3 scripts/wp_sync.py --mode taxonomy --manifest content/wp-manifests/taxonomy/discovery-tags.json
