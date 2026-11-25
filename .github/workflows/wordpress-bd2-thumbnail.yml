@@ -6,6 +6,7 @@ on:
     paths:
       - "scripts/wp_bd2_thumbnail.py"
       - "scripts/render_bd2_cover.py"
+      - ".github/workflows/wordpress-bd2-thumbnail.yml"
   workflow_dispatch:
 
 permissions:
@@ -22,6 +23,9 @@ jobs:
     timeout-minutes: 14
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - name: Install Japanese font and image generator
         run: |
           sudo apt-get update -qq
