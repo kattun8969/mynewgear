@@ -36,3 +36,5 @@ if __name__=="__main__":
     except Exception as exc:
         print(json.dumps({"diagnostic_setup_error":str(exc)[:180]}))
         sys.exit(1)
+
+# Trigger: safe diagnosis, 2026-11-25.
