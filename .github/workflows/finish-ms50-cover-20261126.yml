@@ -1,0 +1,68 @@
+name: Finish missing MS-50G+ featured image
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/finish-ms50-cover-20261126.yml"]
+permissions:
+  contents: read
+  issues: write
+jobs:
+  finish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-noto-cjk
+          python3 -m pip install Pillow==11.3.0
+      - name: Attach original typographic cover only if missing
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: |
+          PYTHONPATH=scripts python3 - <<'PY' > /tmp/result.json
+          import json,urllib.request,io
+          from PIL import Image,ImageDraw,ImageFont
+          from wp_sync import WP,require
+          w=WP()
+          ident=1323
+          p=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+          require(p["slug"]=="zoom-ms-50g-plus-guide" and p["status"]=="publish","Unexpected identity")
+          if p.get("featured_media"):
+              print(json.dumps({"id":ident,"status":"already_set","featured_media":p["featured_media"]}))
+          else:
+              slug="mng-ms50g-plus-original-cover"
+              rows=w.call("GET","/media",params={"slug":slug,"context":"edit","per_page":10})
+              exact=[x for x in rows if x.get("slug")==slug]
+              require(len(exact)<=1,"Ambiguous cover")
+              if exact: media=exact[0]
+              else:
+                  im=Image.new("RGB",(1600,900),"#10243c")
+                  d=ImageDraw.Draw(im)
+                  font="/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
+                  def f(n): return ImageFont.truetype(font,n)
+                  d.polygon([(970,0),(1600,0),(1600,900),(670,900)],fill="#163e62")
+                  d.rectangle((85,93,650,160),fill="#f68a36")
+                  d.text((110,94),"マルチストンプ購入ガイド",font=f(40),fill="#10243c")
+                  d.text((80,233),"ZOOM MS-50G+",font=f(115),fill="white")
+                  d.text((80,410),"小さな1台、音作りは自由",font=f(80),fill="#f6a45d")
+                  d.line((85,580,1500,580),fill="#f68a36",width=8)
+                  d.text((86,645),"MS-70CDR+ との違い・使い方",font=f(52),fill="white")
+                  d.text((86,790),"まいにゅーぎあー",font=f(35),fill="#dce7ef")
+                  buf=io.BytesIO();im.save(buf,"PNG")
+                  req=urllib.request.Request(w.base+"/media",data=buf.getvalue(),method="POST",headers={"Authorization":w.auth,"Content-Type":"image/png","Content-Disposition":'attachment; filename="mng-ms50g-plus-original-cover.png"'})
+                  with urllib.request.urlopen(req,timeout=45) as res: media=json.loads(res.read())
+                  media=w.call("POST",f"/media/{media['id']}",{"slug":slug,"title":"MS-50G+ 購入ガイド","alt_text":"ZOOM MS-50G+ 小さな1台、音作りは自由"})
+              latest=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+              require(latest["slug"]==p["slug"] and latest["status"]=="publish","Identity changed")
+              if not latest.get("featured_media"): w.call("POST",f"/posts/{ident}",{"featured_media":media["id"]})
+              check=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+              require(check.get("featured_media") and check["status"]=="publish","Cover not attached")
+              print(json.dumps({"id":ident,"status":"verified","featured_media":check["featured_media"]}))
+          PY
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:13,body:'MS-50G+ cover result: '+require('fs').readFileSync('/tmp/result.json','utf8')});
