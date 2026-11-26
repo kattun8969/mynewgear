@@ -1,0 +1,109 @@
+name: Enrich private gear comparison tables from registered Pochipp cards
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/enrich-gear-comparison-20261126.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: mng-auto-preview
+  cancel-in-progress: false
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve registered images and update existing private drafts
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: |
+          python3 -m pip install --disable-pip-version-check markdown==3.7 beautifulsoup4==4.12.3
+          PYTHONPATH=scripts python3 - <<'PY' > /tmp/mng-enrichment.json
+          import json, re
+          from pathlib import Path
+          from urllib.parse import urlparse
+          from bs4 import BeautifulSoup
+          from wp_sync import WP, require, load_manifest
+          from wp_build_markdown import compile_article
+          w=WP()
+          entries=[("ms-70cdr-plus",1319,1296),("boss-gx-1",1317,1297),("ms-50g-plus",1323,1298),("vemuram-jan-ray",1320,1299),("polytune-3",1321,None)]
+          images={}
+          cards={}
+          report=[]
+          # Extract only genuine product images within Pochipp's own image wrapper.
+          def product_image(rendered):
+              soup=BeautifulSoup(rendered,"html.parser")
+              for img in soup.select(".pochipp-box__image img, .pochipp-box__image > a > img, .pochipp-box__img img, img.pochipp-box__image"):
+                  src=img.get("src","")
+                  if urlparse(src).scheme=="https" and urlparse(src).hostname and not src.lower().endswith(".svg"):
+                      return src
+              return None
+          for key,ident,pid in entries:
+              path=Path("content/wp-manifests")/key/"post.json"
+              compile_article(str(path))
+              m=load_manifest(str(path))
+              p=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+              require(p.get("status")=="draft" and p.get("slug")=="mng-preview-"+m["slug"],"Unexpected draft identity")
+              raw=m["_content"]
+              require("mng-gear-comparison" in raw,"Missing comparison")
+              if pid:
+                  require(f'[pochipp id="{pid}"]' in raw,"Missing approved product ID")
+              # Update only exact private draft; keep existing featured media and taxonomy.
+              p=w.call("POST",f"/posts/{ident}",{"content":raw})
+              require(p.get("status")=="draft","Unexpected status")
+              cards[key]=(ident,raw,p)
+              if pid:
+                  src=product_image(p.get("content",{}).get("rendered",""))
+                  if src: images[pid]=src
+          # BD-2 is already public; read only, never write it.
+          p=w.call("GET","/posts/1322",params={"context":"edit"})
+          if p.get("status")=="publish":
+              src=product_image(p.get("content",{}).get("rendered",""))
+              if src: images[1293]=src
+          by_url={"ms-70cdr-plus":1296,"ms-50gplus":1298,"/gx-1/":1297,"No=8":1299,"/bd-2/":1293}
+          for key,(ident,raw,p) in cards.items():
+              soup=BeautifulSoup(raw,"html.parser")
+              table=soup.select_one("table.mng-gear-comparison")
+              require(table is not None,"Comparison table absent")
+              row=table.select_one("tbody tr")
+              changed=0
+              for cell in row.find_all("td",recursive=False):
+                  a=cell.find("a",href=True)
+                  if not a: continue
+                  pid=next((v for k,v in by_url.items() if k in a["href"]),None)
+                  if pid not in images: continue
+                  img=soup.new_tag("img",src=images[pid],alt=a.get_text(strip=True).replace("の公式写真を見る",""),loading="lazy")
+                  img["style"]="display:block;width:100%;max-width:130px;height:144px;object-fit:contain;margin:0 auto 8px"
+                  a.insert(0,img)
+                  changed+=1
+              # Place purchase anchor only for the primary product, keeping alternatives as official links.
+              primary=next((x[2] for x in entries if x[0]==key),None)
+              if primary:
+                  target=soup.new_tag("span",id="mng-primary-product")
+                  node=soup.find(string=lambda t:t and f'[pochipp id="{primary}"]' in t)
+                  if node: node.parent.insert_before(target)
+                  last=table.select("tbody tr")[-1]
+                  a=last.find("a",href=True)
+                  if a and node:
+                      a["href"]="#mng-primary-product"
+                      for attr in ["target","rel"]: a.attrs.pop(attr,None)
+                      a.string="価格・購入先を見る"
+              new=str(soup)
+              latest=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+              require(latest.get("status")=="draft" and latest.get("content",{}).get("raw")==raw,"Draft changed during enrichment")
+              w.call("POST",f"/posts/{ident}",{"content":new})
+              check=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+              rr=check.get("content",{}).get("rendered","")
+              report.append({"id":ident,"status":check.get("status"),"comparison_images":len(BeautifulSoup(rr,"html.parser").select("table.mng-gear-comparison img")),"inserted_images":changed,"primary_product_id":primary,"pochipp_rendered":bool(re.search(r'pochipp-box',rr)),"affiliate_hosts":sorted(set(re.findall(r'https://(af\.moshimo\.com|h\.accesstrade\.net)/',rr))),"featured_media":check.get("featured_media")})
+          print(json.dumps({"drafts":report,"resolved_product_ids":sorted(images),"public_posts_changed":False},ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const data=require('fs').readFileSync('/tmp/mng-enrichment.json','utf8');
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:13,body:'Private comparison image and affiliate markup verification:\n\n'+data});
