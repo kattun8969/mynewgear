@@ -1,0 +1,89 @@
+name: Retry existing review updates and audit internal links
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/retry-existing-and-audit-links-20261127.yml"]
+permissions:
+  contents: read
+  issues: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install beautifulsoup4==4.12.3
+      - name: Verify published targets and repair exact missing related links
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: |
+          PYTHONPATH=scripts python3 - <<'PY' > /tmp/report.json
+          import json,html,re,urllib.request,urllib.error
+          from urllib.parse import urlparse,urljoin
+          from bs4 import BeautifulSoup
+          from wp_sync import WP,require
+          w=WP()
+          plans={"friedman-be-od":["boss-bd-2-guide","boss-gx-1-guide","ovaltone-34xtoreme"],"ovaltone-34xtoreme":["friedman-be-od","boss-gx-1-guide","jcm800verocity"],"soundmake-king-gnu":["vemuram-jan-ray-guide","friedman-be-od","boss-bd-2-guide"],"yoasobi-assh":["boss-bd-2-guide","zoom-ms-70cdr-plus-guide","zoom-ms-50g-plus-guide"]}
+          report={"updates":[],"broken_internal_links":[],"unverified_links":[]}
+          cache={}
+          def get(slug):
+              if slug not in cache: cache[slug]=w.find_post(slug)
+              p=cache[slug]
+              return p if p and p.get("status")=="publish" else None
+          for slug,targets in plans.items():
+              try:
+                  p=get(slug)
+                  require(p,"Published target missing")
+                  raw=p["content"]["raw"]
+                  soup=BeautifulSoup(p["content"]["rendered"],"html.parser")
+                  urls={urljoin(p["link"],a["href"]).rstrip("/") for a in soup.find_all("a",href=True)}
+                  li=[]
+                  for t in targets:
+                      dest=get(t)
+                      if dest and dest["link"].rstrip("/") not in urls:
+                          title=BeautifulSoup(dest["title"]["rendered"],"html.parser").get_text()
+                          li.append('<li><a href="'+html.escape(dest["link"],quote=True)+'">'+html.escape(title)+'</a></li>')
+                  marker="mng-related-retry-20261127"
+                  intro=""
+                  if slug=="ovaltone-34xtoreme" and "mng-buyers-update-20261127" not in raw:
+                      intro="<h2>34-Xtremeと他の歪みの選び方</h2><p>旧レビューの実機使用感を踏まえ、マーシャル系の歪みを探す場合はBE-ODの太いハイゲイン、GX-1の複数音色の切り替えも比較しましょう。アンプやギターとの相性、現在の流通を確認し、同じ音になるとは考えないことが重要です。</p>"
+                  if slug=="friedman-be-od" and "mng-related-verified-v1" not in raw:
+                      intro="<h2>購入前に比較したい機材</h2><p>旧実機レビューで重視した太いハイゲインが目的ならBE-OD、軽いクランチや弾き方による変化ならBD-2、複数音色を切り替えるならGX-1も候補です。それぞれ別の用途として比較してください。</p>"
+                  if (li or intro) and marker not in raw:
+                      block='<section class="'+marker+'">'+intro+('<h3>関連記事</h3><ul>'+''.join(li)+'</ul>' if li else '')+'</section>'
+                      latest=w.call("GET",f"/posts/{p['id']}",params={"context":"edit"})
+                      require(latest["status"]=="publish" and latest["slug"]==slug and latest["content"]["raw"]==raw,"Concurrent edit")
+                      w.call("POST",f"/posts/{p['id']}",{"content":raw+"\n\n"+block})
+                      check=w.call("GET",f"/posts/{p['id']}",params={"context":"edit"})
+                      require(check["content"]["raw"].startswith(raw) and marker in check["content"]["raw"],"Verification failed")
+                      report["updates"].append({"slug":slug,"status":"verified","links_added":len(li),"buying_guidance_added":bool(intro)})
+                  else: report["updates"].append({"slug":slug,"status":"no_change_needed"})
+              except Exception as e:
+                  report["updates"].append({"slug":slug,"status":"needs_check","reason":str(e)[:180]})
+          # Check published article links without following affiliate trackers.
+          checked={}
+          for slug in list(plans)+["vivie-callion","boss-bd-2-guide","boss-gx-1-guide","zoom-ms-50g-plus-guide","zoom-ms-70cdr-plus-guide","vemuram-jan-ray-guide"]:
+              try:
+                  p=get(slug)
+                  if not p: continue
+                  for a in BeautifulSoup(p["content"]["rendered"],"html.parser").find_all("a",href=True):
+                      url=urljoin(p["link"],a["href"]);u=urlparse(url)
+                      if u.scheme!="https" or u.hostname not in ("mynewgear.cyou","www.mynewgear.cyou") or not u.path.strip("/") or u.query or u.fragment or u.path.startswith("/wp-"): continue
+                      if url not in checked:
+                          try:
+                              with urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":"MyNewGear-LinkAudit/1.0"}),timeout=8) as resp: checked[url]=resp.status
+                          except urllib.error.HTTPError as e: checked[url]=e.code
+                          except Exception: checked[url]=0
+                      status=checked[url]
+                      if status in (404,410): report["broken_internal_links"].append({"from":slug,"path":u.path,"status":status})
+                      elif status==0 or status>=400: report["unverified_links"].append({"from":slug,"path":u.path,"status":status})
+              except Exception: continue
+          report["unique_internal_urls_checked"]=len(checked)
+          print(json.dumps(report,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:26,body:'Retry and internal HTTP link audit:\n'+require('fs').readFileSync('/tmp/report.json','utf8')});
