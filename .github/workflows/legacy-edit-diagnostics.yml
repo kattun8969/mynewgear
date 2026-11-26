@@ -1,0 +1,58 @@
+name: Diagnose legacy post edit permissions and audit published internal links
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/legacy-edit-diagnostics.yml"]
+permissions:
+  contents: read
+  issues: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install beautifulsoup4==4.12.3
+      - name: Read only permission and link checks
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: |
+          PYTHONPATH=scripts python3 - <<'PY' > /tmp/legacy-report.json
+          import json,urllib.request,urllib.error
+          from urllib.parse import urljoin,urlparse
+          from bs4 import BeautifulSoup
+          from wp_sync import WP
+          w=WP()
+          me=w.call("GET","/users/me",params={"context":"edit"})
+          caps=me.get("capabilities",{})
+          result={"roles":me.get("roles",[]),"edit_capabilities":{k:bool(caps.get(k)) for k in ("edit_posts","edit_others_posts","edit_published_posts","edit_pages","edit_others_pages","edit_published_pages","upload_files")},"targets":[],"checked":0,"broken":[],"unverified":[]}
+          for ident in (560,663,1002,1322):
+              try:
+                  p=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+                  result["targets"].append({"id":ident,"slug":p.get("slug"),"same_author":p.get("author")==me.get("id"),"status":p.get("status"),"raw_length":len(p.get("content",{}).get("raw",""))})
+              except Exception as e: result["targets"].append({"id":ident,"reason":str(e)[:150]})
+          posts=w.call("GET","/posts",params={"status":"publish","per_page":100,"_fields":"id,slug,link,content"})
+          checked={}
+          for p in posts:
+              for a in BeautifulSoup(p.get("content",{}).get("rendered",""),"html.parser").find_all("a",href=True):
+                  url=urljoin(p["link"],a["href"]);u=urlparse(url)
+                  if u.scheme!="https" or u.hostname not in ("mynewgear.cyou","www.mynewgear.cyou") or not u.path.strip("/") or u.query or u.fragment or u.path.startswith("/wp-"): continue
+                  if url not in checked:
+                      if len(checked)>=100: continue
+                      try:
+                          with urllib.request.urlopen(urllib.request.Request(url,headers={"User-Agent":"MyNewGear-LinkAudit/1.0"}),timeout=5) as response: checked[url]=response.status
+                      except urllib.error.HTTPError as e: checked[url]=e.code
+                      except Exception: checked[url]=0
+                  status=checked[url]
+                  if status in (404,410): result["broken"].append({"post":p["slug"],"path":u.path,"status":status})
+                  elif status==0 or status>=400: result["unverified"].append({"post":p["slug"],"path":u.path,"status":status})
+          result["checked"]=len(checked)
+          result["posts_sampled"]=len(posts)
+          print(json.dumps(result,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:26,body:'Read-only legacy permissions and broader link audit:\n'+require('fs').readFileSync('/tmp/legacy-report.json','utf8').slice(0,45000)});
