@@ -28,7 +28,7 @@ jobs:
           WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
         run: |
           PYTHONPATH=scripts python3 - <<'PY' > /tmp/mng-four-result.json
-          import json,io,urllib.request,re
+          import json,io,urllib.request,urllib.error,re
           from PIL import Image,ImageDraw,ImageFont
           from bs4 import BeautifulSoup
           from wp_sync import WP,require
@@ -76,13 +76,20 @@ jobs:
                   require(len(BeautifulSoup(rr,"html.parser").select("table.mng-gear-comparison img"))>=2,"Comparison images missing")
                   title=p.get("title",{}).get("raw","")
                   require(title.startswith("[確認用] "),"Unexpected draft title")
-                  image=p.get("featured_media") or cover(slug,model,l1,l2)
+                  image=p.get("featured_media")
+                  if not image:
+                      try:
+                          image=cover(slug,model,l1,l2)
+                      except urllib.error.HTTPError as media_error:
+                          if media_error.code!=403: raise
+                          # Cover upload is nonessential; do not reuse another product image.
+                          image=0
                   latest=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
                   require(latest.get("status")=="draft" and latest.get("slug")=="mng-preview-"+slug and latest.get("content",{}).get("raw")==raw and latest.get("modified_gmt")==p.get("modified_gmt"),"Draft changed during preparation")
                   w.call("POST",f"/posts/{ident}",{"featured_media":image,"status":"publish","slug":slug,"title":title[len("[確認用] "):]})
                   check=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
                   require(check.get("status")=="publish" and check.get("slug")==slug and check.get("featured_media")==image and check.get("content",{}).get("raw")==raw,"Publication verification failed")
-                  results.append({"id":ident,"status":"published_verified","url":check.get("link"),"featured_media":image})
+                  results.append({"id":ident,"status":"published_verified","url":check.get("link"),"featured_media":image,"cover_pending":not bool(image)})
               except Exception as e:
                   if hasattr(e,"code"):
                       results.append({"id":ident,"status":"http_error","http_status":e.code});continue
