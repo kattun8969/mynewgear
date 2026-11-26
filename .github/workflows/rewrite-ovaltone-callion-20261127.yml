@@ -1,0 +1,70 @@
+name: Extend existing Ovaltone and CALLION reviews safely
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/rewrite-ovaltone-callion-20261127.yml"]
+permissions:
+  contents: read
+  issues: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preserve old review and add buying guidance
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: |
+          PYTHONPATH=scripts python3 - <<'PY' > /tmp/result.json
+          import json,html,re
+          from wp_sync import WP,require
+          w=WP()
+          plans={
+          "ovaltone-34xtoreme":("34-Xtremeを選ぶ前に比較したい機材","旧レビューのJCMシリーズでの実機使用感は当時の環境に基づくものです。マーシャル系の音を作りたい場合も、アンプやピックアップによって結果は異なります。",[
+          ("Ovaltone 34-Xtreme","マーシャル系の音を複数の方向から試したい","現行流通・型番を購入前に確認"),
+          ("Friedman BE-OD","太いハイゲインを中心にしたい","低ゲインの万能性は別途比較"),
+          ("BOSS GX-1","複数の音色を曲ごとに切り替えたい","アンプモデルや操作性を比較")],
+          "すでに歪みを持っている場合は、まずアンプのEQとペダルのゲインを調整してみましょう。購入は不足している音の役割が明確になってからでも遅くありません。",
+          ["friedman-be-od","boss-gx-1-guide","jcm800verocity"]),
+          "vivie-callion":("CALLIONが入手しづらい場合の選び方","旧記事の試奏感想は当時のものです。旧記事の価格も現在の販売価格を保証しません。新品・中古の流通や状態は購入時に確認してください。",[
+          ("Vivie CALLION","旧レビューのタッチ重視のドライブが気になる","流通と中古の状態を確認"),
+          ("BOSS BD-2","ピッキングやギター音量による変化を楽しみたい","CALLIONと同じ音ではない"),
+          ("VEMURAM Jan Ray","軽い歪みと低域・高域の調整を重視","価格差と手持ちアンプとの相性を検討")],
+          "手持ちのオーバードライブを低ゲインに設定し、アンプのEQやギターのボリュームで調整する方法もあります。単純な価格比較ではなく、足りない機能を基準に選びましょう。",
+          ["boss-bd-2-guide","vemuram-jan-ray-guide","vivie-clione","beginner-ef-drive-1"])
+          }
+          out=[]
+          for slug,(heading,intro,rows,conclusion,links) in plans.items():
+              try:
+                  p=w.find_post(slug)
+                  require(p and p.get("status")=="publish","Target not published")
+                  raw=p["content"]["raw"]
+                  marker="mng-buyers-update-20261127"
+                  if marker in raw:
+                      out.append({"slug":slug,"status":"already_updated"});continue
+                  existing=set(re.findall(r'href=["\']([^"\']+)',raw))
+                  li=[]
+                  for target in links:
+                      x=w.find_post(target)
+                      if not x or x.get("status")!="publish" or x["link"] in existing: continue
+                      title=html.unescape(re.sub("<[^>]+>","",x["title"]["rendered"]))
+                      li.append('<li><a href="'+html.escape(x["link"],quote=True)+'">'+html.escape(title)+'</a></li>')
+                  table='<div style="max-width:100%;overflow-x:auto"><table style="min-width:540px;width:100%"><thead><tr><th>機材</th><th>おすすめの用途</th><th>購入前の確認</th></tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+html.escape(v)+'</td>' for v in row)+'</tr>' for row in rows)+'</tbody></table></div>'
+                  block='<section class="'+marker+'"><h2>'+heading+'</h2><p>'+intro+'</p>'+table+'<p>'+conclusion+'</p>'+('<h3>関連記事</h3><ul>'+''.join(li)+'</ul>' if li else '')+'</section>'
+                  latest=w.call("GET",f"/posts/{p['id']}",params={"context":"edit"})
+                  require(latest["status"]=="publish" and latest["slug"]==slug and latest["content"]["raw"]==raw,"Concurrent change")
+                  w.call("POST",f"/posts/{p['id']}",{"content":raw+"\n\n"+block})
+                  check=w.call("GET",f"/posts/{p['id']}",params={"context":"edit"})
+                  require(check["content"]["raw"].startswith(raw) and marker in check["content"]["raw"] and check["status"]=="publish","Verification failed")
+                  out.append({"slug":slug,"id":p["id"],"status":"verified","links_added":len(li)})
+              except Exception as exc:
+                  out.append({"slug":slug,"status":"needs_check","error":type(exc).__name__})
+          print(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:26,body:'Existing review incremental update result:\n'+require('fs').readFileSync('/tmp/result.json','utf8')});
