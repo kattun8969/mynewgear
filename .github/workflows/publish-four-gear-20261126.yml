@@ -1,0 +1,98 @@
+name: Publish four verified gear guides with editorial covers
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/publish-four-gear-20261126.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: mng-auto-preview
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install cover generator dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          python3 -m pip install --disable-pip-version-check pillow beautifulsoup4
+      - name: Promote verified articles independently
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: |
+          PYTHONPATH=scripts python3 - <<'PY' > /tmp/mng-four-result.json
+          import json,io,urllib.request,re
+          from PIL import Image,ImageDraw,ImageFont
+          from bs4 import BeautifulSoup
+          from wp_sync import WP,require
+          from render_bd2_cover import find_font
+          w=WP()
+          entries=[
+              (1319,1296,"zoom-ms-70cdr-plus-guide","ZOOM MS-70CDR+","歪みはそのまま、","空間系を一台に"),
+              (1323,1298,"zoom-ms-50g-plus-guide","ZOOM MS-50G+","小さな1台、","音作りは自由"),
+              (1317,1297,"boss-gx-1-guide","BOSS GX-1","練習からライブまで","音をまとめる"),
+              (1320,1299,"vemuram-jan-ray-guide","VEMURAM Jan Ray","アンプのいい音を、","もう一歩前へ")]
+          def cover(slug,model,line1,line2):
+              key="mng-cover-"+slug
+              matches=[x for x in w.call("GET","/media",params={"search":key,"context":"edit","per_page":50}) if x.get("slug")==key]
+              require(len(matches)<=1,"Ambiguous cover")
+              if matches:return matches[0]["id"]
+              im=Image.new("RGB",(1600,900),(11,28,51))
+              d=ImageDraw.Draw(im)
+              d.polygon([(0,760),(1600,260),(1600,900),(0,900)],fill=(19,53,85))
+              d.polygon([(1320,0),(1430,0),(1600,290),(1600,460)],fill=(36,82,119))
+              fp=find_font()
+              def font(n):return ImageFont.truetype(fp,n)
+              d.rounded_rectangle((80,85,470,160),radius=18,fill=(246,137,52))
+              d.text((105,98),"機材購入ガイド",font=font(42),fill=(12,28,47))
+              d.text((78,215),model,font=font(100),fill=(255,255,255))
+              d.text((80,375),line1,font=font(84),fill=(255,166,85))
+              d.text((80,480),line2,font=font(84),fill=(255,166,85))
+              d.line((80,660,1510,660),fill=(246,137,52),width=7)
+              d.text((80,730),"特徴・比較・選び方  |  まいにゅーぎあー",font=font(46),fill=(224,235,246))
+              buf=io.BytesIO();im.save(buf,format="PNG")
+              req=urllib.request.Request(w.base+"/media",data=buf.getvalue(),method="POST",headers={"Authorization":w.auth,"Content-Type":"image/png","Content-Disposition":'attachment; filename="'+key+'.png"'})
+              with urllib.request.urlopen(req,timeout=45) as res: m=json.loads(res.read())
+              m=w.call("POST",f"/media/{m['id']}",{"slug":key,"title":model+" 購入ガイド","alt_text":model+" "+line1+line2+"（文字入り編集部アイキャッチ）"})
+              return m["id"]
+          results=[]
+          for ident,pid,slug,model,l1,l2 in entries:
+              try:
+                  p=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+                  if p.get("status")=="publish" and p.get("slug")==slug:
+                      results.append({"id":ident,"status":"already_published","url":p.get("link")});continue
+                  require(p.get("status")=="draft" and p.get("slug")=="mng-preview-"+slug,"Unexpected draft identity")
+                  require(w.find_post(slug) is None,"Target slug already exists")
+                  raw=p.get("content",{}).get("raw","")
+                  rr=p.get("content",{}).get("rendered","")
+                  require(f'[pochipp id="{pid}"]' in raw and "pochipp-box" in rr and "af.moshimo.com" in rr,"Affiliate card verification failed")
+                  require(len(BeautifulSoup(rr,"html.parser").select("table.mng-gear-comparison img"))>=2,"Comparison images missing")
+                  title=p.get("title",{}).get("raw","")
+                  require(title.startswith("[確認用] "),"Unexpected draft title")
+                  image=p.get("featured_media") or cover(slug,model,l1,l2)
+                  latest=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+                  require(latest.get("status")=="draft" and latest.get("slug")=="mng-preview-"+slug and latest.get("content",{}).get("raw")==raw and latest.get("modified_gmt")==p.get("modified_gmt"),"Draft changed during preparation")
+                  w.call("POST",f"/posts/{ident}",{"featured_media":image,"status":"publish","slug":slug,"title":title[len("[確認用] "):]})
+                  check=w.call("GET",f"/posts/{ident}",params={"context":"edit"})
+                  require(check.get("status")=="publish" and check.get("slug")==slug and check.get("featured_media")==image and check.get("content",{}).get("raw")==raw,"Publication verification failed")
+                  results.append({"id":ident,"status":"published_verified","url":check.get("link"),"featured_media":image})
+              except Exception as e:
+                  results.append({"id":ident,"status":"needs_check","error_type":type(e).__name__,"reason":str(e)[:180] if isinstance(e,ValueError) else "REST or media operation failed; inspect post status"})
+          print(json.dumps(results,ensure_ascii=False,indent=2))
+          PY
+          cat /tmp/mng-four-result.json
+      - name: Record actual results
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('fs');
+            const data=fs.existsSync('/tmp/mng-four-result.json')?fs.readFileSync('/tmp/mng-four-result.json','utf8'):'No completed result; check run';
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:13,body:'Four gear guides publication result:\n'+data+'\nRun: https://github.com/'+context.repo.owner+'/'+context.repo.repo+'/actions/runs/'+context.runId});
