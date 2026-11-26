@@ -1,4 +1,4 @@
-name: Publish four verified gear guides with editorial covers
+name: Publish verified gear guides with editorial covers (retry media safely)
 on:
   push:
     branches: [main]
@@ -84,6 +84,8 @@ jobs:
                   require(check.get("status")=="publish" and check.get("slug")==slug and check.get("featured_media")==image and check.get("content",{}).get("raw")==raw,"Publication verification failed")
                   results.append({"id":ident,"status":"published_verified","url":check.get("link"),"featured_media":image})
               except Exception as e:
+                  if hasattr(e,"code"):
+                      results.append({"id":ident,"status":"http_error","http_status":e.code});continue
                   results.append({"id":ident,"status":"needs_check","error_type":type(e).__name__,"reason":str(e)[:180] if isinstance(e,ValueError) else "REST or media operation failed; inspect post status"})
           print(json.dumps(results,ensure_ascii=False,indent=2))
           PY
