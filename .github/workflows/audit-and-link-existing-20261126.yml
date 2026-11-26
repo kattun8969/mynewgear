@@ -1,0 +1,77 @@
+name: Improve existing BE-OD review and audit gear links
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/audit-and-link-existing-20261126.yml"]
+permissions:
+  contents: read
+  issues: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install beautifulsoup4==4.12.3
+      - name: Add verified related links and purchase comparison without replacing original review
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: |
+          PYTHONPATH=scripts python3 - <<'PY' > /tmp/report.json
+          import json, re, html, urllib.request, urllib.error
+          from urllib.parse import urlparse
+          from bs4 import BeautifulSoup
+          from wp_sync import WP, require
+          w=WP()
+          slugs=["boss-bd-2-guide","boss-gx-1-guide","zoom-ms-70cdr-plus-guide","zoom-ms-50g-plus-guide","vemuram-jan-ray-guide","friedman-be-od","ovaltone-34xtoreme","vivie-callion","jcm800verocity"]
+          posts={}
+          for slug in slugs:
+              p=w.find_post(slug)
+              if p and p.get("status")=="publish": posts[slug]=p
+          report={"published":list(posts),"links":[],"updated":[]}
+          related={
+            "boss-bd-2-guide":["vemuram-jan-ray-guide","zoom-ms-70cdr-plus-guide"],
+            "boss-gx-1-guide":["zoom-ms-50g-plus-guide","zoom-ms-70cdr-plus-guide"],
+            "zoom-ms-70cdr-plus-guide":["zoom-ms-50g-plus-guide","boss-bd-2-guide"],
+            "zoom-ms-50g-plus-guide":["zoom-ms-70cdr-plus-guide","boss-gx-1-guide"],
+            "vemuram-jan-ray-guide":["boss-bd-2-guide","vivie-callion"],
+            "friedman-be-od":["boss-bd-2-guide","ovaltone-34xtoreme","jcm800verocity","boss-gx-1-guide"]
+          }
+          for slug,p in posts.items():
+              raw=p["content"]["raw"]
+              soup=BeautifulSoup(p["content"]["rendered"],"html.parser")
+              for a in soup.find_all("a",href=True):
+                  u=urlparse(a["href"])
+                  if u.hostname in ("mynewgear.cyou","www.mynewgear.cyou") and u.path.strip("/") in slugs:
+                      target=u.path.strip("/")
+                      report["links"].append({"from":slug,"to":target,"published":target in posts})
+              if slug not in related: continue
+              marker="mng-related-verified-v1"
+              if marker in raw: continue
+              urls={a["href"].rstrip("/") for a in soup.find_all("a",href=True)}
+              links=[]
+              for target in related[slug]:
+                  other=posts.get(target)
+                  if not other or other["link"].rstrip("/") in urls: continue
+                  title=BeautifulSoup(other["title"]["rendered"],"html.parser").get_text()
+                  links.append('<li><a href="'+html.escape(other["link"],quote=True)+'">'+html.escape(title)+'</a></li>')
+              extra=""
+              if slug=="friedman-be-od":
+                  extra='<h2>BE-ODと他の歪みを比較する</h2><p>2020年の実機レビューを踏まえると、BE-ODは太いハイゲインを主役にしたい人に向きます。低ゲインやギター側の音量操作でクリーンに戻す用途なら、別のペダルも比較しましょう。</p><div style="overflow-x:auto;max-width:100%"><table style="min-width:540px;width:100%"><thead><tr><th>機材</th><th>向いている用途</th><th>選ぶ際の注意</th></tr></thead><tbody><tr><td>BE-OD</td><td>太いハイゲイン</td><td>低ゲイン万能型ではない</td></tr><tr><td>BD-2</td><td>クランチ・弾き方による変化</td><td>BE-ODの同等代替ではない</td></tr><tr><td>GX-1</td><td>複数音色の切り替え</td><td>操作性とアンプモデルを確認</td></tr></tbody></table></div><p>既存の歪みとアンプのEQを見直すだけで目的の音に近づく場合もあります。</p>'
+              if not links and not extra: continue
+              block='<section class="'+marker+'">'+extra+('<h2>あわせて読みたい機材ガイド</h2><ul>'+''.join(links)+'</ul>' if links else '')+'</section>'
+              latest=w.call("GET",f"/posts/{p['id']}",params={"context":"edit"})
+              require(latest["slug"]==slug and latest["status"]=="publish" and latest["content"]["raw"]==raw,"Concurrent change; abort")
+              # Additive only. Existing photographs, affiliate shortcodes, and prose remain byte-for-byte.
+              w.call("POST",f"/posts/{p['id']}",{"content":raw+"\n\n"+block})
+              check=w.call("GET",f"/posts/{p['id']}",params={"context":"edit"})
+              require(check["status"]=="publish" and check["content"]["raw"].startswith(raw) and marker in check["content"]["raw"],"Update verification failed")
+              report["updated"].append({"slug":slug,"id":p["id"],"links_added":len(links),"comparison_added":bool(extra)})
+          print(json.dumps(report,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:26,body:'Verified link and additive rewrite result:\n'+require('fs').readFileSync('/tmp/report.json','utf8')});
