@@ -1,0 +1,53 @@
+name: Inventory missing product images and Pochipp matches
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/pochipp-migration-inventory.yml"]
+permissions:
+  contents: read
+  issues: write
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install beautifulsoup4==4.12.3
+      - name: Inventory exact products without guessing affiliate metadata
+        env:
+          WP_SITE_URL: ${{ secrets.MNG_WP_SITE_URL }}
+          WP_USERNAME: ${{ secrets.MNG_WP_USERNAME }}
+          WP_APP_PASSWORD: ${{ secrets.MNG_WP_APP_PASSWORD }}
+        run: |
+          PYTHONPATH=scripts python3 - <<'PY' > /tmp/inventory.json
+          import json,re,unicodedata
+          from collections import defaultdict
+          from bs4 import BeautifulSoup
+          from wp_sync import WP
+          w=WP()
+          def norm(t): return re.sub(r'[^a-z0-9一-龯ぁ-んァ-ヶ+]+','',unicodedata.normalize("NFKC",t).lower())
+          posts=w.call("GET","/posts",params={"status":"publish","per_page":100,"context":"edit","_fields":"id,slug,content"})
+          products=w.call("GET","/pochipps",params={"per_page":100,"context":"edit","status":"publish"})
+          index=defaultdict(list)
+          for p in products:
+              name=BeautifulSoup(p.get("title",{}).get("rendered",""),"html.parser").get_text(" ",strip=True)
+              index[norm(name)].append({"id":p["id"],"name":name})
+          groups={}
+          for p in posts:
+              for card in BeautifulSoup(p["content"]["raw"],"html.parser").select(".mng-modern-card-v2"):
+                  a=card.select_one(".kaerebalink-name a,.booklink-name a")
+                  if not a:
+                      a=next((x for x in card.find_all("a") if "font-size:16px;font-weight:700" in x.get("style","")),None)
+                  if not a: continue
+                  name=a.get_text(" ",strip=True)
+                  key=norm(name)
+                  g=groups.setdefault(key,{"name":name,"cards":0,"missing_images":0,"articles":[],"exact_pochipp_matches":index.get(key,[])})
+                  g["cards"]+=1
+                  g["missing_images"]+=int("画像準備中" in card.get_text())
+                  if p["slug"] not in g["articles"]: g["articles"].append(p["slug"])
+          print(json.dumps({"posts_scanned":len(posts),"pochipp_products":len(products),"unique_products":len(groups),"priority":sorted(groups.values(),key=lambda x:(-x["missing_images"],-x["cards"],x["name"]))},ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:26,body:'Pochipp migration inventory:\n'+require('fs').readFileSync('/tmp/inventory.json','utf8').slice(0,50000)});
