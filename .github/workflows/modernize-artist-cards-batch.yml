@@ -25,96 +25,99 @@ jobs:
           from bs4 import BeautifulSoup
           from wp_sync import WP, require
           w=WP()
+          from collections import Counter
+          import unicodedata
+          from urllib.parse import urljoin
+          def norm(t):
+              return unicodedata.normalize("NFKC",t).replace(" ","").lower()
+          shop_names={"楽天市場","amazon","yahooショッピング","yahoo!ショッピング","サウンドハウス","楽天","yahoo!","yahoo"}
+          image_cache={}
+          def image_state(src):
+              if src in image_cache: return image_cache[src]
+              if len(image_cache)>=40: return "unknown"
+              try:
+                  u=urlparse(src)
+                  if u.scheme!="https" or not u.hostname: return "unknown"
+                  # Only direct image requests; never follow affiliate purchase links.
+                  with urllib.request.urlopen(urllib.request.Request(src,headers={"User-Agent":"Mozilla/5.0"}),timeout=4) as r:
+                      state="ok" if r.headers.get("Content-Type","").lower().startswith("image/") else "broken"
+              except urllib.error.HTTPError as e:
+                  state="broken" if e.code in (404,410) else "unknown"
+              except Exception: state="unknown"
+              image_cache[src]=state
+              return state
           def migrate(slug):
               p=w.find_post(slug)
-              require(p and p.get("status")=="publish","Missing original article")
+              if not p or p.get("status")!="publish": return {"slug":slug,"status":"not_found"}
               raw=p["content"]["raw"]
-              # Match balanced HTML div containers, keeping every unrelated byte unchanged.
               token=re.compile(r'<div\b[^>]*>|</div\s*>',re.I)
               stack=[]; spans=[]
               for m in token.finditer(raw):
                   if m.group().lower().startswith("</"):
                       if stack:
                           start,opening=stack.pop()
-                          if re.search(r'class\s*=\s*["\'][^"\']*\bkaerebalink-box\b',opening,re.I):
+                          if re.search(r'class\s*=\s*["\'][^"\']*\b(?:kaerebalink-box|booklink-box)\b',opening,re.I):
                               spans.append((start,m.end()))
                   else: stack.append((m.start(),m.group()))
-              if not spans:
-                  return {"slug":slug,"status":"no_legacy_cards"}
-              known={"tc electronic polytune 3":"チューナー","virtues monica overdrive":"オーバードライブ","suhr eclipse dual channel":"歪み系","vemuram myriad fuzz":"ファズ","xotic ep booster":"ブースター","strymon el capistan":"ディレイ","strymon flint":"リバーブ・トレモロ","strymon ojai r30":"電源","vemuram jan ray":"オーバードライブ"}
-              def norm(s): return " ".join(re.sub(r'[^a-z0-9+ ]',' ',s.lower().replace("t.c.electronic","tc electronic")).split())
-              candidates=w.call("GET","/pochipps",params={"per_page":100,"context":"edit","status":"publish"})
-              products={}
-              for q in candidates:
-                  name=BeautifulSoup(q.get("title",{}).get("rendered",""),"html.parser").get_text()
-                  key=norm(name)
-                  if key in products: products[key]=None
-                  else: products[key]=q["id"]
-              replacements=[]; report=[]
+              if not spans: return {"slug":slug,"status":"no_legacy_cards"}
+              replacements=[]; report=[]; skipped=[]
               for start,end in sorted(spans):
-                  # Ignore nested matching containers, if any.
                   if any(a<=start and end<=b for a,b,_ in replacements): continue
                   old=raw[start:end]
                   soup=BeautifulSoup(old,"html.parser")
-                  title=soup.select_one(".kaerebalink-name a")
-                  if not title: continue
+                  root=soup.find("div")
+                  if not root or "mng-modern-card-v2" in root.get("class",[]): continue
+                  anchors=root.find_all("a",href=True)
+                  shop=[a for a in anchors if norm(a.get_text(" ",strip=True)) in shop_names]
+                  if not shop:
+                      skipped.append({"reason":"no_shop_label","classes":sorted({c for e in root.find_all(True) for c in e.get("class",[])})[:25]})
+                      continue
+                  title=root.select_one(".kaerebalink-name a,.booklink-name a")
+                  if not title:
+                      title=next((a for a in anchors if a not in shop and a.get_text(" ",strip=True) and "カエレバ" not in a.get_text() and "posted with" not in a.get_text().lower()),None)
+                  if not title:
+                      skipped.append({"reason":"no_product_title"});continue
                   name=title.get_text(" ",strip=True)
-                  key=norm(name)
-                  if not name: continue
-                  pid=products.get(key)
-                  if pid and not soup.select(".kaerebalink-link1 a[href]"):
-                      replacement='\n\n[pochipp id="'+str(pid)+'"]\n\n'
-                      report.append({"name":name,"type":"pochipp","id":pid})
-                  else:
-                      # Keep exact existing affiliate hrefs, including tracking pixels; no new IDs.
-                      shops=soup.select_one(".kaerebalink-link1")
-                      if not shops: continue
-                      links=[]
-                      for a in shops.find_all("a",href=True):
-                          u=urlparse(a["href"])
-                          if u.scheme not in ("http","https") or not u.hostname: continue
-                          label=a.get_text(" ",strip=True)
-                          if not label: continue
-                          a["style"]="display:inline-block;padding:9px 13px;border-radius:5px;background:#173451;color:#fff;text-decoration:none;font-weight:600;font-size:13px"
-                          a["rel"]="noopener sponsored"
-                          # Existing embedded tracking images remain intact.
-                          links.append(str(a))
-                      if not links: continue
-                      picture=soup.select_one(".kaerebalink-image img")
-                      image=""
-                      if picture:
-                          src=picture.get("src","")
-                          if urlparse(src).scheme in ("http","https"):
-                              try:
-                                  req=urllib.request.Request(src,headers={"User-Agent":"Mozilla/5.0"})
-                                  with urllib.request.urlopen(req,timeout=5) as resp:
-                                      data=resp.read(64)
-                                      ok=resp.headers.get("Content-Type","").startswith("image/") and len(data)>16
-                                  if ok:
-                                      picture["style"]="width:100%;height:110px;object-fit:contain"
-                                      picture["loading"]="lazy"
-                                      picture["alt"]=name
-                                      image=str(picture)
-                              except Exception: pass
-                      # Retain original generator attribution and existing shop tracking pixels.
-                      credit=soup.select_one(".kaerebalink-powered-date")
-                      tracking=[]
-                      for i in shops.find_all("img"):
-                          if not i.find_parent("a"): tracking.append(str(i))
-                      fallback='<span style="font-size:12px;color:#66758a">画像準備中</span>'
-                      replacement='<div class="mng-legacy-product-card-v1" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;border:1px solid #dce4ec;border-radius:10px;padding:14px;margin:12px 0;background:#fff"><div style="flex:0 0 105px;min-height:90px;display:flex;align-items:center;justify-content:center">'+(image or fallback)+'</div><div style="flex:1 1 185px;min-width:0"><small style="color:#56677a">'+html.escape(known.get(key,"機材"))+'</small><div style="font-size:16px;font-weight:bold;color:#173451;margin:4px 0 9px">'+html.escape(name)+'</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+''.join(links)+'</div><small>価格・在庫・型番は販売先でご確認ください。</small>'+ (str(credit) if credit else '')+''.join(tracking)+'</div></div>'
-                      report.append({"name":name,"type":"legacy_card_preserved","image":bool(image),"shops":len(links)})
-                  replacements.append((start,end,replacement))
-              if not replacements:
-                  return {"slug":slug,"status":"no_safe_matches"}
+                  original=Counter(a["href"] for a in anchors)
+                  root["class"]=root.get("class",[])+["mng-modern-card-v2"]
+                  root["style"]="display:flow-root;box-sizing:border-box;max-width:100%;border:1px solid #dce4ec;border-radius:12px;background:#fff;padding:14px;margin:14px 0;overflow-wrap:anywhere"
+                  title["style"]="font-size:16px;font-weight:700;color:#173451;text-decoration:none"
+                  for a in shop:
+                      a["style"]="display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:7px 12px;border-radius:6px;background:#173451;color:white;font-size:13px;font-weight:600;text-decoration:none;margin:4px 4px 4px 0;box-sizing:border-box"
+                  for el in root.select(".kaerebalink-link1,.booklink-link2,.booklink-link1"):
+                      el["style"]="display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:8px;float:none;width:auto"
+                  for el in root.select(".kaerebalink-info,.booklink-info"):
+                      el["style"]="min-width:0;overflow-wrap:anywhere"
+                  removed=0; checked=0
+                  for img in root.find_all("img",src=True):
+                      # Affiliate tracking pixels and all anchor destinations are preserved.
+                      try: width=int(re.sub(r"[^0-9]","",str(img.get("width","0"))) or 0);height=int(re.sub(r"[^0-9]","",str(img.get("height","0"))) or 0)
+                      except ValueError: width=height=0
+                      src=img["src"]
+                      if width==1 or height==1 or "i.moshimo.com" in (urlparse(src).hostname or ""): continue
+                      parent=img.find_parent(class_=re.compile(r"(kaerebalink|booklink)-image"))
+                      if not parent and width<50 and height<50: continue
+                      checked+=1
+                      if image_state(src)=="broken":
+                          fallback=soup.new_tag("span");fallback["style"]="display:inline-flex;min-height:75px;width:96px;align-items:center;justify-content:center;background:#f1f4f8;border-radius:6px;color:#66758a;font-size:12px;text-align:center";fallback.string="画像準備中"
+                          img.replace_with(fallback);removed+=1
+                      else:
+                          img["style"]="max-width:120px;width:100%;height:auto;object-fit:contain"
+                          img["loading"]="lazy"
+                  for el in root.select(".kaerebalink-image,.booklink-image"):
+                      el["style"]="float:left;width:105px;max-width:35%;margin:0 14px 10px 0"
+                  require(Counter(a["href"] for a in root.find_all("a",href=True))==original,"Affiliate links changed")
+                  replacements.append((start,end,str(root)))
+                  report.append({"name":name,"shops":len(shop),"images_checked":checked,"broken_images_replaced":removed})
+              if not replacements: return {"slug":slug,"status":"no_safe_matches","wrappers":len(spans),"skipped":skipped[:8]}
               new=raw
-              for a,b,s in sorted(replacements,reverse=True): new=new[:a]+s+new[b:]
+              for a,b,t in sorted(replacements,reverse=True): new=new[:a]+t+new[b:]
               latest=w.call("GET",f"/posts/{p['id']}",params={"context":"edit"})
-              require(latest["content"]["raw"]==raw and latest["slug"]==slug,"Concurrent edit")
+              require(latest["content"]["raw"]==raw and latest["slug"]==slug and latest["status"]=="publish","Concurrent edit")
               w.call("POST",f"/posts/{p['id']}",{"content":new})
               check=w.call("GET",f"/posts/{p['id']}",params={"context":"edit"})
-              require(check["status"]=="publish" and check["content"]["raw"]==new,"Verification failed")
-              return {"slug":slug,"post_id":p["id"],"status":"verified","cards":report}
+              require(check["status"]=="publish" and check["content"]["raw"].count("mng-modern-card-v2")>=new.count("mng-modern-card-v2"),"Verification failed")
+              return {"slug":slug,"status":"verified","cards":report,"skipped":skipped[:8]}
           results=[]
           for slug in ["yoasobi-assh","soundmake-king-gnu","soundmake-myhairisbad"]:
               try: results.append(migrate(slug))
