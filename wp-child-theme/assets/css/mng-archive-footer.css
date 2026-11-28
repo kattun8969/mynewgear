@@ -1,0 +1,38 @@
+/* MyNewGear category archive and footer, v1. Scope avoids post content and third-party cards. */
+:root{--mng-navy:#0b1a34;--mng-orange:#ff8a00;--mng-soft:#f5f7fa;--mng-ink:#17243a;--mng-muted:#556579}
+.mng-archive-main{background:#fff;color:var(--mng-ink);font-size:16px}
+.mng-archive-container{width:min(1160px,calc(100% - 36px));margin:0 auto}
+.mng-archive-hero{background:linear-gradient(125deg,#102746,#0b1a34);color:#fff;padding:50px 0 35px}
+.mng-archive-hero h1{font-size:clamp(1.65rem,3vw,2.65rem);font-weight:850;line-height:1.4;margin:6px 0 12px;color:#fff}
+.mng-archive-hero .mng-eyebrow{color:#ffb85c;letter-spacing:.14em;font-size:.76rem;font-weight:800;margin:0}
+.mng-archive-description{max-width:720px;color:#e4e9ef;line-height:1.75}
+.mng-archive-description p{color:inherit}
+.mng-archive-shortcuts{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.mng-archive-shortcuts a{display:inline-flex;align-items:center;min-height:44px;padding:8px 15px;border:1px solid #75849e;border-radius:99px;color:#fff!important;text-decoration:none!important;font-size:.9rem}
+.mng-archive-shortcuts a.is-current,.mng-archive-shortcuts a:hover{border-color:var(--mng-orange);background:#273c5b}
+.mng-archive-body{padding:32px 0 64px}
+.mng-archive-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.mng-archive-card{min-width:0;border:1px solid #dfe6ee;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 3px 12px #0d244008;transition:transform .15s,box-shadow .15s}
+.mng-archive-card:hover{transform:translateY(-2px);box-shadow:0 8px 25px #0d244019}
+.mng-archive-card-link{display:block;height:100%;color:var(--mng-ink)!important;text-decoration:none!important}
+.mng-archive-thumb{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:#eef2f6;overflow:hidden}
+.mng-archive-thumb img{width:100%;height:100%;object-fit:cover}
+.mng-archive-thumb .mng-no-image{font-weight:900;letter-spacing:.08em;color:#76869a}
+.mng-archive-card-copy{padding:19px}
+.mng-archive-kicker{font-size:.75rem;color:#b95105;font-weight:800}
+.mng-archive-card h2{border:0!important;background:none!important;color:var(--mng-ink);font-size:1.15rem!important;font-weight:800;line-height:1.5;margin:8px 0!important;padding:0!important;box-shadow:none!important}
+.mng-archive-card-copy p{font-size:.9rem;line-height:1.7;color:var(--mng-muted);margin:0 0 12px}
+.mng-archive-date{font-size:.77rem;color:#637084}
+.mng-archive-pages{padding-top:34px;text-align:center}
+.mng-archive-pages .nav-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.mng-archive-pages .page-numbers{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #cbd6e2;border-radius:6px;text-decoration:none}
+.mng-archive-pages .page-numbers.current{background:var(--mng-navy);color:#fff}
+.mng-archive-main a:focus-visible{outline:3px solid var(--mng-orange);outline-offset:3px}
+/* Footer: SANGO markup varies with version; selectors cover #footer and .footer, but DO NOT alter unrelated .footer text elsewhere. */
+body #footer,body footer#footer,body footer.l-footer,body .l-footer,body footer.footer,body footer.site-footer{background:var(--mng-navy)!important;color:#eef3f8!important}
+body #footer a,body footer#footer a,body footer.l-footer a,body .l-footer a,body footer.footer a,body footer.site-footer a{color:#e7eef7!important;text-decoration:none}
+body #footer a:hover,body footer.l-footer a:hover,body .l-footer a:hover,body footer.footer a:hover,body footer.site-footer a:hover{color:#ffb35d!important;text-decoration:underline}
+body #footer .copyright,body .l-footer .copyright,body footer.site-footer .copyright{color:#b8c7d9!important}
+body #footer a:focus-visible,body .l-footer a:focus-visible,body footer.site-footer a:focus-visible{outline:3px solid var(--mng-orange);outline-offset:3px}
+@media(max-width:930px){.mng-archive-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.mng-archive-grid{grid-template-columns:1fr;gap:15px}.mng-archive-hero{padding:34px 0 24px}.mng-archive-body{padding:22px 0 44px}.mng-archive-card-copy{padding:16px}}
