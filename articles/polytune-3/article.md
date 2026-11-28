@@ -67,6 +67,33 @@ Noirは「上位モデル」ではなく**小型の別モデル**。小さいほ
 
 > 【②編集：公開後リンク】BD-2／MS-50G+の単体記事へ、最初のエフェクターボードの揃え方としてリンク追加。
 
+
+## 製品を買い間違えないための確認
+
+トップに掲載する対象は、**PolyTune 3通常版（白い標準サイズ／メーカー品番0713-AAJ）**です。小型の**PolyTune 3 Noir（黒／0713-AAN）**や、2026年11月発売の**PolyTune 3 Nano**とは別商品です。商品検索結果ではこれらが混在するため、写真だけではなく型番と商品名まで確認しましょう。
+
+通常版もNoirも、ポリフォニック／クロマチック／ストロボのチューニング機能とBONAFIDE BUFFERを備えています。通常版は標準サイズで表示部とスイッチの配置に余裕があり、Noirは省スペースが魅力。**チューニング性能の優劣ではなく、ボードの広さと足元の使い勝手**で選ぶのがおすすめです。
+
+> 【画像・商品カード】通常版とNoirは**それぞれ独立した商品カード**として型番照合。通常版の購入導線を優先。メーカー・販売店写真を無断転載せず、正規Pochipp素材を使用する。
+> 【動画】[メーカー公式 PolyTune 3 Mini & Noir 紹介動画](https://www.youtube.com/watch?v=PcAxNzcgx4Y)を正規埋め込み。**Noirの紹介動画であり通常版の実機映像と誤記しない。**
+
+### 購入先の個別商品ページ（広告リンクではありません）
+
+- [サウンドハウス：PolyTune 3通常版](https://www.soundhouse.co.jp/products/detail/item/236578/)
+- [イケベ楽器：PolyTune 3通常版](https://www.ikebe-gakki.com/Form/Product/ProductDetail.aspx?bid=ec&cat=acc001001&pid=583592&shop=0)
+- [ミュージックランドKEY：PolyTune 3通常版](https://www.musicland.co.jp/fs/musiclandkey/effector-brand/tce-polytune-3)
+
+いずれも商品を確認するための通常URLです。**各店の注文可能な実在庫は更新時点で変動し得る**ため、②Workが公開直前に確認してください。Pochipp登録IDや成果リンクは未確認のため、ここでは作成していません。
+
+### 仕様確認に使った一次資料
+
+- [TC Electronic：PolyTune 3通常版／0713-AAJ](https://www.tcelectronic.com/ja/products/0713-AAJ)
+- [TC Electronic：PolyTune 3 Noir／0713-AAN](https://www.tcelectronic.com/ja/products/0713-AAN)
+- [国内代理店エレクトリ：通常版](https://www.electori.co.jp/tc-electronic/product.php?id=polytune-3)
+- [国内代理店エレクトリ：Noir](https://www.electori.co.jp/tc-electronic/product.php?id=polytune-3-noir)
+- [通常版 日本語マニュアル](https://www.electori.co.jp/tcelectronic/pdf/POLYTUNE%203_Manual_JP_Rev1.pdf)
+- [Mini／Noir 日本語マニュアル](https://www.electori.co.jp/tcelectronic/pdf/POLYTUNE%203_mini_noir_Manual_JP_Rev1.pdf)
+
 ## まとめ
 
 **PolyTune 3は、音を派手に変える機材ではなく、弾く前のストレスを減らす一台。** すでにペダルを何台か並べている人なら、チューナーにもこだわってみる価値があります。
